@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitBite AI - מחשבון תזונה ומתכונים אישי</title>
+    <!-- Tailwind CSS for modern sleek styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Heebo for clean premium Hebrew UI -->
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Heebo', sans-serif;
+            background-color: #0b0f19;
+            color: #e2e8f0;
+        }
+        /* Custom scrollbar for premium feel */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #10b981;
+            border-radius: 3px;
+        }
+        .glass-card {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .glow-emerald {
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.15);
+        }
+        .glow-emerald-hover:hover {
+            box-shadow: 0 0 25px rgba(16, 185, 129, 0.3);
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+    <div id="root" class="w-full max-w-7xl mx-auto p-4 md:p-6 lg:p-8 flex-grow"></div>
+
+    <!-- React and MODERN Babel Standalone (@babel/standalone) for stable ES6+ run -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // User's provided API Key preloaded securely
+        const PRELOADED_API_KEY = "AQ.Ab8RN6IEHMlOMfgLojhdDO8Kq8l2kdFKkwcVpWLdCeThUHpomw";
+
+        // Clean inline SVG components to prevent DOM mismatch crashes
+        const FlameIcon = () => (
+            <svg className="w-6 h-6 text-slate-950" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054-2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z" />
+            </svg>
+        );
+
+        const InfoIcon = () => (
+            <svg className="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="16" x2="12" y2="12" />
+                <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+        );
+
+        const KeyIcon = () => (
+            <svg className="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
+                <path d="m21 2-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0 1.5 1.5M15.5 7.5 14 6" />
+            </svg>
+        );
+
+        const ShieldCheckIcon = () => (
+            <svg className="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                <path d="m9 11 2 2 4-4" />
+            </svg>
+        );
+
+        const FileTextIcon = () => (
+            <svg className="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <line x1="10" y1="9" x2="8" y2="9" />
+            </svg>
+        );
+
+        const SparklesIcon = ({ className = "w-5 h-5" }) => (
+            <svg className={className} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
+                <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z" />
+                <path d="m5 3 1 2.5L8.5 6 6 7 5 9.5 4 7 1.5 6 4 5.5z" />
+                <path d="m19 17 1 2.5 2.5.5-2.5 1-1 2.5-1-2.5-2.5-1 2.5-1z" />
+            </svg>
+        );
+
+        const HistoryIcon = () => (
+            <svg className="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                <polyline points="3 3 3 8 8 8" />
+                <line x1="12" y1="7" x2="12" y2="12" />
+                <line x1="12" y1="12" x2="16" y2="14" />
+            </svg>
+        );
+
+        const AlertTriangleIcon = () => (
+            <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
+                <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
+                <line x1="12" y1="9" x2="12" y2="13" />
+                <line x1="12" y1="17" x2="12.01" y2="17" />
+            </svg>
+        );
+
+        const UtensilsIcon = ({ className = "w-4 h-4" }) => (
+            <svg className={className} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2" />
+                <path d="M7 2v20" />
+                <path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7" />
+            </svg>
+        );
+
+        const SpoonIcon = ({ className = "w-4 h-4" }) => (
+            <svg className={className} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 2a4 4 0 0 0-4 4c0 3 3 6 4 9 1-3 4-6 4-4a4 4 0 0 0-4-4z" />
+                <path d="M12 15v7" />
+            </svg>
+        );
+
+        const ScaleIcon = ({ className = "w-4 h-4" }) => (
+            <svg className={className} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
+                <path d="m16 16 3-8 3 8c-.11.3-.28.59-.5.83l-5 5a1 1 0 0 1-1.4 0l-5-5a1.8 1.8 0 0 1-.5-.83ZM8 16l3-8 3 8c-.11.3-.28.59-.5.83l-5 5a1 1 0 0 1-1.4 0l-5-5A1.8 1.8 0 0 1 3 16ZM12 3v18" />
+            </svg>
+        );
+
+        const CalculatorIcon = ({ className = "w-4 h-4" }) => (
+            <svg className={className} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="4" y="2" width="16" height="20" rx="2" ry="2" />
+                <line x1="8" y1="6" x2="16" y2="6" />
+                <line x1="16" y1="14" x2="16" y2="18" />
+                <path d="M16 10h.01M12 10h.01M8 10h.01M12 14h.01M8 14h.01M12 18h.01M8 18h.01" />
+            </svg>
+        );
+
+        const ListChecksIcon = () => (
+            <svg className="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
+                <path d="m3 17 2 2 4-4M3 7l2 2 4-4M13 6h8M13 12h8M13 18h8" />
+            </svg>
+        );
+
+        function RecipeApp() {
+            const [apiKey, setApiKey] = useState(PRELOADED_API_KEY);
+            const [showSettings, setShowSettings] = useState(false);
+            const [recipeText, setRecipeText] = useState("");
+            const [servings, setServings] = useState(4);
+            const [loading, setLoading] = useState(false);
+            const [error, setError] = useState(null);
+            
+            // App state for current analysis result
+            const [analysisResult, setAnalysisResult] = useState(null);
+            
+            // Dynamic correction state variables for high-precision
+            const [cookedWeight, setCookedWeight] = useState(320);
+            const [tableSpoonWeight, setTableSpoonWeight] = useState(15);
+
+            // Session history (stored in state for single session persistence)
+            const [history, setHistory] = useState([
+                {
+                    id: "demo-1",
+                    recipeName: "פנקייק חלבון שיבולת שועל",
+                    servings: 2,
+                    totalCalories: 480,
+                    totalWeightGrams: 320,
+                    caloriesPer100g: 150,
+                    caloriesPerTablespoon: 22,
+                    gramsPerTablespoon: 15,
+                    ingredients: [
+                        { cleanName: "שיבולת שועל דקה", originalText: "כוס שיבולת שועל", weightGrams: 80, calories: 300 },
+                        { cleanName: "אבקת חלבון", originalText: "סקופ אבקת חלבון וניל", weightGrams: 30, calories: 120 },
+                        { cleanName: "חלב שקדים", originalText: "חצי כוס חלב שקדים", weightGrams: 120, calories: 30 },
+                        { cleanName: "ביצה לארג'", originalText: "ביצה אחת", weightGrams: 50, calories: 70 }
+                    ],
+                    dietaryNotes: ["עשיר בחלבון", "מתאים לחיטוב", "דל סוכר"]
+                }
+            ]);
+
+            // Interactive calculator state
+            const [activeTab, setActiveTab] = useState("serving"); // "serving", "tablespoon", "100g", "custom"
+            const [customGrams, setCustomGrams] = useState(100);
+
+            // Synchronize high precision states when analysis result or demo changes
+            useEffect(() => {
+                if (analysisResult) {
+                    setCookedWeight(analysisResult.totalWeightGrams);
+                    setTableSpoonWeight(analysisResult.gramsPerTablespoon || 15);
+                }
+            }, [analysisResult]);
+
+            const handleAnalyzeRecipe = async (e) => {
+                e.preventDefault();
+                if (!recipeText.trim()) {
+                    setError("אנא הכניסי קודם כל את טקסט המתכון.");
+                    return;
+                }
+
+                setLoading(true);
+                setError(null);
+
+                const systemInstruction = `
+                    You are an elite, professional nutritional science analyst and sports dietitian.
+                    Analyze the recipe text provided by the user. Convert all ingredients into precise weights in grams and estimate their calories correctly.
+                    Estimate the physical state of the dish (e.g. liquid, thick paste, baking, light powder) and provide a smart estimated average weight of ONE single tablespoon of this combined recipe in "gramsPerTablespoon" (e.g., honey is ~21g, water/milk/soups are ~15g, heavy spreads/peanut butter are ~18-24g, light powders/cereals/coconut are ~5-8g).
+                    Respond ONLY with a valid, clean JSON object. Do not include markdown code block syntax (like \`\`\`json) or any preamble or wrap up. Just raw JSON.
+                    The JSON structure must match this exact format:
+                    {
+                      "recipeName": "Provide a descriptive name in Hebrew",
+                      "totalCalories": total recipe calories (integer),
+                      "totalWeightGrams": total weight of ingredients in grams (integer),
+                      "caloriesPer100g": calories per 100g (integer),
+                      "caloriesPerTablespoon": calories in one average tablespoon of this combined recipe (integer),
+                      "gramsPerTablespoon": weight of one tablespoon of this recipe in grams (integer),
+                      "ingredients": [
+                        {
+                          "originalText": "the original line of text",
+                          "cleanName": "clean Hebrew name of ingredient",
+                          "weightGrams": estimated weight in grams (integer),
+                          "calories": estimated calories for this quantity (integer)
+                        }
+                      ],
+                      "dietaryNotes": ["up to 3 tags in Hebrew about the recipe, e.g., 'דל פחמימה', 'חלבון גבוה', 'טבעוני', 'קל להכנה'"]
+                    }
+                `;
+
+                const userPrompt = `
+                    Recipe text to analyze:
+                    ${recipeText}
+                    
+                    Number of planned servings: ${servings}
+                `;
+
+                try {
+                    const response = await fetch(
+                        "https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=" + apiKey,
+                        {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({
+                                contents: [{ parts: [{ text: userPrompt }] }],
+                                systemInstruction: {
+                                    parts: [{ text: systemInstruction }]
+                                },
+                                generationConfig: {
+                                    responseMimeType: "application/json"
+                                }
+                            })
+                        }
+                    );
+
+                    if (!response.ok) {
+                        throw new Error("שגיאה בתקשורת עם ה-AI. יש לוודא שמפתח ה-API תקין ושיש חיבור אינטרנט.");
+                    }
+
+                    const data = await response.json();
+                    
+                    let rawText = "";
+                    if (data && data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0]) {
+                        rawText = data.candidates[0].content.parts[0].text;
+                    }
+                    
+                    if (!rawText) {
+                        throw new Error("לא התקבל מידע חזרה מהניתוח. אנא נסי שוב בניסוח ברור יותר.");
+                    }
+
+                    // Parse the JSON
+                    const parsedResult = JSON.parse(rawText);
+                    
+                    // Add calculated fields based on current serving input
+                    parsedResult.servings = parseInt(servings) || 1;
+                    parsedResult.caloriesPerServing = Math.round(parsedResult.totalCalories / parsedResult.servings);
+                    parsedResult.id = Date.now().toString();
+
+                    setAnalysisResult(parsedResult);
+                    
+                    // Add to session history list at the top (filtering out the initial demo-1)
+                    setHistory(prev => [parsedResult, ...prev.filter(item => item.id !== "demo-1")]);
+                    setActiveTab("serving"); // Default view is serving size
+                } catch (err) {
+                    console.error(err);
+                    setError(err.message || "אירעה שגיאה בלתי צפויה בתהליך הניתוח. אנא נסי שוב.");
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            const selectFromHistory = (item) => {
+                setAnalysisResult(item);
+                setRecipeText(""); // clear input when viewing historical item
+                setServings(item.servings);
+                setActiveTab("serving");
+            };
+
+            // Calculate precise and dynamic metrics on the fly based on user adjustments
+            const getCalculatedMetrics = () => {
+                if (!analysisResult) return null;
+                
+                const totalCals = analysisResult.totalCalories;
+                
+                // 1. Recalculate Calories per 100g based on cooked weight
+                const currentWeight = cookedWeight > 0 ? cookedWeight : 1;
+                const calPer100g = Math.round((totalCals / currentWeight) * 100);
+                
+                // 2. Recalculate Calories per tablespoon based on tablespoon weight
+                const calPerSpoon = Math.round((calPer100g / 100) * tableSpoonWeight);
+                
+                // 3. Calories per serving is constant per division of total calories
+                const calPerServing = Math.round(totalCals / servings);
+
+                return {
+                    calPer100g,
+                    calPerSpoon,
+                    calPerServing
+                };
+            };
+
+            const metrics = getCalculatedMetrics();
+
+            const getDisplayMetric = () => {
+                if (!analysisResult || !metrics) return null;
+
+                switch(activeTab) {
+                    case "serving":
+                        return {
+                            val: metrics.calPerServing,
+                            label: "קלוריות למנה אישית",
+                            sub: "לפי חלוקת סך הקלוריות ל-" + servings + " מנות שוות"
+                        };
+                    case "tablespoon":
+                        return {
+                            val: metrics.calPerSpoon,
+                            label: "קלוריות לכף הגשה",
+                            sub: "מחושב לפי כף ששוקלת בדיוק " + tableSpoonWeight + " גרם"
+                        };
+                    case "100g":
+                        return {
+                            val: metrics.calPer100g,
+                            label: "קלוריות ל-100 גרם",
+                            sub: "מבוסס על משקל סופי מבושל של " + cookedWeight + " גרם"
+                        };
+                    case "custom":
+                        const customVal = Math.round((customGrams / 100) * metrics.calPer100g);
+                        return {
+                            val: customVal,
+                            label: "קלוריות ל-" + customGrams + " גרם",
+                            sub: "חישוב מותאם אישית לפי המשקל המבושל שהזנת"
+                        };
+                    default:
+                        return null;
+                }
+            };
+
+            const currentMetric = getDisplayMetric();
+
+            return (
+                <div className="space-y-6">
+                    {}
+                    <header className="flex justify-between items-center pb-6 border-b border-slate-800">
+                        <div className="flex items-center space-x-3 space-x-reverse">
+                            <div className="bg-emerald-500 text-slate-950 p-2.5 rounded-xl glow-emerald flex items-center justify-center">
+                                <FlameIcon />
+                            </div>
+                            <div>
+                                <h1 className="text-2xl font-black tracking-tight text-white flex items-center gap-2">
+                                    <span>FitBite</span>
+                                    <span className="text-emerald-400 text-sm bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">AI ANALYZER</span>
+                                </h1>
+                                <p className="text-xs text-slate-400">אפליקציה אישית חכמה לחישוב ואיזון תזונה</p>
+                            </div>
+                        </div>
+
+                        {/* Settings indicator & key editor */}
+                        <div className="flex items-center gap-3">
+                            <button 
+                                onClick={() => setShowSettings(!showSettings)}
+                                className="bg-slate-800/80 hover:bg-slate-700/80 text-slate-300 p-2.5 rounded-xl border border-slate-700 flex items-center gap-2 text-sm transition-all duration-300"
+                            >
+                                <KeyIcon />
+                                <span className="hidden md:inline">הגדרות מפתח API</span>
+                            </button>
+                        </div>
+                    </header>
+
+                    {}
+                    {showSettings && (
+                        <div className="p-4 bg-slate-900/90 border border-emerald-500/20 rounded-2xl glow-emerald transition-all duration-500">
+                            <h3 className="text-sm font-bold text-emerald-400 mb-2 flex items-center gap-2">
+                                <ShieldCheckIcon />
+                                הגדרת מפתח ה-API האישי שלך ל-Gemini
+                            </h3>
+                            <p className="text-xs text-slate-400 mb-3">
+                                הזנתי מראש את מפתח ה-API החינמי ששיתפת איתי! כל עוד הוא מוגדר כאן, החישובים מבוצעים ישירות דרך מודל ה-AI בחינם לגמרי. תוכלי להחליף אותו בכל עת.
+                            </p>
+                            <div className="flex gap-2">
+                                <input 
+                                    type="password" 
+                                    value={apiKey} 
+                                    onChange={(e) => setApiKey(e.target.value)}
+                                    placeholder="הזיני כאן מפתח API חלופי..."
+                                    className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-300 focus:outline-none focus:border-emerald-500"
+                                />
+                                <button 
+                                    onClick={() => {
+                                        setShowSettings(false);
+                                    }}
+                                    className="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold px-4 py-2 rounded-xl text-sm transition-colors"
+                                >
+                                    שמור
+                                </button>
+                            </div>
+                        </div>
+                    )}
+
+                    <main className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                        
+                        {}
+                        <section className="lg:col-span-5 space-y-6">
+                            <div className="glass-card p-6 rounded-2xl flex flex-col justify-between h-full relative overflow-hidden">
+                                <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full blur-2xl -z-10"></div>
+                                
+                                <form onSubmit={handleAnalyzeRecipe} className="space-y-4">
+                                    <div className="flex justify-between items-center">
+                                        <label className="text-base font-bold text-white flex items-center gap-2">
+                                            <FileTextIcon />
+                                            הדביקי את המתכון שלך כאן
+                                        </label>
+                                        <span className="text-xs text-slate-400">חופשי לגמרי, בעברית או באנגלית</span>
+                                    </div>
+
+                                    <textarea 
+                                        rows="8"
+                                        value={recipeText}
+                                        onChange={(e) => setRecipeText(e.target.value)}
+                                        placeholder="למשל:&#10;3 כפות שיבולת שועל&#10;1 גביע גבינת קוטג' 5%&#10;2 ביצים לארג'&#10;חצי כפית דבש למתיקות"
+                                        className="w-full bg-slate-950/80 border border-slate-800 focus:border-emerald-500/50 rounded-xl p-4 text-sm text-slate-200 placeholder-slate-600 focus:outline-none transition-all duration-300 resize-none focus:ring-1 focus:ring-emerald-500/20"
+                                    ></textarea>
+
+                                    {/* Yield portions counter */}
+                                    <div className="bg-slate-950/50 p-4 rounded-xl border border-slate-800 flex items-center justify-between">
+                                        <div className="space-y-1">
+                                            <span className="text-sm font-bold text-slate-300 block">מספר מנות צפוי</span>
+                                            <span className="text-xs text-slate-500">לחלוקת קלוריות פר פורציה</span>
+                                        </div>
+                                        <div className="flex items-center gap-3">
+                                            <button 
+                                                type="button"
+                                                onClick={() => setServings(Math.max(1, servings - 1))}
+                                                className="w-10 h-10 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg flex items-center justify-center font-bold text-lg border border-slate-700 transition-colors"
+                                            >
+                                                -
+                                            </button>
+                                            <span className="text-xl font-extrabold text-emerald-400 w-8 text-center">{servings}</span>
+                                            <button 
+                                                type="button"
+                                                onClick={() => setServings(servings + 1)}
+                                                className="w-10 h-10 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg flex items-center justify-center font-bold text-lg border border-slate-700 transition-colors"
+                                            >
+                                                +
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <button 
+                                        type="submit"
+                                        disabled={loading}
+                                        className="w-full py-4 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black rounded-xl transition-all duration-300 flex items-center justify-center gap-2 glow-emerald-hover text-base disabled:opacity-50"
+                                    >
+                                        {loading ? (
+                                            <>
+                                                <div className="w-5 h-5 border-2 border-slate-950 border-t-transparent rounded-full animate-spin"></div>
+                                                <span>ה-AI מנתח את הערכים כעת...</span>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <SparklesIcon />
+                                                <span>חשבי קלוריות וערכים תזונתיים</span>
+                                            </>
+                                        )}
+                                    </button>
+                                </form>
+                            </div>
+
+                            {}
+                            <div className="glass-card p-5 rounded-2xl space-y-3">
+                                <h4 className="text-sm font-bold text-slate-400 flex items-center gap-2">
+                                    <HistoryIcon />
+                                    מתכונים שנותחו לאחרונה בסבב זה
+                                </h4>
+                                {history.length === 0 ? (
+                                    <p className="text-xs text-slate-500">המתכונים שתנתחי יופיעו כאן לגישה מהירה.</p>
+                                ) : (
+                                    <div className="space-y-2 max-h-[160px] overflow-y-auto pr-1">
+                                        {history.map((item) => {
+                                            const isSelected = analysisResult && (analysisResult.id === item.id);
+                                            return (
+                                                <div 
+                                                    key={item.id}
+                                                    onClick={() => selectFromHistory(item)}
+                                                    className={"p-3 rounded-xl border text-right cursor-pointer transition-all duration-200 flex justify-between items-center " + (
+                                                        isSelected 
+                                                        ? 'bg-emerald-500/10 border-emerald-500/30 text-white' 
+                                                        : 'bg-slate-950/60 border-slate-800 hover:border-slate-700 text-slate-300'
+                                                    )}
+                                                >
+                                                    <div>
+                                                        <span className="text-xs font-bold block truncate max-w-[180px]">{item.recipeName}</span>
+                                                        <span className="text-[10px] text-slate-500">{item.totalCalories} קלוריות סה"כ</span>
+                                                    </div>
+                                                    <span className="text-[10px] bg-slate-800 text-emerald-400 px-2 py-1 rounded-md font-semibold">
+                                                        {item.caloriesPerServing} קל' למנה
+                                                    </span>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                )}
+                            </div>
+                        </section>
+
+                        {}
+                        <section className="lg:col-span-7 space-y-6">
+                            {error && (
+                                <div className="bg-red-500/10 border border-red-500/20 text-red-400 p-4 rounded-xl flex items-center gap-3 text-sm">
+                                    <AlertTriangleIcon />
+                                    <p>{error}</p>
+                                </div>
+                            )}
+
+                            {!analysisResult ? (
+                                <div className="glass-card p-12 rounded-2xl flex flex-col items-center justify-center text-center space-y-4 border-dashed border-slate-800">
+                                    <div className="w-16 h-16 bg-slate-900 text-slate-600 rounded-full flex items-center justify-center">
+                                        <SparklesIcon className="w-8 h-8" />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <h3 className="text-lg font-bold text-white">מחכה למתכון הבריא שלך</h3>
+                                        <p className="text-sm text-slate-500 max-w-sm mx-auto">
+                                            הדביקי מימין את רשימת הרכיבים עם הכמויות, לחצי על כפתור הניתוח ונתחיל במדע המדויק!
+                                        </p>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="space-y-6">
+                                    {/* Main Nutritional Display */}
+                                    <div className="glass-card p-6 rounded-2xl relative overflow-hidden glow-emerald">
+                                        {/* Status Tags */}
+                                        <div className="flex flex-wrap gap-2 mb-4">
+                                            {analysisResult.dietaryNotes && analysisResult.dietaryNotes.map((note, idx) => (
+                                                <span key={idx} className="text-[10px] bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 px-2.5 py-1 rounded-full font-bold">
+                                                    {note}
+                                                </span>
+                                            ))}
+                                        </div>
+
+                                        <h2 className="text-2xl font-black text-white tracking-tight mb-4">{analysisResult.recipeName}</h2>
+
+                                        {/* Selector Tabs (Buttons row for changing calculation target) */}
+                                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-6">
+                                            <button 
+                                                onClick={() => setActiveTab("serving")}
+                                                className={"p-3 rounded-xl flex flex-col items-center gap-1.5 transition-all " + (
+                                                    activeTab === "serving" 
+                                                    ? 'bg-emerald-500 text-slate-950 font-bold shadow-lg shadow-emerald-500/20' 
+                                                    : 'bg-slate-900 hover:bg-slate-800 text-slate-400'
+                                                )}
+                                            >
+                                                <UtensilsIcon />
+                                                <span className="text-xs">לפי מנה</span>
+                                            </button>
+                                            <button 
+                                                onClick={() => setActiveTab("tablespoon")}
+                                                className={"p-3 rounded-xl flex flex-col items-center gap-1.5 transition-all " + (
+                                                    activeTab === "tablespoon" 
+                                                    ? 'bg-emerald-500 text-slate-950 font-bold shadow-lg shadow-emerald-500/20' 
+                                                    : 'bg-slate-900 hover:bg-slate-800 text-slate-400'
+                                                )}
+                                            >
+                                                <SpoonIcon />
+                                                <span className="text-xs">לפי כף הגשה</span>
+                                            </button>
+                                            <button 
+                                                onClick={() => setActiveTab("100g")}
+                                                className={"p-3 rounded-xl flex flex-col items-center gap-1.5 transition-all " + (
+                                                    activeTab === "100g" 
+                                                    ? 'bg-emerald-500 text-slate-950 font-bold shadow-lg shadow-emerald-500/20' 
+                                                    : 'bg-slate-900 hover:bg-slate-800 text-slate-400'
+                                                )}
+                                            >
+                                                <ScaleIcon />
+                                                <span className="text-xs">ל-100 גרם</span>
+                                            </button>
+                                            <button 
+                                                onClick={() => setActiveTab("custom")}
+                                                className={"p-3 rounded-xl flex flex-col items-center gap-1.5 transition-all " + (
+                                                    activeTab === "custom" 
+                                                    ? 'bg-emerald-500 text-slate-950 font-bold shadow-lg shadow-emerald-500/20' 
+                                                    : 'bg-slate-900 hover:bg-slate-800 text-slate-400'
+                                                )}
+                                            >
+                                                <CalculatorIcon />
+                                                <span className="text-xs">חישוב מותאם</span>
+                                            </button>
+                                        </div>
+
+                                        {/* Large Calorie Display Panel */}
+                                        <div className="bg-slate-950/80 p-6 rounded-2xl border border-slate-800 flex flex-col items-center text-center space-y-2 relative">
+                                            <span className="text-slate-400 text-xs font-semibold tracking-wider uppercase">{currentMetric.label}</span>
+                                            <div className="flex items-baseline justify-center">
+                                                <span className="text-6xl font-black text-white tracking-tighter animate-fade-in">{currentMetric.val}</span>
+                                                <span className="text-lg font-bold text-emerald-400 mr-2">קלוריות</span>
+                                            </div>
+                                            <p className="text-xs text-slate-500">{currentMetric.sub}</p>
+                                        </div>
+
+                                        {}
+                                        {/* Interactive Professional Precision Panel */}
+                                        <div className="bg-emerald-500/5 border border-emerald-500/20 p-5 rounded-2xl space-y-4">
+                                            <div className="flex items-center justify-between">
+                                                <h3 className="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
+                                                    <InfoIcon />
+                                                    כיול ודיוק מדעי (מומלץ לדיוק 100%)
+                                                </h3>
+                                                <span className="text-[10px] bg-emerald-500/10 text-emerald-300 px-2 py-0.5 rounded-md font-semibold">אופציונלי</span>
+                                            </div>
+                                            
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                {/* Cooked vs Raw Weight adjustment */}
+                                                <div className="space-y-2">
+                                                    <div className="flex justify-between items-center text-xs">
+                                                        <span className="text-slate-300 font-medium">משקל סופי מבושל / אפוי:</span>
+                                                        <span className="text-white font-bold">{cookedWeight} גרם</span>
+                                                    </div>
+                                                    <input 
+                                                        type="range" 
+                                                        min={Math.round(analysisResult.totalWeightGrams * 0.4)} 
+                                                        max={Math.round(analysisResult.totalWeightGrams * 1.5)} 
+                                                        value={cookedWeight} 
+                                                        onChange={(e) => setCookedWeight(parseInt(e.target.value))}
+                                                        className="w-full accent-emerald-500 bg-slate-800 h-1 rounded-lg appearance-none cursor-pointer"
+                                                    />
+                                                    <p className="text-[9px] text-slate-500 leading-normal">
+                                                        * נוזלים מתאדים באפייה או מתווספים בבישול. שקלי את המנה המוכנה ועדכני פה לקבלת ערך מושלם ל-100 גרם.
+                                                    </p>
+                                                </div>
+
+                                                {/* Tablespoon density calibration */}
+                                                <div className="space-y-2">
+                                                    <div className="flex justify-between items-center text-xs">
+                                                        <span className="text-slate-300 font-medium">משקל כף הגשה אחת:</span>
+                                                        <div className="flex items-center gap-2">
+                                                            <button 
+                                                                onClick={() => setTableSpoonWeight(Math.max(1, tableSpoonWeight - 1))}
+                                                                className="px-1.5 py-0.5 bg-slate-800 hover:bg-slate-700 rounded text-xs text-emerald-400 font-bold"
+                                                            >
+                                                                -
+                                                            </button>
+                                                            <span className="text-white font-bold">{tableSpoonWeight} ג'</span>
+                                                            <button 
+                                                                onClick={() => setTableSpoonWeight(tableSpoonWeight + 1)}
+                                                                className="px-1.5 py-0.5 bg-slate-800 hover:bg-slate-700 rounded text-xs text-emerald-400 font-bold"
+                                                            >
+                                                                +
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div className="flex gap-2">
+                                                        <button 
+                                                            onClick={() => setTableSpoonWeight(6)} 
+                                                            className={"text-[9px] px-2 py-1 rounded transition-colors " + (tableSpoonWeight === 6 ? 'bg-emerald-500 text-slate-950 font-bold' : 'bg-slate-900 text-slate-400 hover:bg-slate-800')}
+                                                        >
+                                                            קלה (גרנולה/אבקה) ~6ג'
+                                                        </button>
+                                                        <button 
+                                                            onClick={() => setTableSpoonWeight(15)} 
+                                                            className={"text-[9px] px-2 py-1 rounded transition-colors " + (tableSpoonWeight === 15 ? 'bg-emerald-500 text-slate-950 font-bold' : 'bg-slate-900 text-slate-400 hover:bg-slate-800')}
+                                                        >
+                                                            בינונית (נוזלים/מרק) ~15ג'
+                                                        </button>
+                                                        <button 
+                                                            onClick={() => setTableSpoonWeight(24)} 
+                                                            className={"text-[9px] px-2 py-1 rounded transition-colors " + (tableSpoonWeight === 24 ? 'bg-emerald-500 text-slate-950 font-bold' : 'bg-slate-900 text-slate-400 hover:bg-slate-800')}
+                                                        >
+                                                            כבדה (ממרח/דחוס) ~24ג'
+                                                        </button>
+                                                    </div>
+                                                    <p className="text-[9px] text-slate-500 leading-normal">
+                                                        * כף של קורנפלקס קלה בהרבה מכף של דבש או פירה. שקלי פעם אחת כף אחת על משקל ועדכני פה!
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {}
+                                        {activeTab === "custom" && (
+                                            <div className="mt-4 p-4 bg-slate-950/50 rounded-xl border border-slate-800/80 space-y-4">
+                                                <h4 className="text-xs font-bold text-slate-300">הגדירי כמות מדויקת לצריכה:</h4>
+                                                <div className="grid grid-cols-2 gap-4">
+                                                    <div>
+                                                        <label className="block text-[11px] text-slate-400 mb-1">משקל בגרמים (ג')</label>
+                                                        <div className="flex gap-2">
+                                                            <input 
+                                                                type="number" 
+                                                                min="1"
+                                                                value={customGrams}
+                                                                onChange={(e) => setCustomGrams(parseInt(e.target.value) || 0)}
+                                                                className="w-full bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1.5 text-center text-sm text-white focus:outline-none focus:border-emerald-500"
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                    <div className="flex flex-col justify-end">
+                                                        <div className="flex flex-wrap gap-1">
+                                                            <button 
+                                                                onClick={() => setCustomGrams(50)}
+                                                                className="text-[10px] bg-slate-900 hover:bg-slate-800 text-slate-300 px-2 py-1 rounded"
+                                                            >
+                                                                50ג'
+                                                            </button>
+                                                            <button 
+                                                                onClick={() => setCustomGrams(150)}
+                                                                className="text-[10px] bg-slate-900 hover:bg-slate-800 text-slate-300 px-2 py-1 rounded"
+                                                            >
+                                                                150ג'
+                                                            </button>
+                                                            <button 
+                                                                onClick={() => setCustomGrams(250)}
+                                                                className="text-[10px] bg-slate-900 hover:bg-slate-800 text-slate-300 px-2 py-1 rounded"
+                                                            >
+                                                                250ג'
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div className="pt-3 border-t border-slate-900 flex justify-between items-center text-xs">
+                                                    <span className="text-slate-400">כמה כפות זה בערך?</span>
+                                                    <span className="text-emerald-400 font-bold">
+                                                        {Math.round((customGrams / (tableSpoonWeight || 15)) * 10) / 10} כפות הגשה
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {/* Extra General Stats Row */}
+                                        <div className="grid grid-cols-3 gap-2 mt-4 pt-4 border-t border-slate-800 text-center">
+                                            <div>
+                                                <span className="text-[10px] text-slate-500 block">סה"כ במתכון</span>
+                                                <span className="text-sm font-bold text-white">{analysisResult.totalCalories} קל'</span>
+                                            </div>
+                                            <div>
+                                                <span className="text-[10px] text-slate-500 block">משקל מוערך</span>
+                                                <span className="text-sm font-bold text-white">{cookedWeight} גרם</span>
+                                            </div>
+                                            <div>
+                                                <span className="text-[10px] text-slate-500 block">כף הגשה</span>
+                                                <span className="text-sm font-bold text-white">~ {tableSpoonWeight} ג'</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {}
+                                    <div className="glass-card p-6 rounded-2xl space-y-4">
+                                        <h3 className="text-sm font-bold text-slate-300 flex items-center justify-between">
+                                            <span className="flex items-center gap-2">
+                                                <ListChecksIcon />
+                                                פירוט וניתוח רכיבים מהמתכון
+                                            </span>
+                                            <span className="text-[10px] text-slate-500">לפי ניתוח מדויק של ה-AI</span>
+                                        </h3>
+
+                                        <div className="divide-y divide-slate-800">
+                                            {analysisResult.ingredients && analysisResult.ingredients.map((ing, index) => (
+                                                <div key={index} className="py-3 flex justify-between items-center text-sm first:pt-0 last:pb-0">
+                                                    <div className="space-y-1">
+                                                        <span className="font-semibold text-slate-200 block">{ing.cleanName}</span>
+                                                        <span className="text-xs text-slate-500 block">{ing.originalText}</span>
+                                                    </div>
+                                                    <div className="text-left">
+                                                        <span className="font-bold text-white block">{ing.calories} קלוריות</span>
+                                                        <span className="text-xs text-slate-500 block">~ {ing.weightGrams} גרם</span>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+                        </section>
+
+                    </main>
+
+                    {/* Footer / Info section */}
+                    <footer className="pt-8 border-t border-slate-900 text-center text-xs text-slate-500 space-y-2">
+                        <p>© 2026 FitBite AI. מופעל על ידי Gemini 3 Flash בחינם לחלוטין.</p>
+                        <p className="max-w-md mx-auto text-[10px] leading-relaxed">
+                            הערכים המוצגים הינם הערכה מבוססת בינה מלאכותית בהתאם למשקלים ומרכיבים ממוצעים. מומלץ תמיד לוודא מוצרים ספציפיים על פי המופיע בגב האריזה.
+                        </p>
+                    </footer>
+                </div>
+            );
+        }
+
+        // Render the main app
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<RecipeApp />);
+    </script>
+</body>
+</html>
