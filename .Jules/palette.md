@@ -1,0 +1,3 @@
+## 2026-07-17 - [Precision Weight Slider and Numeric Inputs for Mobile-First UX]
+**Learning:** Sliders/ranges can be clumsy on mobile devices due to lack of spatial precision and screen size. Providing companion numeric inputs with high touch-target inline step buttons (`-10`/`+10` and `-50`/`+50` Quick Jumps) vastly enhances ergonomics and speed for precise nutrition/recipe tuning.
+**Action:** Always provide explicit tap-friendly buttons next to sliders and allow simple direct numeric input with mobile-optimized patterns (like `inputMode="numeric"` and `pattern="[0-9]*"`) for high-precision scientific or numeric controls on phones.

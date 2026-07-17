@@ -388,6 +388,7 @@
                         <div className="flex items-center gap-3">
                             <button 
                                 onClick={() => setShowSettings(!showSettings)}
+                                aria-label="הגדרות מפתח API"
                                 className="bg-slate-800/80 hover:bg-slate-700/80 text-slate-300 p-2.5 rounded-xl border border-slate-700 flex items-center gap-2 text-sm transition-all duration-300"
                             >
                                 <KeyIcon />
@@ -435,7 +436,7 @@
                                 
                                 <form onSubmit={handleAnalyzeRecipe} className="space-y-4">
                                     <div className="flex justify-between items-center">
-                                        <label className="text-base font-bold text-white flex items-center gap-2">
+                                        <label htmlFor="recipeInput" className="text-base font-bold text-white flex items-center gap-2">
                                             <FileTextIcon />
                                             הדביקי את המתכון שלך כאן
                                         </label>
@@ -443,6 +444,7 @@
                                     </div>
 
                                     <textarea 
+                                        id="recipeInput"
                                         rows="8"
                                         value={recipeText}
                                         onChange={(e) => setRecipeText(e.target.value)}
@@ -459,6 +461,7 @@
                                         <div className="flex items-center gap-3">
                                             <button 
                                                 type="button"
+                                                aria-label="הפחת מספר מנות"
                                                 onClick={() => setServings(Math.max(1, servings - 1))}
                                                 className="w-10 h-10 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg flex items-center justify-center font-bold text-lg border border-slate-700 transition-colors"
                                             >
@@ -467,6 +470,7 @@
                                             <span className="text-xl font-extrabold text-emerald-400 w-8 text-center">{servings}</span>
                                             <button 
                                                 type="button"
+                                                aria-label="הוסף מספר מנות"
                                                 onClick={() => setServings(servings + 1)}
                                                 className="w-10 h-10 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg flex items-center justify-center font-bold text-lg border border-slate-700 transition-colors"
                                             >
@@ -639,10 +643,37 @@
                                             
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                                 {/* Cooked vs Raw Weight adjustment */}
-                                                <div className="space-y-2">
+                                                <div className="space-y-3 bg-slate-900/60 p-3.5 rounded-xl border border-slate-800">
                                                     <div className="flex justify-between items-center text-xs">
-                                                        <span className="text-slate-300 font-medium">משקל סופי מבושל / אפוי:</span>
-                                                        <span className="text-white font-bold">{cookedWeight} גרם</span>
+                                                        <label htmlFor="cookedWeightInput" className="text-slate-200 font-bold">משקל סופי מבושל / אפוי:</label>
+                                                        <div className="flex items-center gap-1.5">
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => setCookedWeight(Math.max(1, cookedWeight - 10))}
+                                                                aria-label="הפחת 10 גרם מהמשקל הסופי"
+                                                                className="w-7 h-7 bg-slate-800 hover:bg-slate-700 text-emerald-400 rounded-lg flex items-center justify-center font-bold text-sm transition-colors border border-slate-700/60"
+                                                            >
+                                                                -10
+                                                            </button>
+                                                            <input
+                                                                id="cookedWeightInput"
+                                                                type="number"
+                                                                inputMode="numeric"
+                                                                pattern="[0-9]*"
+                                                                value={cookedWeight}
+                                                                onChange={(e) => setCookedWeight(Math.max(1, parseInt(e.target.value) || 0))}
+                                                                className="w-16 bg-slate-950 border border-slate-700/80 rounded-lg py-1 px-1.5 text-center text-white font-extrabold text-sm focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/20"
+                                                            />
+                                                            <span className="text-slate-400 font-medium text-[11px] select-none">גרם</span>
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => setCookedWeight(cookedWeight + 10)}
+                                                                aria-label="הוסף 10 גרם למשקל הסופי"
+                                                                className="w-7 h-7 bg-slate-800 hover:bg-slate-700 text-emerald-400 rounded-lg flex items-center justify-center font-bold text-sm transition-colors border border-slate-700/60"
+                                                            >
+                                                                +10
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                     <input 
                                                         type="range" 
@@ -650,54 +681,96 @@
                                                         max={Math.round(analysisResult.totalWeightGrams * 1.5)} 
                                                         value={cookedWeight} 
                                                         onChange={(e) => setCookedWeight(parseInt(e.target.value))}
-                                                        className="w-full accent-emerald-500 bg-slate-800 h-1 rounded-lg appearance-none cursor-pointer"
+                                                        className="w-full accent-emerald-500 bg-slate-800 h-1.5 rounded-lg appearance-none cursor-pointer"
                                                     />
-                                                    <p className="text-[9px] text-slate-500 leading-normal">
+                                                    <div className="flex justify-between items-center gap-2">
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => setCookedWeight(Math.max(1, cookedWeight - 50))}
+                                                            aria-label="הפחת 50 גרם מהמשקל הסופי"
+                                                            className="text-[10px] bg-slate-800/60 hover:bg-slate-700/60 text-slate-300 py-1 px-2 rounded-md border border-slate-700/40 transition-colors"
+                                                        >
+                                                            -50 גרם
+                                                        </button>
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => setCookedWeight(analysisResult.totalWeightGrams)}
+                                                            aria-label="אפס למשקל מוערך מקורי"
+                                                            className="text-[10px] bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-400 py-1 px-2.5 rounded-md font-bold transition-colors"
+                                                        >
+                                                            איפוס ({analysisResult.totalWeightGrams}ג')
+                                                        </button>
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => setCookedWeight(cookedWeight + 50)}
+                                                            aria-label="הוסף 50 גרם למשקל הסופי"
+                                                            className="text-[10px] bg-slate-800/60 hover:bg-slate-700/60 text-slate-300 py-1 px-2 rounded-md border border-slate-700/40 transition-colors"
+                                                        >
+                                                            +50 גרם
+                                                        </button>
+                                                    </div>
+                                                    <p className="text-[9px] text-slate-400 leading-normal">
                                                         * נוזלים מתאדים באפייה או מתווספים בבישול. שקלי את המנה המוכנה ועדכני פה לקבלת ערך מושלם ל-100 גרם.
                                                     </p>
                                                 </div>
 
                                                 {/* Tablespoon density calibration */}
-                                                <div className="space-y-2">
+                                                <div className="space-y-3 bg-slate-900/60 p-3.5 rounded-xl border border-slate-800">
                                                     <div className="flex justify-between items-center text-xs">
-                                                        <span className="text-slate-300 font-medium">משקל כף הגשה אחת:</span>
-                                                        <div className="flex items-center gap-2">
+                                                        <span className="text-slate-200 font-bold">משקל כף הגשה אחת:</span>
+                                                        <div className="flex items-center gap-1.5">
                                                             <button 
+                                                                type="button"
                                                                 onClick={() => setTableSpoonWeight(Math.max(1, tableSpoonWeight - 1))}
-                                                                className="px-1.5 py-0.5 bg-slate-800 hover:bg-slate-700 rounded text-xs text-emerald-400 font-bold"
+                                                                aria-label="הפחת גרם אחד ממשקל כף הגשה"
+                                                                className="w-7 h-7 bg-slate-800 hover:bg-slate-700 text-emerald-400 rounded-lg flex items-center justify-center font-bold text-sm transition-colors border border-slate-700/60"
                                                             >
-                                                                -
+                                                                -1
                                                             </button>
-                                                            <span className="text-white font-bold">{tableSpoonWeight} ג'</span>
+                                                            <input
+                                                                type="number"
+                                                                inputMode="numeric"
+                                                                pattern="[0-9]*"
+                                                                value={tableSpoonWeight}
+                                                                onChange={(e) => setTableSpoonWeight(Math.max(1, parseInt(e.target.value) || 0))}
+                                                                aria-label="משקל כף הגשה בגרמים"
+                                                                className="w-12 bg-slate-950 border border-slate-700/80 rounded-lg py-1 px-1 text-center text-white font-extrabold text-sm focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/20"
+                                                            />
+                                                            <span className="text-slate-400 font-medium text-[11px] select-none">גרם</span>
                                                             <button 
+                                                                type="button"
                                                                 onClick={() => setTableSpoonWeight(tableSpoonWeight + 1)}
-                                                                className="px-1.5 py-0.5 bg-slate-800 hover:bg-slate-700 rounded text-xs text-emerald-400 font-bold"
+                                                                aria-label="הוסף גרם אחד למשקל כף הגשה"
+                                                                className="w-7 h-7 bg-slate-800 hover:bg-slate-700 text-emerald-400 rounded-lg flex items-center justify-center font-bold text-sm transition-colors border border-slate-700/60"
                                                             >
-                                                                +
+                                                                +1
                                                             </button>
                                                         </div>
                                                     </div>
-                                                    <div className="flex gap-2">
+                                                    <div className="flex flex-wrap gap-1.5">
                                                         <button 
+                                                            type="button"
                                                             onClick={() => setTableSpoonWeight(6)} 
-                                                            className={"text-[9px] px-2 py-1 rounded transition-colors " + (tableSpoonWeight === 6 ? 'bg-emerald-500 text-slate-950 font-bold' : 'bg-slate-900 text-slate-400 hover:bg-slate-800')}
+                                                            className={"text-[9px] px-2 py-1.5 rounded-md transition-all flex-1 text-center " + (tableSpoonWeight === 6 ? 'bg-emerald-500 text-slate-950 font-bold shadow-sm' : 'bg-slate-950 hover:bg-slate-800 text-slate-300 border border-slate-800')}
                                                         >
-                                                            קלה (גרנולה/אבקה) ~6ג'
+                                                            קלה (אבקה) ~6ג'
                                                         </button>
                                                         <button 
+                                                            type="button"
                                                             onClick={() => setTableSpoonWeight(15)} 
-                                                            className={"text-[9px] px-2 py-1 rounded transition-colors " + (tableSpoonWeight === 15 ? 'bg-emerald-500 text-slate-950 font-bold' : 'bg-slate-900 text-slate-400 hover:bg-slate-800')}
+                                                            className={"text-[9px] px-2 py-1.5 rounded-md transition-all flex-1 text-center " + (tableSpoonWeight === 15 ? 'bg-emerald-500 text-slate-950 font-bold shadow-sm' : 'bg-slate-950 hover:bg-slate-800 text-slate-300 border border-slate-800')}
                                                         >
-                                                            בינונית (נוזלים/מרק) ~15ג'
+                                                            בינונית ~15ג'
                                                         </button>
                                                         <button 
+                                                            type="button"
                                                             onClick={() => setTableSpoonWeight(24)} 
-                                                            className={"text-[9px] px-2 py-1 rounded transition-colors " + (tableSpoonWeight === 24 ? 'bg-emerald-500 text-slate-950 font-bold' : 'bg-slate-900 text-slate-400 hover:bg-slate-800')}
+                                                            className={"text-[9px] px-2 py-1.5 rounded-md transition-all flex-1 text-center " + (tableSpoonWeight === 24 ? 'bg-emerald-500 text-slate-950 font-bold shadow-sm' : 'bg-slate-950 hover:bg-slate-800 text-slate-300 border border-slate-800')}
                                                         >
-                                                            כבדה (ממרח/דחוס) ~24ג'
+                                                            כבדה ~24ג'
                                                         </button>
                                                     </div>
-                                                    <p className="text-[9px] text-slate-500 leading-normal">
+                                                    <p className="text-[9px] text-slate-400 leading-normal">
                                                         * כף של קורנפלקס קלה בהרבה מכף של דבש או פירה. שקלי פעם אחת כף אחת על משקל ועדכני פה!
                                                     </p>
                                                 </div>
@@ -708,36 +781,58 @@
                                         {activeTab === "custom" && (
                                             <div className="mt-4 p-4 bg-slate-950/50 rounded-xl border border-slate-800/80 space-y-4">
                                                 <h4 className="text-xs font-bold text-slate-300">הגדירי כמות מדויקת לצריכה:</h4>
-                                                <div className="grid grid-cols-2 gap-4">
-                                                    <div>
-                                                        <label className="block text-[11px] text-slate-400 mb-1">משקל בגרמים (ג')</label>
-                                                        <div className="flex gap-2">
+                                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                                    <div className="space-y-1.5">
+                                                        <label htmlFor="customGramsInput" className="block text-[11px] text-slate-400">משקל בגרמים (ג')</label>
+                                                        <div className="flex items-center gap-1.5">
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => setCustomGrams(Math.max(1, customGrams - 10))}
+                                                                aria-label="הפחת 10 גרם מהכמות המותאמת"
+                                                                className="w-8 h-8 bg-slate-800 hover:bg-slate-700 text-emerald-400 rounded-lg flex items-center justify-center font-bold text-sm transition-colors border border-slate-700/60"
+                                                            >
+                                                                -10
+                                                            </button>
                                                             <input 
+                                                                id="customGramsInput"
                                                                 type="number" 
+                                                                inputMode="numeric"
+                                                                pattern="[0-9]*"
                                                                 min="1"
                                                                 value={customGrams}
-                                                                onChange={(e) => setCustomGrams(parseInt(e.target.value) || 0)}
-                                                                className="w-full bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1.5 text-center text-sm text-white focus:outline-none focus:border-emerald-500"
+                                                                onChange={(e) => setCustomGrams(Math.max(1, parseInt(e.target.value) || 0))}
+                                                                className="w-full bg-slate-900 border border-slate-800 rounded-lg py-1.5 text-center text-sm text-white focus:outline-none focus:border-emerald-500 font-extrabold focus:ring-1 focus:ring-emerald-500/20"
                                                             />
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => setCustomGrams(customGrams + 10)}
+                                                                aria-label="הוסף 10 גרם לכמות המותאמת"
+                                                                className="w-8 h-8 bg-slate-800 hover:bg-slate-700 text-emerald-400 rounded-lg flex items-center justify-center font-bold text-sm transition-colors border border-slate-700/60"
+                                                            >
+                                                                +10
+                                                            </button>
                                                         </div>
                                                     </div>
                                                     <div className="flex flex-col justify-end">
-                                                        <div className="flex flex-wrap gap-1">
+                                                        <div className="flex flex-wrap gap-1.5">
                                                             <button 
+                                                                type="button"
                                                                 onClick={() => setCustomGrams(50)}
-                                                                className="text-[10px] bg-slate-900 hover:bg-slate-800 text-slate-300 px-2 py-1 rounded"
+                                                                className="text-[10px] bg-slate-900 hover:bg-slate-800 text-slate-300 px-2.5 py-1.5 rounded-md border border-slate-800/80 flex-1 text-center font-medium transition-colors"
                                                             >
                                                                 50ג'
                                                             </button>
                                                             <button 
+                                                                type="button"
                                                                 onClick={() => setCustomGrams(150)}
-                                                                className="text-[10px] bg-slate-900 hover:bg-slate-800 text-slate-300 px-2 py-1 rounded"
+                                                                className="text-[10px] bg-slate-900 hover:bg-slate-800 text-slate-300 px-2.5 py-1.5 rounded-md border border-slate-800/80 flex-1 text-center font-medium transition-colors"
                                                             >
                                                                 150ג'
                                                             </button>
                                                             <button 
+                                                                type="button"
                                                                 onClick={() => setCustomGrams(250)}
-                                                                className="text-[10px] bg-slate-900 hover:bg-slate-800 text-slate-300 px-2 py-1 rounded"
+                                                                className="text-[10px] bg-slate-900 hover:bg-slate-800 text-slate-300 px-2.5 py-1.5 rounded-md border border-slate-800/80 flex-1 text-center font-medium transition-colors"
                                                             >
                                                                 250ג'
                                                             </button>
