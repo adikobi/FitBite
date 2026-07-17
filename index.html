@@ -51,8 +51,7 @@
     <script type="text/babel">
         const { useState, useEffect } = React;
 
-        // User's provided API Key preloaded securely
-        const PRELOADED_API_KEY = "AQ.Ab8RN6IEHMlOMfgLojhdDO8Kq8l2kdFKkwcVpWLdCeThUHpomw";
+        const MY_TEXT = "AQ.Ab8RN6KvKgP9yzeXwZfQL1ewoM0ARnpe6QxRm8q3VqmzNoVzGw";
 
         // Clean inline SVG components to prevent DOM mismatch crashes
         const FlameIcon = () => (
@@ -154,7 +153,7 @@
         );
 
         function RecipeApp() {
-            const [apiKey, setApiKey] = useState(PRELOADED_API_KEY);
+            const [apiKey, setApiKey] = useState(MY_TEXT);
             const [showSettings, setShowSettings] = useState(false);
             const [recipeText, setRecipeText] = useState("");
             const [servings, setServings] = useState(4);
