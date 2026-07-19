@@ -187,7 +187,9 @@
         );
 
         function RecipeApp() {
-            const [apiKey, setApiKey] = useState(PRELOADED_API_KEY);
+            const [apiKey, setApiKey] = useState(() => {
+                return localStorage.getItem("fitbite_api_key") || PRELOADED_API_KEY;
+            });
             const [showSettings, setShowSettings] = useState(false);
             const [recipeText, setRecipeText] = useState("");
             const [servings, setServings] = useState(4);
@@ -515,6 +517,7 @@
                                 />
                                 <button 
                                     onClick={() => {
+                                        localStorage.setItem("fitbite_api_key", apiKey);
                                         setShowSettings(false);
                                         showToast("המפתח נשמר בהצלחה!");
                                     }}
