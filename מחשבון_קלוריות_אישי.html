@@ -204,26 +204,44 @@
             const [cookedWeight, setCookedWeight] = useState(320);
             const [tableSpoonWeight, setTableSpoonWeight] = useState(15);
 
-            // Session history (stored in state for single session persistence)
-            const [history, setHistory] = useState([
-                {
-                    id: "demo-1",
-                    recipeName: "פנקייק חלבון שיבולת שועל",
-                    servings: 2,
-                    totalCalories: 480,
-                    totalWeightGrams: 320,
-                    caloriesPer100g: 150,
-                    caloriesPerTablespoon: 22,
-                    gramsPerTablespoon: 15,
-                    ingredients: [
-                        { cleanName: "שיבולת שועל דקה", originalText: "כוס שיבולת שועל", weightGrams: 80, calories: 300 },
-                        { cleanName: "אבקת חלבון", originalText: "סקופ אבקת חלבון וניל", weightGrams: 30, calories: 120 },
-                        { cleanName: "חלב שקדים", originalText: "חצי כוס חלב שקדים", weightGrams: 120, calories: 30 },
-                        { cleanName: "ביצה לארג'", originalText: "ביצה אחת", weightGrams: 50, calories: 70 }
-                    ],
-                    dietaryNotes: ["עשיר בחלבון", "מתאים לחיטוב", "דל סוכר"]
+            // Session history (stored in localStorage with fallback to demo recipe)
+            const [history, setHistory] = useState(() => {
+                const saved = localStorage.getItem("fitbite_history");
+                if (saved) {
+                    try {
+                        return JSON.parse(saved);
+                    } catch (e) {
+                        console.error("Error parsing history from localStorage", e);
+                    }
                 }
-            ]);
+                return [
+                    {
+                        id: "demo-1",
+                        recipeName: "פנקייק חלבון שיבולת שועל",
+                        servings: 2,
+                        totalCalories: 480,
+                        totalWeightGrams: 320,
+                        caloriesPer100g: 150,
+                        caloriesPerTablespoon: 22,
+                        gramsPerTablespoon: 15,
+                        totalProtein: 32,
+                        totalCarbs: 58,
+                        totalFats: 12,
+                        ingredients: [
+                            { cleanName: "שיבולת שועל דקה", originalText: "כוס שיבולת שועל", weightGrams: 80, calories: 300, protein: 10, carbs: 53, fats: 5 },
+                            { cleanName: "אבקת חלבון", originalText: "סקופ אבקת חלבון וניל", weightGrams: 30, calories: 120, protein: 24, carbs: 2, fats: 1.5 },
+                            { cleanName: "חלב שקדים", originalText: "חצי כוס חלב שקדים", weightGrams: 120, calories: 30, protein: 1, carbs: 1, fats: 2.5 },
+                            { cleanName: "ביצה לארג'", originalText: "ביצה אחת", weightGrams: 50, calories: 70, protein: 6, carbs: 0, fats: 5 }
+                        ],
+                        dietaryNotes: ["עשיר בחלבון", "מתאים לחיטוב", "דל סוכר"]
+                    }
+                ];
+            });
+
+            // Persist history to localStorage
+            useEffect(() => {
+                localStorage.setItem("fitbite_history", JSON.stringify(history));
+            }, [history]);
 
             // Interactive calculator state
             const [activeTab, setActiveTab] = useState("serving"); // "serving", "tablespoon", "100g", "custom"
@@ -261,6 +279,18 @@
                 }
             }, [analysisResult]);
 
+            const deleteFromHistory = (id, e) => {
+                if (e) e.stopPropagation();
+                setHistory(prev => {
+                    const filtered = prev.filter(item => item.id !== id);
+                    if (analysisResult && analysisResult.id === id) {
+                        setAnalysisResult(null);
+                    }
+                    return filtered;
+                });
+                showToast("המתכון נמחק מההיסטוריה");
+            };
+
             const handleAnalyzeRecipe = async (e) => {
                 if (e) e.preventDefault();
                 if (!recipeText.trim()) {
@@ -273,7 +303,7 @@
 
                 const systemInstruction = `
                     You are an elite, professional nutritional science analyst and sports dietitian.
-                    Analyze the recipe text provided by the user. Convert all ingredients into precise weights in grams and estimate their calories correctly.
+                    Analyze the recipe text provided by the user. Convert all ingredients into precise weights in grams and estimate their calories, protein, carbs, and fats correctly.
                     Estimate the physical state of the dish (e.g. liquid, thick paste, baking, light powder) and provide a smart estimated average weight of ONE single tablespoon of this combined recipe in "gramsPerTablespoon" (e.g., honey is ~21g, water/milk/soups are ~15g, heavy spreads/peanut butter are ~18-24g, light powders/cereals/coconut are ~5-8g).
                     Respond ONLY with a valid, clean JSON object. Do not include markdown code block syntax (like \`\`\`json) or any preamble or wrap up. Just raw JSON.
                     The JSON structure must match this exact format:
@@ -284,12 +314,18 @@
                       "caloriesPer100g": calories per 100g (integer),
                       "caloriesPerTablespoon": calories in one average tablespoon of this combined recipe (integer),
                       "gramsPerTablespoon": weight of one tablespoon of this recipe in grams (integer),
+                      "totalProtein": total protein in recipe in grams (integer),
+                      "totalCarbs": total carbohydrates in recipe in grams (integer),
+                      "totalFats": total fats in recipe in grams (integer),
                       "ingredients": [
                         {
                           "originalText": "the original line of text",
                           "cleanName": "clean Hebrew name of ingredient",
                           "weightGrams": estimated weight in grams (integer),
-                          "calories": estimated calories for this quantity (integer)
+                          "calories": estimated calories for this quantity (integer),
+                          "protein": estimated protein in grams (integer),
+                          "carbs": estimated carbohydrates in grams (integer),
+                          "fats": estimated fats in grams (integer)
                         }
                       ],
                       "dietaryNotes": ["up to 3 tags in Hebrew about the recipe, e.g., 'דל פחמימה', 'חלבון גבוה', 'טבעוני', 'קל להכנה'"]
@@ -377,21 +413,42 @@
                 if (!analysisResult) return null;
                 
                 const totalCals = analysisResult.totalCalories;
+                const totalProtein = analysisResult.totalProtein || 0;
+                const totalCarbs = analysisResult.totalCarbs || 0;
+                const totalFats = analysisResult.totalFats || 0;
                 
                 // 1. Recalculate Calories per 100g based on cooked weight
                 const currentWeight = cookedWeight > 0 ? cookedWeight : 1;
                 const calPer100g = Math.round((totalCals / currentWeight) * 100);
+                const proteinPer100g = Math.round((totalProtein / currentWeight) * 100);
+                const carbsPer100g = Math.round((totalCarbs / currentWeight) * 100);
+                const fatsPer100g = Math.round((totalFats / currentWeight) * 100);
                 
                 // 2. Recalculate Calories per tablespoon based on tablespoon weight
                 const calPerSpoon = Math.round((calPer100g / 100) * tableSpoonWeight);
+                const proteinPerSpoon = Math.round((proteinPer100g / 100) * tableSpoonWeight);
+                const carbsPerSpoon = Math.round((carbsPer100g / 100) * tableSpoonWeight);
+                const fatsPerSpoon = Math.round((fatsPer100g / 100) * tableSpoonWeight);
                 
                 // 3. Calories per serving is constant per division of total calories
                 const calPerServing = Math.round(totalCals / servings);
+                const proteinPerServing = Math.round(totalProtein / servings);
+                const carbsPerServing = Math.round(totalCarbs / servings);
+                const fatsPerServing = Math.round(totalFats / servings);
 
                 return {
                     calPer100g,
                     calPerSpoon,
-                    calPerServing
+                    calPerServing,
+                    proteinPer100g,
+                    carbsPer100g,
+                    fatsPer100g,
+                    proteinPerSpoon,
+                    carbsPerSpoon,
+                    fatsPerSpoon,
+                    proteinPerServing,
+                    carbsPerServing,
+                    fatsPerServing
                 };
             };
 
@@ -400,29 +457,48 @@
             const getDisplayMetric = () => {
                 if (!analysisResult || !metrics) return null;
 
+                const totalProtein = analysisResult.totalProtein || 0;
+                const totalCarbs = analysisResult.totalCarbs || 0;
+                const totalFats = analysisResult.totalFats || 0;
+
                 switch(activeTab) {
                     case "serving":
                         return {
                             val: metrics.calPerServing,
+                            protein: metrics.proteinPerServing,
+                            carbs: metrics.carbsPerServing,
+                            fats: metrics.fatsPerServing,
                             label: "קלוריות למנה אישית",
                             sub: `לפי חלוקת סך הקלוריות ל-${servings} מנות שוות`
                         };
                     case "tablespoon":
                         return {
                             val: metrics.calPerSpoon,
+                            protein: metrics.proteinPerSpoon,
+                            carbs: metrics.carbsPerSpoon,
+                            fats: metrics.fatsPerSpoon,
                             label: "קלוריות לכף הגשה",
                             sub: `מחושב לפי כף ששוקלת בדיוק ${tableSpoonWeight} גרם`
                         };
                     case "100g":
                         return {
                             val: metrics.calPer100g,
+                            protein: metrics.proteinPer100g,
+                            carbs: metrics.carbsPer100g,
+                            fats: metrics.fatsPer100g,
                             label: "קלוריות ל-100 גרם",
                             sub: `מבוסס על משקל סופי מבושל של ${cookedWeight} גרם`
                         };
                     case "custom":
                         const customVal = Math.round((customGrams / 100) * metrics.calPer100g);
+                        const customProtein = Math.round((customGrams / 100) * metrics.proteinPer100g);
+                        const customCarbs = Math.round((customGrams / 100) * metrics.carbsPer100g);
+                        const customFats = Math.round((customGrams / 100) * metrics.fatsPer100g);
                         return {
                             val: customVal,
+                            protein: customProtein,
+                            carbs: customCarbs,
+                            fats: customFats,
                             label: `קלוריות ל-${customGrams} גרם`,
                             sub: "חישוב מותאם אישית לפי המשקל שהזנת"
                         };
@@ -449,11 +525,12 @@
 *סיכום תזונתי מ-FitBite AI* 🍳
 מתכון: ${analysisResult.recipeName}
 ------------------------------
-• קלוריות לכל המתכון: ${analysisResult.totalCalories} קל'
+• סה״כ קלוריות למתכון: ${analysisResult.totalCalories} קל׳
+• סה״כ חלבון: ${analysisResult.totalProtein || 0}ג׳ | פחמימות: ${analysisResult.totalCarbs || 0}ג׳ | שומן: ${analysisResult.totalFats || 0}ג׳
 • משקל מבושל סופי: ${cookedWeight} גרם
-• קלוריות ל-100 גרם: ${metrics.calPer100g} קל'
-• קלוריות למנה (${servings} מנות): ${metrics.calPerServing} קל'
-• קלוריות לכף הגשה (~${tableSpoonWeight} גרם): ${metrics.calPerSpoon} קל'
+• ערכים ל-100 גרם: ${metrics.calPer100g} קל׳ (ח׳: ${metrics.proteinPer100g}ג׳ | פ׳: ${metrics.carbsPer100g}ג׳ | ש׳: ${metrics.fatsPer100g}ג׳)
+• ערכים למנה אחת (${servings} מנות): ${metrics.calPerServing} קל׳ (ח׳: ${metrics.proteinPerServing}ג׳ | פ׳: ${metrics.carbsPerServing}ג׳ | ש׳: ${metrics.fatsPerServing}ג׳)
+• ערכים לכף הגשה (~${tableSpoonWeight} גרם): ${metrics.calPerSpoon} קל׳ (ח׳: ${metrics.proteinPerSpoon}ג׳ | פ׳: ${metrics.carbsPerSpoon}ג׳ | ש׳: ${metrics.fatsPerSpoon}ג׳)
 ------------------------------
 נאכל בתיאבון ובריאות! 💪
 `.trim();
@@ -624,31 +701,40 @@
                             <div className="glass-card p-4 rounded-2xl space-y-3">
                                 <h4 className="text-xs md:text-sm font-bold text-slate-400 flex items-center gap-2">
                                     <HistoryIcon />
-                                    מתכונים שנותחו לאחרונה בסבב זה
+                                    מתכונים שנותחו לאחרונה
                                 </h4>
                                 {history.length === 0 ? (
                                     <p className="text-[10px] text-slate-500">המתכונים שתנתחי יופיעו כאן לגישה מהירה.</p>
                                 ) : (
-                                    <div className="flex gap-2 md:grid md:grid-cols-1 overflow-x-auto pb-1 md:pb-0 md:max-h-[160px] md:overflow-y-auto no-scrollbar">
+                                    <div className="flex gap-2 md:grid md:grid-cols-1 overflow-x-auto pb-1 md:pb-0 md:max-h-[220px] md:overflow-y-auto no-scrollbar">
                                         {history.map((item) => {
                                             const isSelected = analysisResult && (analysisResult.id === item.id);
                                             return (
                                                 <div 
                                                     key={item.id}
                                                     onClick={() => selectFromHistory(item)}
-                                                    className={`p-3 rounded-xl border text-right cursor-pointer transition-all flex justify-between items-center gap-4 min-w-[200px] md:min-w-0 ${
+                                                    className={`p-3 rounded-xl border text-right cursor-pointer transition-all flex justify-between items-center gap-3 min-w-[220px] md:min-w-0 group ${
                                                         isSelected 
                                                         ? 'bg-emerald-500/10 border-emerald-500/45 text-white shadow-sm'
                                                         : 'bg-slate-950/70 border-slate-800/80 hover:border-slate-700 text-slate-300'
                                                     }`}
                                                 >
-                                                    <div className="truncate">
+                                                    <div className="truncate flex-grow">
                                                         <span className="text-xs font-bold block truncate">{item.recipeName}</span>
-                                                        <span className="text-[10px] text-slate-500">{item.totalCalories} קל'</span>
+                                                        <span className="text-[10px] text-slate-500">{item.totalCalories} קל׳ | חלבון: {item.totalProtein || 0}ג׳</span>
                                                     </div>
-                                                    <span className="text-[10px] bg-slate-900 text-emerald-400 px-2 py-1 rounded font-semibold whitespace-nowrap">
-                                                        {item.caloriesPerServing} קל' למנה
-                                                    </span>
+                                                    <div className="flex items-center gap-1.5 flex-shrink-0">
+                                                        <span className="text-[10px] bg-slate-900 text-emerald-400 px-2 py-1 rounded font-semibold whitespace-nowrap">
+                                                            {item.caloriesPerServing || Math.round(item.totalCalories / (item.servings || 1))} קל'
+                                                        </span>
+                                                        <button
+                                                            onClick={(e) => deleteFromHistory(item.id, e)}
+                                                            className="p-1.5 bg-red-950/30 hover:bg-red-900/40 text-red-400 hover:text-red-300 rounded-lg transition-colors border border-red-500/10"
+                                                            title="מחיקה מההיסטוריה"
+                                                        >
+                                                            <TrashIcon />
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             );
                                         })}
@@ -762,14 +848,41 @@
                                             </button>
                                         </div>
 
-                                        {/* Large Circular/Square Calorie Display Badge */}
-                                        <div className="bg-slate-950/80 p-5 md:p-6 rounded-2xl border border-slate-800/80 flex flex-col items-center text-center space-y-1 relative">
-                                            <span className="text-emerald-400 text-[10px] md:text-xs font-bold tracking-wider uppercase">{currentMetric.label}</span>
-                                            <div className="flex items-baseline justify-center">
-                                                <span className="text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tighter">{currentMetric.val}</span>
-                                                <span className="text-sm md:text-base font-bold text-slate-400 mr-1.5">קלוריות</span>
+                                        {/* Large Circular/Square Calorie Display Badge with Macronutrients */}
+                                        <div className="bg-slate-950/80 p-5 md:p-6 rounded-2xl border border-slate-800/80 space-y-4 relative">
+                                            <div className="flex flex-col items-center text-center space-y-1">
+                                                <span className="text-emerald-400 text-[10px] md:text-xs font-bold tracking-wider uppercase">{currentMetric.label}</span>
+                                                <div className="flex items-baseline justify-center">
+                                                    <span className="text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tighter">{currentMetric.val}</span>
+                                                    <span className="text-sm md:text-base font-bold text-slate-400 mr-1.5">קלוריות</span>
+                                                </div>
+                                                <p className="text-[10px] md:text-xs text-slate-500">{currentMetric.sub}</p>
                                             </div>
-                                            <p className="text-[10px] md:text-xs text-slate-500">{currentMetric.sub}</p>
+
+                                            {/* Beautiful Macronutrients Cards/Progress indicators */}
+                                            <div className="grid grid-cols-3 gap-3 pt-2 border-t border-slate-800/60">
+                                                <div className="flex flex-col items-center p-2 bg-blue-500/10 rounded-xl border border-blue-500/15">
+                                                    <span className="text-[10px] text-blue-400 font-bold block mb-1">חלבון</span>
+                                                    <span className="text-sm md:text-base font-black text-white">{currentMetric.protein || 0}ג׳</span>
+                                                    <div className="w-full bg-slate-900 h-1.5 rounded-full overflow-hidden mt-1.5">
+                                                        <div className="bg-blue-500 h-full rounded-full" style={{ width: `${Math.min(100, ((currentMetric.protein || 0) / ((currentMetric.protein || 1) + (currentMetric.carbs || 1) + (currentMetric.fats || 1))) * 100)}%` }}></div>
+                                                    </div>
+                                                </div>
+                                                <div className="flex flex-col items-center p-2 bg-amber-500/10 rounded-xl border border-amber-500/15">
+                                                    <span className="text-[10px] text-amber-400 font-bold block mb-1">פחמימות</span>
+                                                    <span className="text-sm md:text-base font-black text-white">{currentMetric.carbs || 0}ג׳</span>
+                                                    <div className="w-full bg-slate-900 h-1.5 rounded-full overflow-hidden mt-1.5">
+                                                        <div className="bg-amber-500 h-full rounded-full" style={{ width: `${Math.min(100, ((currentMetric.carbs || 0) / ((currentMetric.protein || 1) + (currentMetric.carbs || 1) + (currentMetric.fats || 1))) * 100)}%` }}></div>
+                                                    </div>
+                                                </div>
+                                                <div className="flex flex-col items-center p-2 bg-rose-500/10 rounded-xl border border-rose-500/15">
+                                                    <span className="text-[10px] text-rose-400 font-bold block mb-1">שומן</span>
+                                                    <span className="text-sm md:text-base font-black text-white">{currentMetric.fats || 0}ג׳</span>
+                                                    <div className="w-full bg-slate-900 h-1.5 rounded-full overflow-hidden mt-1.5">
+                                                        <div className="bg-rose-500 h-full rounded-full" style={{ width: `${Math.min(100, ((currentMetric.fats || 0) / ((currentMetric.protein || 1) + (currentMetric.carbs || 1) + (currentMetric.fats || 1))) * 100)}%` }}></div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
 
                                         {/* Super Interactive Gram Jump & Correction Section */}
@@ -1011,16 +1124,22 @@
                                             <span className="text-[10px] text-slate-500">לפי ניתוח ה-AI</span>
                                         </h3>
 
-                                        <div className="divide-y divide-slate-800/80">
+                                        <div className="divide-y divide-slate-800/80 animate-fade-in">
                                             {analysisResult.ingredients && analysisResult.ingredients.map((ing, index) => (
-                                                <div key={index} className="py-2.5 flex justify-between items-center text-xs md:text-sm first:pt-0 last:pb-0">
-                                                    <div className="space-y-0.5">
-                                                        <span className="font-semibold text-slate-200 block">{ing.cleanName}</span>
-                                                        <span className="text-[10px] text-slate-500 block leading-tight">{ing.originalText}</span>
+                                                <div key={index} className="py-3 flex justify-between items-center text-xs md:text-sm first:pt-0 last:pb-0 gap-2">
+                                                    <div className="space-y-1 flex-grow">
+                                                        <span className="font-bold text-slate-100 block">{ing.cleanName}</span>
+                                                        <span className="text-[10px] text-slate-400 block leading-tight">{ing.originalText}</span>
+                                                        {/* Individual Ingredient Macro badges */}
+                                                        <div className="flex gap-1.5 items-center mt-1">
+                                                            <span className="text-[9px] bg-blue-500/10 text-blue-400 px-1.5 py-0.5 rounded font-bold">ח׳: {ing.protein || 0}ג׳</span>
+                                                            <span className="text-[9px] bg-amber-500/10 text-amber-400 px-1.5 py-0.5 rounded font-bold">פ׳: {ing.carbs || 0}ג׳</span>
+                                                            <span className="text-[9px] bg-rose-500/10 text-rose-400 px-1.5 py-0.5 rounded font-bold">ש׳: {ing.fats || 0}ג׳</span>
+                                                        </div>
                                                     </div>
-                                                    <div className="text-left">
-                                                        <span className="font-bold text-white block">{ing.calories} קל'</span>
-                                                        <span className="text-[10px] text-emerald-400 block font-medium">~ {ing.weightGrams} גרם</span>
+                                                    <div className="text-left flex-shrink-0">
+                                                        <span className="font-black text-white block text-sm">{ing.calories} קל'</span>
+                                                        <span className="text-[10px] text-emerald-400 block font-bold">~ {ing.weightGrams} גרם</span>
                                                     </div>
                                                 </div>
                                             ))}
