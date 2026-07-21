@@ -3,26 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>FitBite AI — מחשבון תזונה בעיצוב פרימיום</title>
+    <title>FitBite AI — מחשבון תזונה ומתכונים אישי</title>
     <!-- Tailwind CSS for modern sleek styling -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Heebo & JetBrains Mono for premium professional UI -->
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts: Assistant for crisp, modern Hebrew and Playfair Display for premium serif details -->
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,800;1,400&display=swap" rel="stylesheet">
 
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        cyberlime: '#CCFF00',
-                        warmcoral: '#FF6B4A',
-                        obsidian: '#04060A',
-                        carbon: '#0D111A',
-                        slateice: '#1E2533',
+                        cream: '#FDFBF7',      /* Soft luxury ivory backdrop */
+                        sage: '#F3F6F1',       /* Calming soft sage surface */
+                        forest: '#1B3B2B',     /* Rich deep editorial green */
+                        moss: '#4A614C',       /* Earthy dark green */
+                        terracotta: '#D47E61', /* Warm clay highlight */
+                        earth: '#2E2B27',      /* Soft charcoal-brown for readable text */
+                        sand: '#EAE6DD',       /* Gentle borders */
                     },
                     fontFamily: {
-                        heebo: ['Heebo', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'monospace'],
+                        sans: ['Assistant', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
                     }
                 }
             }
@@ -31,108 +33,55 @@
 
     <style>
         body {
-            font-family: 'Heebo', sans-serif;
-            background-color: #04060A;
-            color: #E2E8F0;
+            font-family: 'Assistant', sans-serif;
+            background-color: #FDFBF7;
+            color: #2E2B27;
             -webkit-tap-highlight-color: transparent;
             overflow-x: hidden;
         }
 
-        /* Custom scrollbar for premium feel */
+        /* Custom elegant scrollbar */
         ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
         }
         ::-webkit-scrollbar-track {
-            background: #04060A;
+            background: #FDFBF7;
         }
         ::-webkit-scrollbar-thumb {
-            background: #CCFF00;
-            border-radius: 4px;
-            border: 2px solid #04060A;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #b5e600;
+            background: #1B3B2B;
+            border-radius: 3px;
         }
 
-        /* Tactile physical elevation borders */
-        .premium-card {
-            background: rgba(13, 17, 26, 0.7);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7);
+        /* Editorial minimal shadows */
+        .editorial-card {
+            background: #FFFFFF;
+            border: 1px solid #EAE6DD;
+            box-shadow: 0 4px 20px -2px rgba(46, 43, 39, 0.04);
         }
 
-        /* Glowing ambient radial backgrounds */
-        .glow-radial-lime {
-            background: radial-gradient(circle at 50% 0%, rgba(204, 255, 0, 0.08) 0%, transparent 70%);
+        /* Interactive spring transitions */
+        .btn-editorial {
+            transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
-        .glow-radial-coral {
-            background: radial-gradient(circle at 50% 0%, rgba(255, 107, 74, 0.08) 0%, transparent 70%);
-        }
-
-        /* Spring micro-interactions for buttons */
-        .btn-spring {
-            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.2s, box-shadow 0.2s;
-        }
-        .btn-spring:active {
-            transform: scale(0.94);
+        .btn-editorial:active {
+            transform: scale(0.96);
         }
 
         @media (hover: hover) {
-            .btn-spring:hover {
+            .btn-editorial:hover {
                 transform: translateY(-1px);
             }
         }
 
-        /* Jagged "Kitchen Ticket" effect using native CSS */
-        .kitchen-ticket {
-            position: relative;
-            background: #111622;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+        /* Custom subtle pulsing scanner line for loading state */
+        @keyframes subtle-pulse {
+            0% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+            100% { opacity: 0.3; }
         }
-        .kitchen-ticket::after {
-            content: "";
-            position: absolute;
-            bottom: -8px;
-            left: 0;
-            right: 0;
-            height: 8px;
-            background-image: linear-gradient(-45deg, #04060A 4px, transparent 0), linear-gradient(45deg, #04060A 4px, transparent 0);
-            background-size: 8px 8px;
-        }
-
-        /* Animated Scanner line */
-        @keyframes scan-laser {
-            0% { top: 0%; opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { top: 100%; opacity: 0; }
-        }
-        .laser-container {
-            position: relative;
-            overflow: hidden;
-        }
-        .laser-line {
-            position: absolute;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #CCFF00, transparent);
-            box-shadow: 0 0 12px #CCFF00;
-            animation: scan-laser 2.5s infinite linear;
-            pointer-events: none;
-        }
-
-        /* Bounce-in animation for notifications */
-        @keyframes spring-bounce {
-            0% { transform: translate(-50%, -40px) scale(0.9); opacity: 0; }
-            50% { transform: translate(-50%, 20px) scale(1.03); }
-            100% { transform: translate(-50%, 12px) scale(1); opacity: 1; }
-        }
-        .toast-bounce {
-            animation: spring-bounce 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        .pulse-soft {
+            animation: subtle-pulse 2s infinite ease-in-out;
         }
 
         /* Hide native scrollbars on mobile */
@@ -145,9 +94,9 @@
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between pb-24 md:pb-8 selection:bg-cyberlime selection:text-obsidian">
+<body class="min-h-screen flex flex-col justify-between pb-24 md:pb-8 selection:bg-forest selection:text-white">
 
-    <div id="root" class="w-full max-w-7xl mx-auto p-3 sm:p-5 md:p-8 flex-grow"></div>
+    <div id="root" class="w-full max-w-7xl mx-auto p-4 sm:p-6 md:p-8 flex-grow"></div>
 
     <!-- React and Babel Standalone for direct execution in browser -->
     <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
@@ -159,52 +108,51 @@
 
         const MY_TEXT = "AQ.Ab8RN6KvKgP9yzeXwZfQL1ewoM0ARnpe6QxRm8q3VqmzNoVzGw";
 
-        // Tailored designer SVG Icons with modern styling
+        // Clean, elegant vector icons
         const FlameIcon = () => (
-            <svg className="w-6 h-6 text-obsidian" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
             </svg>
         );
 
         const InfoIcon = () => (
-            <svg className="w-4 h-4 text-cyberlime" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 text-forest" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
         );
 
         const KeyIcon = () => (
-            <svg className="w-4 h-4 text-cyberlime" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 text-forest" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 7a2 2 0 012 2m-5 3a5 5 0 11-7.778 7.778 5.5 5.5 0 017.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4" />
             </svg>
         );
 
         const ShieldCheckIcon = () => (
-            <svg className="w-5 h-5 text-cyberlime" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 text-forest" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
             </svg>
         );
 
         const FileTextIcon = () => (
-            <svg className="w-5 h-5 text-cyberlime" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 text-forest" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
         );
 
-        const SparklesIcon = ({ className = "w-5 h-5 text-cyberlime" }) => (
+        const SparklesIcon = ({ className = "w-5 h-5 text-forest" }) => (
             <svg className={className} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
             </svg>
         );
 
         const HistoryIcon = () => (
-            <svg className="w-4 h-4 text-warmcoral" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 text-moss" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
         );
 
         const AlertTriangleIcon = () => (
-            <svg className="w-5 h-5 text-warmcoral flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 text-terracotta flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
             </svg>
         );
@@ -288,12 +236,12 @@
             const loadDemoRecipe = () => {
                 setRecipeText("גביע קוטג' 5% (250 גרם)\n2 ביצים\n3 כפות קמח שיבולת שועל (כ-30 גרם)\nקורט מלח ופלפל");
                 setServings(2);
-                showToast("🍳 מתכון לדוגמה נטען באהבה!");
+                showToast("🍳 מתכון לדוגמה נטען!");
             };
 
             const clearRecipeText = () => {
                 setRecipeText("");
-                showToast("✨ טופס הניתוח נוקה");
+                showToast("✨ הטופס נוקה");
             };
 
             useEffect(() => {
@@ -312,7 +260,7 @@
                     }
                     return filtered;
                 });
-                showToast("🗑️ המתכון הוסר מהארכיון");
+                showToast("🗑️ המתכון הוסר מההיסטוריה");
             };
 
             const handleAnalyzeRecipe = async (e) => {
@@ -328,16 +276,14 @@
                 const systemInstruction = `
                     You are an elite, professional nutritional science analyst and sports dietitian.
                     Analyze the recipe text provided by the user. Convert all ingredients into precise weights in grams and estimate their calories, protein, carbs, and fats correctly.
-                    Estimate the physical state of the dish (e.g. liquid, thick paste, baking, light powder) and provide a smart estimated average weight of ONE single tablespoon of this combined recipe in "gramsPerTablespoon" (e.g., honey is ~21g, water/milk/soups are ~15g, heavy spreads/peanut butter are ~18-24g, light powders/cereals/coconut are ~5-8g).
-                    Respond ONLY with a valid, clean JSON object. Do not include markdown code block syntax (like \`\`\`json) or any preamble or wrap up. Just raw JSON.
-                    The JSON structure must match this exact format:
+                    Respond ONLY with a valid, clean JSON object matching this exact format:
                     {
                       "recipeName": "Provide a descriptive name in Hebrew",
                       "totalCalories": total recipe calories (integer),
                       "totalWeightGrams": total weight of ingredients in grams (integer),
                       "caloriesPer100g": calories per 100g (integer),
-                      "caloriesPerTablespoon": calories in one average tablespoon of this combined recipe (integer),
-                      "gramsPerTablespoon": weight of one tablespoon of this recipe in grams (integer),
+                      "caloriesPerTablespoon": calories in one average tablespoon (integer),
+                      "gramsPerTablespoon": weight of one tablespoon in grams (integer),
                       "totalProtein": total protein in recipe in grams (integer),
                       "totalCarbs": total carbohydrates in recipe in grams (integer),
                       "totalFats": total fats in recipe in grams (integer),
@@ -346,20 +292,19 @@
                           "originalText": "the original line of text",
                           "cleanName": "clean Hebrew name of ingredient",
                           "weightGrams": estimated weight in grams (integer),
-                          "calories": estimated calories for this quantity (integer),
-                          "protein": estimated protein in grams (integer),
-                          "carbs": estimated carbohydrates in grams (integer),
-                          "fats": estimated fats in grams (integer)
+                          "calories": estimated calories (integer),
+                          "protein": estimated protein (integer),
+                          "carbs": estimated carbohydrates (integer),
+                          "fats": estimated fats (integer)
                         }
                       ],
-                      "dietaryNotes": ["up to 3 tags in Hebrew about the recipe, e.g., 'דל פחמימה', 'חלבון גבוה', 'טבעוני', 'קל להכנה'"]
+                      "dietaryNotes": ["up to 3 tags in Hebrew"]
                     }
                 `;
 
                 const userPrompt = `
                     Recipe text to analyze:
                     ${recipeText}
-                    
                     Number of planned servings: ${servings}
                 `;
 
@@ -368,23 +313,17 @@
                         "https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=" + apiKey,
                         {
                             method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                            },
+                            headers: { "Content-Type": "application/json" },
                             body: JSON.stringify({
                                 contents: [{ parts: [{ text: userPrompt }] }],
-                                systemInstruction: {
-                                    parts: [{ text: systemInstruction }]
-                                },
-                                generationConfig: {
-                                    responseMimeType: "application/json"
-                                }
+                                systemInstruction: { parts: [{ text: systemInstruction }] },
+                                generationConfig: { responseMimeType: "application/json" }
                             })
                         }
                     );
 
                     if (!response.ok) {
-                        throw new Error("שגיאה בתקשורת עם שרת ה-AI. ודאי שמפתח ה-API תקין.");
+                        throw new Error("שגיאה בתקשורת עם שרת ה-AI.");
                     }
 
                     const data = await response.json();
@@ -392,10 +331,8 @@
                     if (data && data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0]) {
                         rawText = data.candidates[0].content.parts[0].text;
                     }
-                    
-                    if (!rawText) {
-                        throw new Error("לא התקבלו נתונים תקינים מהאנליזה.");
-                    }
+
+                    if (!rawText) throw new Error("לא התקבלו נתונים תקינים מהאנליזה.");
 
                     const parsedResult = JSON.parse(rawText);
                     parsedResult.servings = parseInt(servings) || 1;
@@ -406,10 +343,10 @@
                     setHistory(prev => [parsedResult, ...prev.filter(item => item.id !== "demo-1")]);
                     setActiveTab("serving");
                     setMobileSection("calculator");
-                    showToast("🥗 המתכון נותח באופן מושלם!");
+                    showToast("🥗 המתכון נותח בהצלחה!");
                 } catch (err) {
                     console.error(err);
-                    setError(err.message || "אירעה שגיאה בתהליך הניתוח. אנא נסי שנית.");
+                    setError(err.message || "אירעה שגיאה בתהליך הניתוח.");
                 } finally {
                     setLoading(false);
                 }
@@ -417,12 +354,11 @@
 
             const selectFromHistory = (item) => {
                 setAnalysisResult(item);
-                // Preserve full text recovery if original recipeText wasn't empty or save was simulated
                 setRecipeText("");
                 setServings(item.servings || 4);
                 setActiveTab("serving");
                 setMobileSection("calculator");
-                showToast(`📂 נטען מהארכיון: ${item.recipeName}`);
+                showToast(`📂 נטען: ${item.recipeName}`);
             };
 
             const getCalculatedMetrics = () => {
@@ -538,59 +474,56 @@
             };
 
             return (
-                <div className="space-y-6 md:space-y-8">
+                <div className="space-y-6 md:space-y-10">
 
-                    {/* Exquisite Spring Toast Notification */}
+                    {/* Editorial Subtle Toast */}
                     {toastMessage && (
-                        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 bg-cyberlime text-obsidian px-5 py-3 rounded-full shadow-2xl font-black text-xs sm:text-sm flex items-center gap-2 border border-white/20 toast-bounce">
-                            <SparklesIcon className="w-4 h-4 text-obsidian" />
+                        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 bg-forest text-white px-6 py-3 rounded-xl shadow-xl font-medium text-xs sm:text-sm flex items-center gap-2 border border-white/10 pulse-soft">
+                            <SparklesIcon className="w-4 h-4 text-white" />
                             <span>{toastMessage}</span>
                         </div>
                     )}
 
-                    {/* Premium Header - Asymmetrical high-contrast layout */}
-                    <header className="flex justify-between items-center pb-5 border-b border-white/5 relative">
-                        <div className="absolute -top-12 -left-12 w-48 h-48 bg-cyberlime/5 rounded-full blur-3xl pointer-events-none"></div>
-                        <div className="flex items-center gap-3">
-                            <div className="bg-cyberlime text-obsidian p-2.5 rounded-2xl shadow-[0_0_20px_rgba(204,255,0,0.3)] flex items-center justify-center btn-spring">
+                    {/* Sophisticated Editorial Header */}
+                    <header className="flex justify-between items-end pb-6 border-b border-sand relative">
+                        <div className="flex items-center gap-4">
+                            <div className="bg-forest text-white p-3 rounded-2xl flex items-center justify-center shadow-sm btn-editorial">
                                 <FlameIcon />
                             </div>
                             <div>
-                                <h1 className="text-2xl font-black tracking-tight text-white flex items-center gap-2">
-                                    <span className="font-extrabold">FitBite</span>
-                                    <span className="text-[10px] bg-cyberlime/10 text-cyberlime px-2.5 py-0.5 rounded-full font-bold border border-cyberlime/20 tracking-wider">AI CRAFTED</span>
+                                <h1 className="text-3xl font-extrabold tracking-tight text-forest font-serif italic">
+                                    FitBite <span className="font-sans text-xs not-italic font-bold tracking-wider bg-sage text-moss px-2 py-0.5 rounded-full border border-sand">WELLNESS</span>
                                 </h1>
-                                <p className="text-[11px] text-slate-400 font-medium">מחשבון תזונה בעיצוב אנושי מהפכני</p>
+                                <p className="text-xs text-moss font-semibold tracking-wide">מחשבון תזונה אישי ומתכונים בעיצוב נקי ומוקפד</p>
                             </div>
                         </div>
 
-                        {/* Custom elevated Settings Trigger */}
+                        {/* Beautiful minimal settings trigger */}
                         <button
                             onClick={() => setShowSettings(!showSettings)}
-                            className="bg-carbon border border-white/5 hover:border-cyberlime/30 text-slate-300 px-3.5 py-2 rounded-xl text-xs flex items-center gap-2 transition-all btn-spring shadow-lg"
+                            className="bg-white border border-sand hover:border-forest/35 text-moss px-4 py-2 rounded-xl text-xs flex items-center gap-2 transition-all btn-editorial shadow-sm font-semibold"
                         >
                             <KeyIcon />
-                            <span className="hidden sm:inline font-bold">מפתח AI</span>
+                            <span className="hidden sm:inline">הגדרות API</span>
                         </button>
                     </header>
 
                     {/* Settings Panel */}
                     {showSettings && (
-                        <div className="p-5 bg-carbon border border-cyberlime/20 rounded-2xl glow-radial-lime transition-all space-y-3">
-                            <h3 className="text-sm font-bold text-cyberlime flex items-center gap-2">
+                        <div className="p-6 bg-white border border-sand rounded-3xl space-y-3 shadow-sm max-w-xl">
+                            <h3 className="text-sm font-bold text-forest flex items-center gap-2">
                                 <ShieldCheckIcon />
-                                הגדרת מפתח ה-API האישי שלך ל-Gemini
+                                הגדרת מפתח Gemini API האישי
                             </h3>
-                            <p className="text-xs text-slate-400 leading-relaxed max-w-2xl">
-                                האפליקציה מאובטחת ומאחסנת את המפתח בדפדפן המקומי שלך בלבד. המפתח שהוגדר מראש מאפשר שימוש חופשי ונוח ללא הגבלה.
+                            <p className="text-xs text-moss leading-relaxed">
+                                המפתח נשמר בדפדפן שלך בלבד ומאבטח את כל הפניות הניתוח שלך ישירות לשרתי ה-AI.
                             </p>
-                            <div className="flex gap-2 max-w-md">
+                            <div className="flex gap-2">
                                 <input 
                                     type="password" 
                                     value={apiKey} 
                                     onChange={(e) => setApiKey(e.target.value)}
-                                    placeholder="הזיני כאן מפתח API חלופי..."
-                                    className="w-full bg-obsidian border border-white/10 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-300 focus:outline-none focus:border-cyberlime transition-colors"
+                                    className="w-full bg-cream border border-sand rounded-xl px-3 py-2 text-xs sm:text-sm text-earth focus:outline-none focus:border-forest transition-colors font-mono"
                                 />
                                 <button 
                                     onClick={() => {
@@ -598,7 +531,7 @@
                                         setShowSettings(false);
                                         showToast("💾 המפתח עודכן בהצלחה!");
                                     }}
-                                    className="bg-cyberlime text-obsidian font-extrabold px-4 py-2 rounded-xl text-xs btn-spring whitespace-nowrap"
+                                    className="bg-forest text-white font-bold px-4 py-2 rounded-xl text-xs btn-editorial whitespace-nowrap"
                                 >
                                     שמור
                                 </button>
@@ -606,47 +539,43 @@
                         </div>
                     )}
 
-                    {/* Main Workspace Layout */}
+                    {/* Workspace Grid */}
                     <main className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
                         
-                        {/* INPUT PANEL: Asymmetrical left column */}
+                        {/* INPUT PANEL: Soft elegant minimal card */}
                         <section className={`lg:col-span-5 space-y-6 ${mobileSection === 'input' ? 'block' : 'hidden lg:block'}`}>
 
-                            <div className="premium-card p-5 sm:p-6 rounded-3xl relative overflow-hidden glow-radial-lime border-l-2 border-l-cyberlime">
+                            <div className="editorial-card p-6 sm:p-8 rounded-3xl relative overflow-hidden">
                                 
                                 {loading && (
-                                    <div className="laser-container absolute inset-0 bg-obsidian/65 backdrop-blur-sm z-30 flex flex-col items-center justify-center gap-4">
-                                        <div className="laser-line"></div>
-                                        <div className="relative">
-                                            <div className="w-14 h-14 border-4 border-cyberlime/20 border-t-cyberlime rounded-full animate-spin"></div>
-                                            <SparklesIcon className="w-6 h-6 text-cyberlime absolute inset-0 m-auto animate-pulse" />
-                                        </div>
+                                    <div className="absolute inset-0 bg-white/90 backdrop-blur-sm z-30 flex flex-col items-center justify-center gap-4">
+                                        <div className="w-10 h-10 border-2 border-forest/20 border-t-forest rounded-full animate-spin"></div>
                                         <div className="text-center space-y-1">
-                                            <p className="text-sm font-black text-white">ה-AI מנתח את הרכיבים...</p>
-                                            <p className="text-[10px] text-slate-400">הופך טקסט חופשי למשקלים וקלוריות</p>
+                                            <p className="text-sm font-bold text-forest font-serif italic">הבינה המלאכותית מנתחת...</p>
+                                            <p className="text-[10px] text-moss">הופך רכיבים חופשיים לערכים תזונתיים מדויקים</p>
                                         </div>
                                     </div>
                                 )}
 
-                                <form onSubmit={handleAnalyzeRecipe} className="space-y-5">
+                                <form onSubmit={handleAnalyzeRecipe} className="space-y-6">
                                     <div className="flex justify-between items-center">
-                                        <label className="text-sm sm:text-base font-extrabold text-white flex items-center gap-2">
+                                        <label className="text-sm sm:text-base font-bold text-forest flex items-center gap-2">
                                             <FileTextIcon />
-                                            הזיני או הדביקי את המתכון
+                                            רשמי או הדביקי את רכיבי המתכון שלך
                                         </label>
 
                                         <div className="flex gap-1.5">
                                             <button
                                                 type="button"
                                                 onClick={loadDemoRecipe}
-                                                className="text-[10px] bg-white/5 hover:bg-cyberlime/10 text-cyberlime border border-cyberlime/20 px-3 py-1.5 rounded-lg font-bold btn-spring"
+                                                className="text-[11px] bg-sage hover:bg-forest/10 text-forest px-3 py-1.5 rounded-lg font-bold btn-editorial"
                                             >
-                                                דוגמה מהירה
+                                                מתכון לדוגמה
                                             </button>
                                             <button
                                                 type="button"
                                                 onClick={clearRecipeText}
-                                                className="text-[10px] bg-white/5 hover:bg-warmcoral/10 text-warmcoral border border-warmcoral/20 p-1.5 rounded-lg font-bold btn-spring"
+                                                className="text-[11px] bg-cream hover:bg-terracotta/10 text-terracotta border border-sand p-1.5 rounded-lg font-bold btn-editorial"
                                                 title="נקי הכל"
                                             >
                                                 <TrashIcon />
@@ -658,29 +587,29 @@
                                         rows="7"
                                         value={recipeText}
                                         onChange={(e) => setRecipeText(e.target.value)}
-                                        placeholder="לדוגמה:&#10;חצי גביע קוטג' 5%&#10;כוס חד פעמית שיבולת שועל דקה&#10;כף אחת סילאן טבעי&#10;ביצה אחת לארג'"
-                                        className="w-full bg-obsidian/80 border border-white/10 focus:border-cyberlime rounded-2xl p-4 text-xs sm:text-sm text-slate-200 placeholder-slate-600 focus:outline-none transition-all resize-none focus:ring-2 focus:ring-cyberlime/10 leading-relaxed font-medium"
+                                        placeholder="למשל:&#10;חצי כוס שיבולת שועל דקה (כ-40 גרם)&#10;גביע קוטג' 5%&#10;2 ביצים לארג'&#10;חצי כפית דבש למתיקות"
+                                        className="w-full bg-cream border border-sand focus:border-forest rounded-2xl p-4 text-xs sm:text-sm text-earth placeholder-moss/50 focus:outline-none transition-all resize-none focus:ring-1 focus:ring-forest/20 leading-relaxed font-medium shadow-inner"
                                     ></textarea>
 
-                                    {/* Elevated physical serving selector */}
-                                    <div className="bg-obsidian/60 p-4 rounded-2xl border border-white/5 flex items-center justify-between">
+                                    {/* Minimal serving selector */}
+                                    <div className="bg-sage/50 p-4 rounded-2xl border border-sand/80 flex items-center justify-between">
                                         <div className="space-y-0.5">
-                                            <span className="text-xs sm:text-sm font-black text-slate-300 block">חלוקה למנות</span>
-                                            <span className="text-[10px] text-slate-500 block">חישוב קלוריות וערכים למנה יחידה</span>
+                                            <span className="text-xs sm:text-sm font-bold text-forest block">כמה מנות במתכון?</span>
+                                            <span className="text-[11px] text-moss block">לחישוב וחלוקה אישית</span>
                                         </div>
                                         <div className="flex items-center gap-3">
                                             <button 
                                                 type="button"
                                                 onClick={() => setServings(Math.max(1, servings - 1))}
-                                                className="w-10 h-10 bg-carbon hover:bg-slateice text-white rounded-xl flex items-center justify-center font-bold text-xl border border-white/10 btn-spring"
+                                                className="w-10 h-10 bg-white hover:bg-sage text-forest rounded-xl flex items-center justify-center font-bold text-xl border border-sand btn-editorial"
                                             >
                                                 -
                                             </button>
-                                            <span className="text-xl font-black text-cyberlime w-6 text-center font-mono">{servings}</span>
+                                            <span className="text-xl font-bold text-forest w-6 text-center">{servings}</span>
                                             <button 
                                                 type="button"
                                                 onClick={() => setServings(servings + 1)}
-                                                className="w-10 h-10 bg-carbon hover:bg-slateice text-white rounded-xl flex items-center justify-center font-bold text-xl border border-white/10 btn-spring"
+                                                className="w-10 h-10 bg-white hover:bg-sage text-forest rounded-xl flex items-center justify-center font-bold text-xl border border-sand btn-editorial"
                                             >
                                                 +
                                             </button>
@@ -690,22 +619,22 @@
                                     <button 
                                         type="submit"
                                         disabled={loading}
-                                        className="w-full py-4 bg-cyberlime hover:bg-opacity-90 text-obsidian font-black rounded-2xl transition-all flex items-center justify-center gap-2 btn-spring shadow-[0_4px_25px_rgba(204,255,0,0.25)] text-sm sm:text-base disabled:opacity-50"
+                                        className="w-full py-4 bg-forest hover:bg-opacity-95 text-white font-bold rounded-2xl transition-all flex items-center justify-center gap-2 btn-editorial shadow-md text-sm sm:text-base disabled:opacity-50"
                                     >
-                                        <SparklesIcon className="w-5 h-5 text-obsidian" />
-                                        <span>נתחי וחשבי ערכים</span>
+                                        <SparklesIcon className="w-5 h-5 text-white" />
+                                        <span>חשבי ערכים מזינים</span>
                                     </button>
                                 </form>
                             </div>
 
-                            {/* Recent Analysis Archive */}
-                            <div className="premium-card p-4 sm:p-5 rounded-3xl space-y-4">
-                                <h4 className="text-xs sm:text-sm font-extrabold text-slate-400 flex items-center gap-2">
+                            {/* Minimal Elegant Recipe Archive */}
+                            <div className="editorial-card p-5 rounded-3xl space-y-4">
+                                <h4 className="text-xs sm:text-sm font-bold text-moss flex items-center gap-2">
                                     <HistoryIcon />
-                                    ארכיון מתכונים לאחרונה
+                                    מתכונים שמורים בארכיון
                                 </h4>
                                 {history.length === 0 ? (
-                                    <p className="text-[11px] text-slate-600 leading-relaxed">המתכונים שתנתחי יישמרו כאן אוטומטית לשימוש מהיר חוזר.</p>
+                                    <p className="text-[11px] text-moss/60 leading-relaxed">המתכונים שתנתחי יישמרו כאן אוטומטית לגישה נוחה.</p>
                                 ) : (
                                     <div className="flex gap-2.5 lg:grid lg:grid-cols-1 overflow-x-auto pb-1 lg:pb-0 lg:max-h-[260px] lg:overflow-y-auto no-scrollbar">
                                         {history.map((item) => {
@@ -714,24 +643,24 @@
                                                 <div 
                                                     key={item.id}
                                                     onClick={() => selectFromHistory(item)}
-                                                    className={`p-3.5 rounded-2xl border text-right cursor-pointer transition-all flex justify-between items-center gap-4 min-w-[240px] lg:min-w-0 group btn-spring ${
+                                                    className={`p-3.5 rounded-2xl border text-right cursor-pointer transition-all flex justify-between items-center gap-4 min-w-[240px] lg:min-w-0 group btn-editorial ${
                                                         isSelected 
-                                                        ? 'bg-cyberlime/10 border-cyberlime/40 text-white shadow-lg'
-                                                        : 'bg-obsidian/40 border-white/5 hover:border-white/10 text-slate-300'
+                                                        ? 'bg-sage border-forest text-forest shadow-sm'
+                                                        : 'bg-cream border-sand hover:border-moss/45 text-earth'
                                                     }`}
                                                 >
                                                     <div className="truncate flex-grow">
-                                                        <span className="text-xs sm:text-sm font-black block truncate text-slate-100">{item.recipeName}</span>
-                                                        <span className="text-[10px] text-slate-500 font-mono">{item.totalCalories} kcal | Prot: {item.totalProtein || 0}g</span>
+                                                        <span className="text-xs sm:text-sm font-bold block truncate text-forest font-serif italic">{item.recipeName}</span>
+                                                        <span className="text-[10px] text-moss">{item.totalCalories} קלוריות | חלבון: {item.totalProtein || 0}ג׳</span>
                                                     </div>
                                                     <div className="flex items-center gap-2 flex-shrink-0">
-                                                        <span className="text-[10px] bg-obsidian text-cyberlime px-2 py-1.5 rounded-lg font-black border border-cyberlime/10 font-mono">
-                                                            {item.caloriesPerServing || Math.round(item.totalCalories / (item.servings || 1))} kcal
+                                                        <span className="text-[10px] bg-white text-forest px-2 py-1.5 rounded-lg border border-sand font-bold">
+                                                            {item.caloriesPerServing || Math.round(item.totalCalories / (item.servings || 1))} קל׳
                                                         </span>
                                                         <button
                                                             onClick={(e) => deleteFromHistory(item.id, e)}
-                                                            className="p-2 bg-warmcoral/5 hover:bg-warmcoral/20 text-warmcoral rounded-xl transition-colors border border-warmcoral/10"
-                                                            title="מחק מהיסטוריה"
+                                                            className="p-2 bg-white hover:bg-terracotta/10 text-terracotta rounded-xl transition-colors border border-sand"
+                                                            title="הסר מההיסטוריה"
                                                         >
                                                             <TrashIcon />
                                                         </button>
@@ -744,46 +673,46 @@
                             </div>
                         </section>
 
-                        {/* CALCULATION RESULTS PANEL: Chef's Ticket Design */}
+                        {/* CALCULATION RESULTS PANEL: Clean, Editorial Wellness Design */}
                         <section className={`lg:col-span-7 space-y-6 ${mobileSection === 'calculator' ? 'block' : 'hidden lg:block'}`}>
 
                             {error && (
-                                <div className="bg-warmcoral/10 border border-warmcoral/20 text-warmcoral p-4 rounded-2xl flex items-center gap-3 text-xs sm:text-sm">
+                                <div className="bg-terracotta/10 border border-terracotta/20 text-terracotta p-4 rounded-2xl flex items-center gap-3 text-xs sm:text-sm">
                                     <AlertTriangleIcon />
                                     <p className="font-bold">{error}</p>
                                 </div>
                             )}
 
                             {!analysisResult ? (
-                                <div className="premium-card p-10 sm:p-14 rounded-3xl flex flex-col items-center justify-center text-center space-y-5 border-dashed border-white/10 glow-radial-coral">
-                                    <div className="w-16 h-16 bg-carbon border border-white/5 text-slate-600 rounded-2xl flex items-center justify-center shadow-inner">
-                                        <SparklesIcon className="w-7 h-7 text-slate-500" />
+                                <div className="editorial-card p-10 sm:p-14 rounded-3xl flex flex-col items-center justify-center text-center space-y-5">
+                                    <div className="w-14 h-14 bg-sage border border-sand text-moss rounded-2xl flex items-center justify-center shadow-inner">
+                                        <SparklesIcon className="w-6 h-6 text-forest" />
                                     </div>
                                     <div className="space-y-2 max-w-sm">
-                                        <h3 className="text-base sm:text-lg font-black text-white">ממתין למתכון המזין שלך</h3>
-                                        <p className="text-xs text-slate-400 leading-relaxed">
-                                            הזיני את רשימת הרכיבים בצד ימין, לחצי על כפתור הניתוח ותקבלי פירוט ערכים מדויק ומחשבון כפות אינטראקטיבי מעוצב!
+                                        <h3 className="text-base sm:text-lg font-bold text-forest font-serif italic">ממתין למתכון המבריא שלך</h3>
+                                        <p className="text-xs text-moss leading-relaxed">
+                                            הזיני את רכיבי המתכון שלך מצד ימין, נתחי אותו בבינה מלאכותית ותקבלי פירוט מעוצב, נקי ומדויק של כל הערכים.
                                         </p>
                                     </div>
                                     <button
                                         type="button"
                                         onClick={loadDemoRecipe}
-                                        className="bg-cyberlime/10 border border-cyberlime/20 hover:bg-cyberlime/20 text-cyberlime px-5 py-2.5 rounded-2xl text-xs font-black btn-spring tracking-wide"
+                                        className="bg-forest/5 hover:bg-forest/10 text-forest px-5 py-2.5 rounded-2xl text-xs font-bold btn-editorial"
                                     >
-                                        בדיקה מהירה עם מתכון לדוגמה 👈
+                                        בדקי אותנו עם מתכון לדוגמה 👈
                                     </button>
                                 </div>
                             ) : (
                                 <div className="space-y-6">
 
-                                    {/* The Chef's Premium Receipt Ticket */}
-                                    <div className="kitchen-ticket p-6 rounded-t-3xl relative overflow-hidden glow-radial-coral border-r-2 border-r-warmcoral">
+                                    {/* The Clean Editorial Wellness Sheet */}
+                                    <div className="editorial-card p-6 sm:p-8 rounded-3xl space-y-6">
 
                                         {/* Ticket header details */}
-                                        <div className="flex justify-between items-start gap-3 pb-4 border-b border-white/5">
+                                        <div className="flex justify-between items-center pb-4 border-b border-sand">
                                             <div className="flex flex-wrap gap-1.5">
                                                 {analysisResult.dietaryNotes && analysisResult.dietaryNotes.map((note, idx) => (
-                                                    <span key={idx} className="text-[10px] bg-warmcoral/10 border border-warmcoral/20 text-warmcoral px-2.5 py-0.5 rounded-full font-extrabold">
+                                                    <span key={idx} className="text-[10px] bg-sage border border-sand text-forest px-3 py-1 rounded-full font-bold">
                                                         {note}
                                                     </span>
                                                 ))}
@@ -791,21 +720,21 @@
 
                                             <button
                                                 onClick={copySummaryToClipboard}
-                                                className="bg-white/5 hover:bg-cyberlime/10 border border-white/10 hover:border-cyberlime/30 text-slate-300 hover:text-cyberlime px-3 py-1.5 rounded-xl text-[11px] font-black flex items-center gap-1.5 transition-all btn-spring"
+                                                className="bg-cream hover:bg-forest/10 border border-sand hover:border-forest/20 text-forest px-3.5 py-1.5 rounded-xl text-[11px] font-bold flex items-center gap-1.5 transition-all btn-editorial"
                                             >
                                                 <CopyIcon />
                                                 <span>העתקת סיכום</span>
                                             </button>
                                         </div>
 
-                                        <div className="pt-4 space-y-4">
+                                        <div className="space-y-4">
                                             <div className="space-y-1">
-                                                <span className="text-[10px] font-bold text-warmcoral tracking-widest block uppercase">ANALYZED RECIPE</span>
-                                                <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">{analysisResult.recipeName}</h2>
+                                                <span className="text-[10px] font-bold text-terracotta tracking-wider block uppercase">מתכון מנותח במלואו</span>
+                                                <h2 className="text-2xl sm:text-3xl font-bold text-forest font-serif italic">{analysisResult.recipeName}</h2>
                                             </div>
 
-                                            {/* Design-forward Segmented Selector tabs */}
-                                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 p-1 bg-obsidian/80 rounded-2xl border border-white/5">
+                                            {/* Beautiful Editorial Tabs */}
+                                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 p-1 bg-cream rounded-2xl border border-sand">
                                                 {[
                                                     { key: "serving", label: "לפי מנה" },
                                                     { key: "tablespoon", label: "לפי כף" },
@@ -816,10 +745,10 @@
                                                         key={t.key}
                                                         type="button"
                                                         onClick={() => setActiveTab(t.key)}
-                                                        className={`py-2 px-1 rounded-xl text-xs font-black transition-all btn-spring ${
+                                                        className={`py-2 px-1 rounded-xl text-xs font-bold transition-all btn-editorial ${
                                                             activeTab === t.key
-                                                            ? 'bg-cyberlime text-obsidian shadow-lg shadow-cyberlime/10 font-black'
-                                                            : 'text-slate-400 hover:text-white hover:bg-white/5'
+                                                            ? 'bg-forest text-white shadow-sm'
+                                                            : 'text-moss hover:text-forest hover:bg-sage/40'
                                                         }`}
                                                     >
                                                         {t.label}
@@ -827,80 +756,79 @@
                                                 ))}
                                             </div>
 
-                                            {/* Primary Giant Display metric */}
-                                            <div className="bg-obsidian/70 p-5 sm:p-6 rounded-2xl border border-white/5 text-center relative overflow-hidden">
-                                                <div className="absolute top-0 right-0 w-24 h-24 bg-warmcoral/5 rounded-full blur-2xl pointer-events-none"></div>
+                                            {/* Primary Display Metric Area */}
+                                            <div className="bg-sage/30 p-6 sm:p-8 rounded-2xl border border-sand/80 text-center space-y-4">
                                                 <div className="space-y-1">
-                                                    <span className="text-cyberlime text-[11px] font-black tracking-wider block">{currentMetric.label}</span>
+                                                    <span className="text-terracotta text-[11px] font-bold tracking-wider block uppercase">{currentMetric.label}</span>
                                                     <div className="flex items-baseline justify-center gap-1">
-                                                        <span className="text-5xl sm:text-6xl font-black text-white tracking-tighter font-mono">{currentMetric.val}</span>
-                                                        <span className="text-xs sm:text-sm font-black text-slate-400 uppercase">kcal</span>
+                                                        <span className="text-5xl sm:text-6xl font-extrabold text-forest font-serif">{currentMetric.val}</span>
+                                                        <span className="text-xs sm:text-sm font-bold text-moss uppercase">קלוריות</span>
                                                     </div>
-                                                    <p className="text-[11px] text-slate-500 font-medium leading-relaxed">{currentMetric.sub}</p>
+                                                    <p className="text-[11px] text-moss font-medium leading-relaxed max-w-md mx-auto">{currentMetric.sub}</p>
                                                 </div>
 
-                                                {/* Premium custom macronutrient visual progress meters */}
-                                                <div className="grid grid-cols-3 gap-3 pt-5 mt-4 border-t border-white/5">
+                                                {/* Premium Macronutrient Indicators */}
+                                                <div className="grid grid-cols-3 gap-3 pt-6 border-t border-sand">
 
-                                                    {/* Protein Card */}
-                                                    <div className="p-2 bg-blue-500/5 rounded-xl border border-blue-500/10 text-center">
-                                                        <span className="text-[10px] text-blue-400 font-black block mb-0.5">חלבון</span>
-                                                        <span className="text-sm sm:text-base font-black text-white font-mono">{currentMetric.protein || 0}g</span>
-                                                        <div className="w-full bg-obsidian h-1.5 rounded-full overflow-hidden mt-1.5">
-                                                            <div className="bg-blue-400 h-full rounded-full" style={{ width: `${Math.min(100, ((currentMetric.protein || 0) / ((currentMetric.protein || 1) + (currentMetric.carbs || 1) + (currentMetric.fats || 1))) * 100)}%` }}></div>
+                                                    {/* Protein */}
+                                                    <div className="p-3 bg-white rounded-xl border border-sand text-center">
+                                                        <span className="text-[10px] text-moss font-bold block mb-0.5">חלבון</span>
+                                                        <span className="text-sm sm:text-base font-extrabold text-forest">{currentMetric.protein || 0}ג׳</span>
+                                                        <div className="w-full bg-cream h-1.5 rounded-full overflow-hidden mt-2 border border-sand/50">
+                                                            <div className="bg-forest h-full rounded-full" style={{ width: `${Math.min(100, ((currentMetric.protein || 0) / ((currentMetric.protein || 1) + (currentMetric.carbs || 1) + (currentMetric.fats || 1))) * 100)}%` }}></div>
                                                         </div>
                                                     </div>
 
-                                                    {/* Carbs Card */}
-                                                    <div className="p-2 bg-amber-500/5 rounded-xl border border-amber-500/10 text-center">
-                                                        <span className="text-[10px] text-amber-400 font-black block mb-0.5">פחמימות</span>
-                                                        <span className="text-sm sm:text-base font-black text-white font-mono">{currentMetric.carbs || 0}g</span>
-                                                        <div className="w-full bg-obsidian h-1.5 rounded-full overflow-hidden mt-1.5">
-                                                            <div className="bg-amber-400 h-full rounded-full" style={{ width: `${Math.min(100, ((currentMetric.carbs || 0) / ((currentMetric.protein || 1) + (currentMetric.carbs || 1) + (currentMetric.fats || 1))) * 100)}%` }}></div>
+                                                    {/* Carbs */}
+                                                    <div className="p-3 bg-white rounded-xl border border-sand text-center">
+                                                        <span className="text-[10px] text-moss font-bold block mb-0.5">פחמימות</span>
+                                                        <span className="text-sm sm:text-base font-extrabold text-forest">{currentMetric.carbs || 0}ג׳</span>
+                                                        <div className="w-full bg-cream h-1.5 rounded-full overflow-hidden mt-2 border border-sand/50">
+                                                            <div className="bg-terracotta h-full rounded-full" style={{ width: `${Math.min(100, ((currentMetric.carbs || 0) / ((currentMetric.protein || 1) + (currentMetric.carbs || 1) + (currentMetric.fats || 1))) * 100)}%` }}></div>
                                                         </div>
                                                     </div>
 
-                                                    {/* Fats Card */}
-                                                    <div className="p-2 bg-rose-500/5 rounded-xl border border-rose-500/10 text-center">
-                                                        <span className="text-[10px] text-rose-400 font-black block mb-0.5">שומנים</span>
-                                                        <span className="text-sm sm:text-base font-black text-white font-mono">{currentMetric.fats || 0}g</span>
-                                                        <div className="w-full bg-obsidian h-1.5 rounded-full overflow-hidden mt-1.5">
-                                                            <div className="bg-rose-400 h-full rounded-full" style={{ width: `${Math.min(100, ((currentMetric.fats || 0) / ((currentMetric.protein || 1) + (currentMetric.carbs || 1) + (currentMetric.fats || 1))) * 100)}%` }}></div>
+                                                    {/* Fats */}
+                                                    <div className="p-3 bg-white rounded-xl border border-sand text-center">
+                                                        <span className="text-[10px] text-moss font-bold block mb-0.5">שומנים</span>
+                                                        <span className="text-sm sm:text-base font-extrabold text-forest">{currentMetric.fats || 0}ג׳</span>
+                                                        <div className="w-full bg-cream h-1.5 rounded-full overflow-hidden mt-2 border border-sand/50">
+                                                            <div className="bg-moss h-full rounded-full" style={{ width: `${Math.min(100, ((currentMetric.fats || 0) / ((currentMetric.protein || 1) + (currentMetric.carbs || 1) + (currentMetric.fats || 1))) * 100)}%` }}></div>
                                                         </div>
                                                     </div>
 
                                                 </div>
                                             </div>
 
-                                            {/* Precise Real-weight Calibration controls */}
-                                            <div className="bg-white/[0.02] border border-white/5 p-4 rounded-2xl space-y-4">
+                                            {/* Calibration Section */}
+                                            <div className="bg-cream border border-sand p-5 rounded-2xl space-y-4">
                                                 <div className="flex items-center justify-between">
-                                                    <span className="text-xs font-black text-cyberlime flex items-center gap-1.5">
+                                                    <span className="text-xs font-bold text-forest flex items-center gap-1.5">
                                                         <InfoIcon />
-                                                        כיול ודיוק קולינרי (לפי השקילה במטבח)
+                                                        כיול ודיוק המתכון (לפי משקל מבושל בפועל)
                                                     </span>
-                                                    <span className="text-[9px] bg-cyberlime/10 text-cyberlime px-2 py-0.5 rounded font-black tracking-wider">LAB GRADE</span>
+                                                    <span className="text-[9px] bg-sage border border-sand text-forest px-2.5 py-0.5 rounded font-bold tracking-wider uppercase">מחשבון מדויק</span>
                                                 </div>
 
-                                                <div className="space-y-3.5">
+                                                <div className="space-y-4">
                                                     {/* Cooked weight adjustment */}
-                                                    <div className="bg-obsidian/60 p-3.5 rounded-xl border border-white/5 space-y-2.5">
+                                                    <div className="bg-white p-4 rounded-xl border border-sand space-y-3">
                                                         <div className="flex justify-between items-center">
-                                                            <span className="text-xs text-slate-300 font-bold">משקל המנה המוכנה הסופי (גרם):</span>
-                                                            <span className="text-xs text-cyberlime font-black bg-cyberlime/10 px-2.5 py-1 rounded-lg border border-cyberlime/20 font-mono">{cookedWeight}g</span>
+                                                            <span className="text-xs text-moss font-bold">המשקל הסופי המבושל או האפוי (בגרמים):</span>
+                                                            <span className="text-xs text-forest font-bold bg-sage px-2.5 py-1 rounded-lg border border-sand">{cookedWeight} גרם</span>
                                                         </div>
                                                         <div className="flex items-center gap-2">
                                                             <button
                                                                 type="button"
                                                                 onClick={() => adjustCookedWeight(-50)}
-                                                                className="flex-1 py-1.5 bg-carbon hover:bg-slateice text-[11px] text-slate-300 font-black rounded-lg border border-white/5 btn-spring font-mono"
+                                                                className="flex-1 py-1.5 bg-cream hover:bg-sage text-[11px] text-forest font-bold rounded-lg border border-sand btn-editorial"
                                                             >
                                                                 -50
                                                             </button>
                                                             <button
                                                                 type="button"
                                                                 onClick={() => adjustCookedWeight(-10)}
-                                                                className="flex-1 py-1.5 bg-carbon hover:bg-slateice text-[11px] text-slate-300 font-black rounded-lg border border-white/5 btn-spring font-mono"
+                                                                className="flex-1 py-1.5 bg-cream hover:bg-sage text-[11px] text-forest font-bold rounded-lg border border-sand btn-editorial"
                                                             >
                                                                 -10
                                                             </button>
@@ -917,60 +845,60 @@
                                                                 onBlur={() => {
                                                                     if (cookedWeight === 0) setCookedWeight(analysisResult.totalWeightGrams || 100);
                                                                 }}
-                                                                className="w-16 bg-obsidian border border-cyberlime/30 text-center text-sm font-black text-white rounded-lg py-1 focus:outline-none focus:border-cyberlime font-mono"
+                                                                className="w-16 bg-cream border border-sand text-center text-sm font-bold text-forest rounded-lg py-1 focus:outline-none focus:border-forest"
                                                             />
 
                                                             <button
                                                                 type="button"
                                                                 onClick={() => adjustCookedWeight(10)}
-                                                                className="flex-1 py-1.5 bg-carbon hover:bg-slateice text-[11px] text-slate-300 font-black rounded-lg border border-white/5 btn-spring font-mono"
+                                                                className="flex-1 py-1.5 bg-cream hover:bg-sage text-[11px] text-forest font-bold rounded-lg border border-sand btn-editorial"
                                                             >
                                                                 +10
                                                             </button>
                                                             <button
                                                                 type="button"
                                                                 onClick={() => adjustCookedWeight(50)}
-                                                                className="flex-1 py-1.5 bg-carbon hover:bg-slateice text-[11px] text-slate-300 font-black rounded-lg border border-white/5 btn-spring font-mono"
+                                                                className="flex-1 py-1.5 bg-cream hover:bg-sage text-[11px] text-forest font-bold rounded-lg border border-sand btn-editorial"
                                                             >
                                                                 +50
                                                             </button>
                                                         </div>
                                                         <div className="flex flex-wrap items-center gap-1.5 pt-1">
-                                                            <span className="text-[10px] text-slate-500 font-bold">קיצורי דרך:</span>
+                                                            <span className="text-[10px] text-moss font-bold">קיצורי משקל:</span>
                                                             <button
                                                                 type="button"
                                                                 onClick={() => setCookedWeight(analysisResult.totalWeightGrams)}
-                                                                className="text-[9px] bg-carbon hover:bg-slateice text-slate-300 px-2.5 py-1 rounded-lg border border-white/5 btn-spring font-bold"
+                                                                className="text-[9px] bg-cream hover:bg-sage text-moss px-2.5 py-1 rounded-lg border border-sand btn-editorial font-semibold"
                                                             >
-                                                                מקורי ({analysisResult.totalWeightGrams}ג')
+                                                                משקל מקורי ({analysisResult.totalWeightGrams}ג')
                                                             </button>
                                                             <button
                                                                 type="button"
                                                                 onClick={() => setCookedWeight(Math.round(analysisResult.totalWeightGrams * 0.7))}
-                                                                className="text-[9px] bg-carbon hover:bg-slateice text-slate-300 px-2.5 py-1 rounded-lg border border-white/5 btn-spring font-bold"
+                                                                className="text-[9px] bg-cream hover:bg-sage text-moss px-2.5 py-1 rounded-lg border border-sand btn-editorial font-semibold"
                                                             >
-                                                                צמצום נוזלים/אפייה (-30%)
+                                                                צמצום באפייה (-30%)
                                                             </button>
                                                         </div>
                                                     </div>
 
-                                                    {/* Tablespoon Weight block with easy controls */}
-                                                    <div className="bg-obsidian/60 p-3.5 rounded-xl border border-white/5 space-y-2.5">
+                                                    {/* Tablespoon Weight block */}
+                                                    <div className="bg-white p-4 rounded-xl border border-sand space-y-3">
                                                         <div className="flex justify-between items-center">
-                                                            <span className="text-xs text-slate-300 font-bold">משקל כף ממוצעת למתכון זה:</span>
+                                                            <span className="text-xs text-moss font-bold">משקל כף הגשה אחת:</span>
                                                             <div className="flex items-center gap-2">
                                                                 <button
                                                                     type="button"
                                                                     onClick={() => setTableSpoonWeight(Math.max(1, tableSpoonWeight - 1))}
-                                                                    className="w-8 h-8 bg-carbon text-cyberlime font-black rounded-lg flex items-center justify-center border border-white/5 btn-spring"
+                                                                    className="w-8 h-8 bg-cream text-forest font-bold rounded-lg flex items-center justify-center border border-sand btn-editorial"
                                                                 >
                                                                     -
                                                                 </button>
-                                                                <span className="text-xs text-white font-black font-mono w-8 text-center">{tableSpoonWeight}g</span>
+                                                                <span className="text-xs text-forest font-bold w-8 text-center">{tableSpoonWeight}ג׳</span>
                                                                 <button
                                                                     type="button"
                                                                     onClick={() => setTableSpoonWeight(tableSpoonWeight + 1)}
-                                                                    className="w-8 h-8 bg-carbon text-cyberlime font-black rounded-lg flex items-center justify-center border border-white/5 btn-spring"
+                                                                    className="w-8 h-8 bg-cream text-forest font-bold rounded-lg flex items-center justify-center border border-sand btn-editorial"
                                                                 >
                                                                     +
                                                                 </button>
@@ -978,18 +906,18 @@
                                                         </div>
                                                         <div className="grid grid-cols-3 gap-1.5">
                                                             {[
-                                                                { w: 6, label: "קלה ~6ג׳ (פלקס)" },
-                                                                { w: 15, label: "בינונית ~15ג׳ (נוזל)" },
-                                                                { w: 24, label: "כבדה ~24ג׳ (ממרח)" }
+                                                                { w: 6, label: "קלה ~6ג׳ (קורנפלקס)" },
+                                                                { w: 15, label: "בינונית ~15ג׳ (נוזל/מרק)" },
+                                                                { w: 24, label: "כבדה ~24ג׳ (ממרח/פירה)" }
                                                             ].map((opt) => (
                                                                 <button
                                                                     key={opt.w}
                                                                     type="button"
                                                                     onClick={() => setTableSpoonWeight(opt.w)}
-                                                                    className={`text-[10px] py-2 px-1 rounded-lg text-center border transition-all btn-spring font-bold ${
+                                                                    className={`text-[10px] py-2 px-1 rounded-lg text-center border transition-all btn-editorial font-bold ${
                                                                         tableSpoonWeight === opt.w
-                                                                        ? 'bg-cyberlime text-obsidian border-cyberlime'
-                                                                        : 'bg-carbon/50 border-white/5 text-slate-400'
+                                                                        ? 'bg-forest text-white border-forest'
+                                                                        : 'bg-cream border-sand text-moss'
                                                                     }`}
                                                                 >
                                                                     {opt.label}
@@ -1001,24 +929,24 @@
                                                 </div>
                                             </div>
 
-                                            {/* Custom Gram calculation box */}
+                                            {/* Custom Gram box */}
                                             {activeTab === "custom" && (
-                                                <div className="p-4 bg-obsidian rounded-2xl border border-white/5 space-y-3.5">
-                                                    <h4 className="text-xs font-black text-slate-300">הגדירי כמות צריכה בגרמים בצלחת:</h4>
+                                                <div className="p-4 bg-cream rounded-2xl border border-sand space-y-3.5">
+                                                    <h4 className="text-xs font-bold text-forest">הגדירי כמות צריכה בגרמים בצלחת:</h4>
                                                     <div className="flex items-center gap-2">
                                                         <button
                                                             type="button"
                                                             onClick={() => adjustCustomGrams(-50)}
-                                                            className="px-2.5 py-1.5 bg-carbon hover:bg-slateice text-[10px] font-black rounded-lg border border-white/5 btn-spring font-mono"
+                                                            className="px-2.5 py-1.5 bg-white hover:bg-sage text-[10px] font-bold rounded-lg border border-sand btn-editorial"
                                                         >
-                                                            -50g
+                                                            -50ג׳
                                                         </button>
                                                         <button
                                                             type="button"
                                                             onClick={() => adjustCustomGrams(-10)}
-                                                            className="px-2.5 py-1.5 bg-carbon hover:bg-slateice text-[10px] font-black rounded-lg border border-white/5 btn-spring font-mono"
+                                                            className="px-2.5 py-1.5 bg-white hover:bg-sage text-[10px] font-bold rounded-lg border border-sand btn-editorial"
                                                         >
-                                                            -10g
+                                                            -10ג׳
                                                         </button>
 
                                                         <input
@@ -1033,22 +961,22 @@
                                                             onBlur={() => {
                                                                 if (customGrams === 0) setCustomGrams(100);
                                                             }}
-                                                            className="flex-grow bg-obsidian border border-cyberlime/30 rounded-xl py-2 text-center text-sm font-black text-white focus:outline-none focus:border-cyberlime font-mono"
+                                                            className="flex-grow bg-white border border-sand rounded-xl py-2 text-center text-sm font-bold text-forest focus:outline-none focus:border-forest"
                                                         />
 
                                                         <button
                                                             type="button"
                                                             onClick={() => adjustCustomGrams(10)}
-                                                            className="px-2.5 py-1.5 bg-carbon hover:bg-slateice text-[10px] font-black rounded-lg border border-white/5 btn-spring font-mono"
+                                                            className="px-2.5 py-1.5 bg-white hover:bg-sage text-[10px] font-bold rounded-lg border border-sand btn-editorial"
                                                         >
-                                                            +10g
+                                                            +10ג׳
                                                         </button>
                                                         <button
                                                             type="button"
                                                             onClick={() => adjustCustomGrams(50)}
-                                                            className="px-2.5 py-1.5 bg-carbon hover:bg-slateice text-[10px] font-black rounded-lg border border-white/5 btn-spring font-mono"
+                                                            className="px-2.5 py-1.5 bg-white hover:bg-sage text-[10px] font-bold rounded-lg border border-sand btn-editorial"
                                                         >
-                                                            +50g
+                                                            +50ג׳
                                                         </button>
                                                     </div>
 
@@ -1058,72 +986,72 @@
                                                                 key={v}
                                                                 type="button"
                                                                 onClick={() => setCustomGrams(v)}
-                                                                className={`py-1.5 text-[10px] font-black rounded-lg border text-center transition-colors btn-spring font-mono ${
+                                                                className={`py-1.5 text-[10px] font-bold rounded-lg border text-center transition-colors btn-editorial ${
                                                                     customGrams === v
-                                                                    ? 'bg-cyberlime border-cyberlime text-obsidian'
-                                                                    : 'bg-carbon/50 border-white/5 text-slate-400 hover:bg-slateice'
+                                                                    ? 'bg-forest border-forest text-white'
+                                                                    : 'bg-white border-sand text-moss'
                                                                 }`}
                                                             >
-                                                                {v}g
+                                                                {v}ג׳
                                                             </button>
                                                         ))}
                                                     </div>
 
-                                                    <div className="pt-3 border-t border-white/5 flex justify-between items-center text-[11px] font-bold text-slate-400">
+                                                    <div className="pt-3 border-t border-sand flex justify-between items-center text-[11px] font-bold text-moss">
                                                         <span>חלוקת כפות הגשה משוערכת:</span>
-                                                        <span className="text-cyberlime font-black bg-cyberlime/5 px-2.5 py-1 rounded-lg border border-cyberlime/10 font-mono">
+                                                        <span className="text-forest font-bold bg-sage px-2.5 py-1 rounded-lg border border-sand">
                                                             {Math.round((customGrams / (tableSpoonWeight || 15)) * 10) / 10} כפות
                                                         </span>
                                                     </div>
                                                 </div>
                                             )}
 
-                                            {/* Overview stats table */}
-                                            <div className="grid grid-cols-3 gap-2 pt-3 border-t border-white/5 text-center">
-                                                <div className="bg-obsidian/40 p-2.5 rounded-xl border border-white/5">
-                                                    <span className="text-[10px] text-slate-500 font-bold block">סה"כ קלוריות</span>
-                                                    <span className="text-xs sm:text-sm font-black text-white font-mono">{analysisResult.totalCalories}</span>
+                                            {/* Overview Stats */}
+                                            <div className="grid grid-cols-3 gap-2 pt-3 border-t border-sand text-center">
+                                                <div className="bg-cream p-2.5 rounded-xl border border-sand">
+                                                    <span className="text-[10px] text-moss font-bold block">סה"כ במתכון</span>
+                                                    <span className="text-xs sm:text-sm font-bold text-forest">{analysisResult.totalCalories} קל׳</span>
                                                 </div>
-                                                <div className="bg-obsidian/40 p-2.5 rounded-xl border border-white/5">
-                                                    <span className="text-[10px] text-slate-500 font-bold block">משקל מבושל</span>
-                                                    <span className="text-xs sm:text-sm font-black text-white font-mono">{cookedWeight}g</span>
+                                                <div className="bg-cream p-2.5 rounded-xl border border-sand">
+                                                    <span className="text-[10px] text-moss font-bold block">משקל מבושל</span>
+                                                    <span className="text-xs sm:text-sm font-bold text-forest">{cookedWeight} גרם</span>
                                                 </div>
-                                                <div className="bg-obsidian/40 p-2.5 rounded-xl border border-white/5">
-                                                    <span className="text-[10px] text-slate-500 font-bold block">כף הגשה</span>
-                                                    <span className="text-xs sm:text-sm font-black text-white font-mono">~{tableSpoonWeight}g</span>
+                                                <div className="bg-cream p-2.5 rounded-xl border border-sand">
+                                                    <span className="text-[10px] text-moss font-bold block">כף הגשה</span>
+                                                    <span className="text-xs sm:text-sm font-bold text-forest">~{tableSpoonWeight} גרם</span>
                                                 </div>
                                             </div>
 
                                         </div>
                                     </div>
 
-                                    {/* Ingredient Breakdown Table */}
-                                    <div className="premium-card p-5 sm:p-6 rounded-3xl space-y-4">
-                                        <h3 className="text-xs sm:text-sm font-black text-slate-300 flex items-center justify-between">
+                                    {/* Ingredient Breakdown */}
+                                    <div className="editorial-card p-6 rounded-3xl space-y-4">
+                                        <h3 className="text-xs sm:text-sm font-bold text-forest flex items-center justify-between">
                                             <span className="flex items-center gap-2">
-                                                <span className="w-1.5 h-1.5 bg-cyberlime rounded-full"></span>
-                                                פירוט וניתוח הרכיבים (AI Smart)
+                                                <span className="w-1.5 h-1.5 bg-forest rounded-full"></span>
+                                                פירוט רכיבים תזונתיים
                                             </span>
-                                            <span className="text-[10px] text-slate-500 uppercase">Ingredient Breakdown</span>
+                                            <span className="text-[10px] text-moss uppercase font-semibold">פירוט AI</span>
                                         </h3>
 
-                                        <div className="divide-y divide-white/5">
+                                        <div className="divide-y divide-sand">
                                             {analysisResult.ingredients && analysisResult.ingredients.map((ing, index) => (
                                                 <div key={index} className="py-3.5 flex justify-between items-start text-xs sm:text-sm gap-3 first:pt-0 last:pb-0">
                                                     <div className="space-y-1.5 flex-grow">
-                                                        <span className="font-extrabold text-slate-100 block leading-tight">{ing.cleanName}</span>
-                                                        <span className="text-[11px] text-slate-500 block leading-relaxed">{ing.originalText}</span>
+                                                        <span className="font-bold text-forest block leading-tight">{ing.cleanName}</span>
+                                                        <span className="text-[11px] text-moss block leading-relaxed">{ing.originalText}</span>
 
-                                                        {/* Nutrient chip badges */}
+                                                        {/* Nutrient chips */}
                                                         <div className="flex flex-wrap gap-1.5 items-center pt-0.5">
-                                                            <span className="text-[9px] bg-blue-500/10 text-blue-400 px-2 py-0.5 rounded font-bold font-mono">P: {ing.protein || 0}g</span>
-                                                            <span className="text-[9px] bg-amber-500/10 text-amber-400 px-2 py-0.5 rounded font-bold font-mono">C: {ing.carbs || 0}g</span>
-                                                            <span className="text-[9px] bg-rose-500/10 text-rose-400 px-2 py-0.5 rounded font-bold font-mono">F: {ing.fats || 0}g</span>
+                                                            <span className="text-[9px] bg-sage text-forest px-2 py-0.5 rounded font-bold">חלבון: {ing.protein || 0}ג׳</span>
+                                                            <span className="text-[9px] bg-cream border border-sand text-terracotta px-2 py-0.5 rounded font-bold">פחמימות: {ing.carbs || 0}ג׳</span>
+                                                            <span className="text-[9px] bg-cream border border-sand text-moss px-2 py-0.5 rounded font-bold">שומן: {ing.fats || 0}ג׳</span>
                                                         </div>
                                                     </div>
                                                     <div className="text-left flex-shrink-0">
-                                                        <span className="font-black text-white block text-sm sm:text-base font-mono">{ing.calories} kcal</span>
-                                                        <span className="text-[10px] text-cyberlime block font-bold font-mono">~ {ing.weightGrams}g</span>
+                                                        <span className="font-bold text-forest block text-sm sm:text-base">{ing.calories} קל׳</span>
+                                                        <span className="text-[10px] text-moss block font-bold">~ {ing.weightGrams} גרם</span>
                                                     </div>
                                                 </div>
                                             ))}
@@ -1136,41 +1064,41 @@
 
                     </main>
 
-                    {/* Exquisite Footer */}
-                    <footer className="pt-8 pb-4 border-t border-white/5 text-center text-[11px] text-slate-500 space-y-1">
-                        <p className="font-bold">© 2026 FitBite AI • עוצב מחדש באופן אנושי וייחודי לטלפונים</p>
-                        <p className="max-w-md mx-auto text-[10px] leading-relaxed px-4 text-slate-600">
+                    {/* Exquisite Minimal Footer */}
+                    <footer className="pt-8 pb-4 border-t border-sand text-center text-[11px] text-moss space-y-1">
+                        <p className="font-bold text-forest">© 2026 FitBite AI • עוצב מחדש בעיצוב פרימיום נקי לטלפונים</p>
+                        <p className="max-w-md mx-auto text-[10px] leading-relaxed px-4 text-moss/70">
                             מחשבון תזונה זה משתמש בטכנולוגיית בינה מלאכותית מתקדמת לזיהוי רכיבים וכמויות. מומלץ תמיד לוודא מוצרי אריזה מסוימים באופן ידני.
                         </p>
                     </footer>
 
                     {/* Sticky, ergonomic bottom navigation on Mobile */}
-                    <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-obsidian/95 backdrop-blur-xl border-t border-white/5 px-6 py-3 flex justify-around items-center shadow-[0_-10px_35px_rgba(0,0,0,0.8)] pb-safe">
+                    <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-xl border-t border-sand px-6 py-3 flex justify-around items-center shadow-lg pb-safe">
 
                         <button
                             onClick={() => setMobileSection("input")}
-                            className={`flex flex-col items-center gap-1 transition-all ${mobileSection === 'input' ? 'text-cyberlime' : 'text-slate-500'}`}
+                            className={`flex flex-col items-center gap-1 transition-all ${mobileSection === 'input' ? 'text-forest' : 'text-moss/65'}`}
                         >
-                            <div className={`p-2 rounded-xl transition-colors ${mobileSection === 'input' ? 'bg-cyberlime/10' : 'bg-transparent'}`}>
+                            <div className={`p-2 rounded-xl transition-colors ${mobileSection === 'input' ? 'bg-sage' : 'bg-transparent'}`}>
                                 <svg className="w-5.5 h-5.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                 </svg>
                             </div>
-                            <span className="text-[11px] font-black">המתכון שלי</span>
+                            <span className="text-[11px] font-bold">המתכון שלי</span>
                         </button>
 
                         <button
                             onClick={() => setMobileSection("calculator")}
-                            className={`flex flex-col items-center gap-1 transition-all relative ${mobileSection === 'calculator' ? 'text-cyberlime' : 'text-slate-500'}`}
+                            className={`flex flex-col items-center gap-1 transition-all relative ${mobileSection === 'calculator' ? 'text-forest' : 'text-moss/65'}`}
                         >
-                            <div className={`p-2 rounded-xl transition-colors ${mobileSection === 'calculator' ? 'bg-cyberlime/10' : 'bg-transparent'}`}>
+                            <div className={`p-2 rounded-xl transition-colors ${mobileSection === 'calculator' ? 'bg-sage' : 'bg-transparent'}`}>
                                 <svg className="w-5.5 h-5.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                                 </svg>
                             </div>
-                            <span className="text-[11px] font-black">מחשבון קלוריות</span>
+                            <span className="text-[11px] font-bold">מחשבון קלוריות</span>
                             {analysisResult && (
-                                <span className="absolute top-2.5 right-6.5 w-2 h-2 bg-cyberlime rounded-full animate-ping"></span>
+                                <span className="absolute top-2.5 right-6.5 w-2 h-2 bg-forest rounded-full animate-ping"></span>
                             )}
                         </button>
 
