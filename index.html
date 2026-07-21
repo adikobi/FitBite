@@ -6,25 +6,46 @@
     <title>FitBite AI — מחשבון תזונה ומתכונים אישי</title>
     <!-- Tailwind CSS for modern sleek styling -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Assistant for crisp, modern Hebrew and Playfair Display for premium serif details -->
-    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,800;1,400&display=swap" rel="stylesheet">
+    <!-- Google Fonts: Rubik for modern, gorgeous, highly-readable premium Hebrew UI -->
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
 
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
-                        cream: '#FDFBF7',      /* Soft luxury ivory backdrop */
-                        sage: '#F3F6F1',       /* Calming soft sage surface */
-                        forest: '#1B3B2B',     /* Rich deep editorial green */
-                        moss: '#4A614C',       /* Earthy dark green */
-                        terracotta: '#D47E61', /* Warm clay highlight */
-                        earth: '#2E2B27',      /* Soft charcoal-brown for readable text */
-                        sand: '#EAE6DD',       /* Gentle borders */
+                        cream: {
+                            DEFAULT: '#FAF8F5',
+                            dark: '#0B0D12'
+                        },
+                        cardbg: {
+                            light: '#FFFFFF',
+                            dark: '#141822'
+                        },
+                        textmain: {
+                            light: '#1F2421',
+                            dark: '#F3F4F6'
+                        },
+                        textsub: {
+                            light: '#5E6662',
+                            dark: '#9CA3AF'
+                        },
+                        forest: {
+                            DEFAULT: '#133B2C',
+                            dark: '#24D294'
+                        },
+                        terracotta: {
+                            DEFAULT: '#CE7E5E',
+                            dark: '#F08B65'
+                        },
+                        sage: {
+                            DEFAULT: '#EDF1EB',
+                            dark: '#1B232F'
+                        }
                     },
                     fontFamily: {
-                        sans: ['Assistant', 'sans-serif'],
-                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Rubik', 'sans-serif'],
                     }
                 }
             }
@@ -33,55 +54,45 @@
 
     <style>
         body {
-            font-family: 'Assistant', sans-serif;
-            background-color: #FDFBF7;
-            color: #2E2B27;
+            font-family: 'Rubik', sans-serif;
             -webkit-tap-highlight-color: transparent;
             overflow-x: hidden;
+            transition: background-color 0.4s ease, color 0.4s ease;
         }
 
-        /* Custom elegant scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #FDFBF7;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #1B3B2B;
-            border-radius: 3px;
+        /* Frameless fluid shadow & depth transitions - no nested borders */
+        .organic-card {
+            background-color: var(--card-bg);
+            box-shadow: 0 10px 40px -10px var(--shadow-color);
+            border: none;
+            border-radius: 24px;
+            transition: background-color 0.4s ease, box-shadow 0.4s ease, transform 0.2s ease;
         }
 
-        /* Editorial minimal shadows */
-        .editorial-card {
-            background: #FFFFFF;
-            border: 1px solid #EAE6DD;
-            box-shadow: 0 4px 20px -2px rgba(46, 43, 39, 0.04);
+        /* Tactile Spring Buttons */
+        .btn-premium {
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.2s ease, opacity 0.2s ease;
+        }
+        .btn-premium:active {
+            transform: scale(0.95);
         }
 
-        /* Interactive spring transitions */
-        .btn-editorial {
-            transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-        .btn-editorial:active {
-            transform: scale(0.96);
+        /* Custom soft radial glow layers (No hard boxes) */
+        .glow-accent {
+            background: radial-gradient(circle at 50% 0%, var(--glow-color) 0%, transparent 75%);
+            pointer-events: none;
         }
 
-        @media (hover: hover) {
-            .btn-editorial:hover {
-                transform: translateY(-1px);
-            }
+        /* Light/Dark dynamic variables */
+        :root {
+            --card-bg: #FFFFFF;
+            --shadow-color: rgba(31, 36, 33, 0.05);
+            --glow-color: rgba(19, 59, 44, 0.04);
         }
-
-        /* Custom subtle pulsing scanner line for loading state */
-        @keyframes subtle-pulse {
-            0% { opacity: 0.3; }
-            50% { opacity: 0.8; }
-            100% { opacity: 0.3; }
-        }
-        .pulse-soft {
-            animation: subtle-pulse 2s infinite ease-in-out;
+        .dark {
+            --card-bg: #141822;
+            --shadow-color: rgba(0, 0, 0, 0.4);
+            --glow-color: rgba(36, 210, 148, 0.05);
         }
 
         /* Hide native scrollbars on mobile */
@@ -94,7 +105,7 @@
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between pb-24 md:pb-8 selection:bg-forest selection:text-white">
+<body class="min-h-screen bg-cream text-textmain dark:bg-cream-dark dark:text-textmain-dark flex flex-col justify-between pb-24 md:pb-8 selection:bg-forest selection:text-white dark:selection:bg-forest-dark dark:selection:text-black">
 
     <div id="root" class="w-full max-w-7xl mx-auto p-4 sm:p-6 md:p-8 flex-grow"></div>
 
@@ -108,45 +119,46 @@
 
         const MY_TEXT = "AQ.Ab8RN6KvKgP9yzeXwZfQL1ewoM0ARnpe6QxRm8q3VqmzNoVzGw";
 
-        // Clean, elegant vector icons
+        // Modern flat icons
         const FlameIcon = () => (
-            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
         );
 
         const InfoIcon = () => (
-            <svg className="w-4 h-4 text-forest" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            <svg className="w-4 h-4 text-forest dark:text-forest-dark" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 16v-4m0-4h.01" />
             </svg>
         );
 
         const KeyIcon = () => (
-            <svg className="w-4 h-4 text-forest" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 text-forest dark:text-forest-dark" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 7a2 2 0 012 2m-5 3a5 5 0 11-7.778 7.778 5.5 5.5 0 017.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4" />
             </svg>
         );
 
         const ShieldCheckIcon = () => (
-            <svg className="w-5 h-5 text-forest" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 text-forest dark:text-forest-dark" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
             </svg>
         );
 
         const FileTextIcon = () => (
-            <svg className="w-5 h-5 text-forest" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 text-forest dark:text-forest-dark" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
         );
 
-        const SparklesIcon = ({ className = "w-5 h-5 text-forest" }) => (
+        const SparklesIcon = ({ className = "w-5 h-5 text-forest dark:text-forest-dark" }) => (
             <svg className={className} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
             </svg>
         );
 
         const HistoryIcon = () => (
-            <svg className="w-4 h-4 text-moss" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 text-forest dark:text-forest-dark" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
         );
@@ -169,7 +181,40 @@
             </svg>
         );
 
+        const MoonIcon = () => (
+            <svg className="w-5 h-5 text-forest dark:text-forest-dark" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+            </svg>
+        );
+
+        const SunIcon = () => (
+            <svg className="w-5 h-5 text-forest dark:text-forest-dark" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
+            </svg>
+        );
+
         function RecipeApp() {
+            // Theme State initialized from localStorage or prefers-color-scheme
+            const [theme, setTheme] = useState(() => {
+                const saved = localStorage.getItem("fitbite_theme");
+                if (saved) return saved;
+                return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+            });
+
+            useEffect(() => {
+                const rootEl = document.documentElement;
+                if (theme === "dark") {
+                    rootEl.classList.add("dark");
+                } else {
+                    rootEl.classList.remove("dark");
+                }
+                localStorage.setItem("fitbite_theme", theme);
+            }, [theme]);
+
+            const toggleTheme = () => {
+                setTheme(prev => prev === "light" ? "dark" : "light");
+            };
+
             const [apiKey, setApiKey] = useState(() => {
                 return localStorage.getItem("fitbite_api_key") || MY_TEXT;
             });
@@ -241,7 +286,7 @@
 
             const clearRecipeText = () => {
                 setRecipeText("");
-                showToast("✨ הטופס נוקה");
+                showToast("✨ טופס הניתוח נוקה");
             };
 
             useEffect(() => {
@@ -476,46 +521,58 @@
             return (
                 <div className="space-y-6 md:space-y-10">
 
-                    {/* Editorial Subtle Toast */}
+                    {/* Modern Frameless Spring Toast */}
                     {toastMessage && (
-                        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 bg-forest text-white px-6 py-3 rounded-xl shadow-xl font-medium text-xs sm:text-sm flex items-center gap-2 border border-white/10 pulse-soft">
-                            <SparklesIcon className="w-4 h-4 text-white" />
+                        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 bg-forest text-white dark:bg-forest-dark dark:text-cream-dark px-6 py-3.5 rounded-2xl shadow-2xl font-semibold text-xs sm:text-sm flex items-center gap-2 border border-white/10 dark:border-black/20 animate-pulse">
+                            <SparklesIcon className="w-4 h-4 text-white dark:text-cream-dark" />
                             <span>{toastMessage}</span>
                         </div>
                     )}
 
-                    {/* Sophisticated Editorial Header */}
-                    <header className="flex justify-between items-end pb-6 border-b border-sand relative">
+                    {/* Exquisite Minimal Header with Integrated Theme Toggle */}
+                    <header className="flex justify-between items-center pb-6 border-b border-sage dark:border-sage-dark relative">
                         <div className="flex items-center gap-4">
-                            <div className="bg-forest text-white p-3 rounded-2xl flex items-center justify-center shadow-sm btn-editorial">
+                            <div className="bg-forest text-white dark:bg-forest-dark dark:text-cream-dark p-3.5 rounded-2xl flex items-center justify-center shadow-md shadow-forest/10 dark:shadow-none btn-premium">
                                 <FlameIcon />
                             </div>
                             <div>
-                                <h1 className="text-3xl font-extrabold tracking-tight text-forest font-serif italic">
-                                    FitBite <span className="font-sans text-xs not-italic font-bold tracking-wider bg-sage text-moss px-2 py-0.5 rounded-full border border-sand">WELLNESS</span>
+                                <h1 className="text-3xl font-extrabold tracking-tight text-forest dark:text-forest-dark">
+                                    FitBite <span className="text-xs font-bold tracking-wider bg-sage dark:bg-sage-dark text-forest dark:text-forest-dark px-2.5 py-0.5 rounded-full">AI TASTE</span>
                                 </h1>
-                                <p className="text-xs text-moss font-semibold tracking-wide">מחשבון תזונה אישי ומתכונים בעיצוב נקי ומוקפד</p>
+                                <p className="text-xs text-textsub-light dark:text-textsub-dark font-medium mt-0.5">מחשבון תזונה בעיצוב חלק, מלוטש ותומך במצב כהה</p>
                             </div>
                         </div>
 
-                        {/* Beautiful minimal settings trigger */}
-                        <button
-                            onClick={() => setShowSettings(!showSettings)}
-                            className="bg-white border border-sand hover:border-forest/35 text-moss px-4 py-2 rounded-xl text-xs flex items-center gap-2 transition-all btn-editorial shadow-sm font-semibold"
-                        >
-                            <KeyIcon />
-                            <span className="hidden sm:inline">הגדרות API</span>
-                        </button>
+                        {/* Top controls group */}
+                        <div className="flex items-center gap-2.5">
+                            {/* Manual light/dark theme switch */}
+                            <button
+                                onClick={toggleTheme}
+                                className="p-3 bg-white dark:bg-cardbg-dark border-none rounded-2xl shadow-sm text-textsub-light dark:text-textsub-dark btn-premium"
+                                title="החלף מצב תצוגה"
+                            >
+                                {theme === "light" ? <MoonIcon /> : <SunIcon />}
+                            </button>
+
+                            {/* Settings API button */}
+                            <button
+                                onClick={() => setShowSettings(!showSettings)}
+                                className="bg-white dark:bg-cardbg-dark text-textsub-light dark:text-textsub-dark px-4 py-2.5 rounded-2xl text-xs flex items-center gap-2 transition-all btn-premium shadow-sm font-semibold"
+                            >
+                                <KeyIcon />
+                                <span className="hidden sm:inline">הגדרות AI</span>
+                            </button>
+                        </div>
                     </header>
 
                     {/* Settings Panel */}
                     {showSettings && (
-                        <div className="p-6 bg-white border border-sand rounded-3xl space-y-3 shadow-sm max-w-xl">
-                            <h3 className="text-sm font-bold text-forest flex items-center gap-2">
+                        <div className="p-6 bg-white dark:bg-cardbg-dark rounded-3xl space-y-3 shadow-md">
+                            <h3 className="text-sm font-bold text-forest dark:text-forest-dark flex items-center gap-2">
                                 <ShieldCheckIcon />
                                 הגדרת מפתח Gemini API האישי
                             </h3>
-                            <p className="text-xs text-moss leading-relaxed">
+                            <p className="text-xs text-textsub-light dark:text-textsub-dark leading-relaxed">
                                 המפתח נשמר בדפדפן שלך בלבד ומאבטח את כל הפניות הניתוח שלך ישירות לשרתי ה-AI.
                             </p>
                             <div className="flex gap-2">
@@ -523,7 +580,7 @@
                                     type="password" 
                                     value={apiKey} 
                                     onChange={(e) => setApiKey(e.target.value)}
-                                    className="w-full bg-cream border border-sand rounded-xl px-3 py-2 text-xs sm:text-sm text-earth focus:outline-none focus:border-forest transition-colors font-mono"
+                                    className="w-full bg-cream dark:bg-cream-dark rounded-xl px-4 py-2.5 text-xs sm:text-sm text-textmain-light dark:text-textmain-dark focus:outline-none focus:ring-2 focus:ring-forest dark:focus:ring-forest-dark transition-all font-mono"
                                 />
                                 <button 
                                     onClick={() => {
@@ -531,7 +588,7 @@
                                         setShowSettings(false);
                                         showToast("💾 המפתח עודכן בהצלחה!");
                                     }}
-                                    className="bg-forest text-white font-bold px-4 py-2 rounded-xl text-xs btn-editorial whitespace-nowrap"
+                                    className="bg-forest text-white dark:bg-forest-dark dark:text-cream-dark font-bold px-4 py-2.5 rounded-xl text-xs btn-premium whitespace-nowrap"
                                 >
                                     שמור
                                 </button>
@@ -542,24 +599,25 @@
                     {/* Workspace Grid */}
                     <main className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
                         
-                        {/* INPUT PANEL: Soft elegant minimal card */}
+                        {/* INPUT PANEL: Frameless Floating Concept */}
                         <section className={`lg:col-span-5 space-y-6 ${mobileSection === 'input' ? 'block' : 'hidden lg:block'}`}>
 
-                            <div className="editorial-card p-6 sm:p-8 rounded-3xl relative overflow-hidden">
-                                
+                            <div className="organic-card p-6 sm:p-8 relative overflow-hidden bg-white dark:bg-cardbg-dark">
+                                <div className="glow-accent absolute inset-0 h-40"></div>
+
                                 {loading && (
-                                    <div className="absolute inset-0 bg-white/90 backdrop-blur-sm z-30 flex flex-col items-center justify-center gap-4">
-                                        <div className="w-10 h-10 border-2 border-forest/20 border-t-forest rounded-full animate-spin"></div>
+                                    <div className="absolute inset-0 bg-white/90 dark:bg-cardbg-dark/95 backdrop-blur-sm z-30 flex flex-col items-center justify-center gap-4">
+                                        <div className="w-10 h-10 border-2 border-forest/20 border-t-forest dark:border-forest-dark/20 dark:border-t-forest-dark rounded-full animate-spin"></div>
                                         <div className="text-center space-y-1">
-                                            <p className="text-sm font-bold text-forest font-serif italic">הבינה המלאכותית מנתחת...</p>
-                                            <p className="text-[10px] text-moss">הופך רכיבים חופשיים לערכים תזונתיים מדויקים</p>
+                                            <p className="text-sm font-bold text-forest dark:text-forest-dark font-serif">הבינה המלאכותית מנתחת...</p>
+                                            <p className="text-[10px] text-textsub-light dark:text-textsub-dark">הופך רכיבים חופשיים לערכים תזונתיים מדויקים</p>
                                         </div>
                                     </div>
                                 )}
 
-                                <form onSubmit={handleAnalyzeRecipe} className="space-y-6">
+                                <form onSubmit={handleAnalyzeRecipe} className="space-y-6 relative z-10">
                                     <div className="flex justify-between items-center">
-                                        <label className="text-sm sm:text-base font-bold text-forest flex items-center gap-2">
+                                        <label className="text-sm sm:text-base font-bold text-forest dark:text-forest-dark flex items-center gap-2">
                                             <FileTextIcon />
                                             רשמי או הדביקי את רכיבי המתכון שלך
                                         </label>
@@ -568,14 +626,14 @@
                                             <button
                                                 type="button"
                                                 onClick={loadDemoRecipe}
-                                                className="text-[11px] bg-sage hover:bg-forest/10 text-forest px-3 py-1.5 rounded-lg font-bold btn-editorial"
+                                                className="text-[11px] bg-sage dark:bg-sage-dark hover:bg-forest/15 dark:hover:bg-forest-dark/15 text-forest dark:text-forest-dark px-3 py-1.5 rounded-lg font-bold btn-premium"
                                             >
                                                 מתכון לדוגמה
                                             </button>
                                             <button
                                                 type="button"
                                                 onClick={clearRecipeText}
-                                                className="text-[11px] bg-cream hover:bg-terracotta/10 text-terracotta border border-sand p-1.5 rounded-lg font-bold btn-editorial"
+                                                className="text-[11px] bg-cream dark:bg-cream-dark hover:bg-terracotta/10 text-terracotta p-1.5 rounded-lg font-bold btn-premium"
                                                 title="נקי הכל"
                                             >
                                                 <TrashIcon />
@@ -588,28 +646,28 @@
                                         value={recipeText}
                                         onChange={(e) => setRecipeText(e.target.value)}
                                         placeholder="למשל:&#10;חצי כוס שיבולת שועל דקה (כ-40 גרם)&#10;גביע קוטג' 5%&#10;2 ביצים לארג'&#10;חצי כפית דבש למתיקות"
-                                        className="w-full bg-cream border border-sand focus:border-forest rounded-2xl p-4 text-xs sm:text-sm text-earth placeholder-moss/50 focus:outline-none transition-all resize-none focus:ring-1 focus:ring-forest/20 leading-relaxed font-medium shadow-inner"
+                                        className="w-full bg-cream dark:bg-cream-dark border-none rounded-2xl p-4 text-xs sm:text-sm text-textmain-light dark:text-textmain-dark placeholder-textsub-light/40 dark:placeholder-textsub-dark/40 focus:outline-none transition-all resize-none focus:ring-2 focus:ring-forest dark:focus:ring-forest-dark/30 leading-relaxed font-medium shadow-inner"
                                     ></textarea>
 
                                     {/* Minimal serving selector */}
-                                    <div className="bg-sage/50 p-4 rounded-2xl border border-sand/80 flex items-center justify-between">
+                                    <div className="bg-sage/50 dark:bg-sage-dark/40 p-4 rounded-2xl flex items-center justify-between">
                                         <div className="space-y-0.5">
-                                            <span className="text-xs sm:text-sm font-bold text-forest block">כמה מנות במתכון?</span>
-                                            <span className="text-[11px] text-moss block">לחישוב וחלוקה אישית</span>
+                                            <span className="text-xs sm:text-sm font-bold text-forest dark:text-forest-dark block">כמה מנות במתכון?</span>
+                                            <span className="text-[11px] text-textsub-light dark:text-textsub-dark block">לחישוב וחלוקה אישית</span>
                                         </div>
                                         <div className="flex items-center gap-3">
                                             <button 
                                                 type="button"
                                                 onClick={() => setServings(Math.max(1, servings - 1))}
-                                                className="w-10 h-10 bg-white hover:bg-sage text-forest rounded-xl flex items-center justify-center font-bold text-xl border border-sand btn-editorial"
+                                                className="w-10 h-10 bg-white dark:bg-cardbg-dark text-forest dark:text-forest-dark rounded-xl flex items-center justify-center font-bold text-xl border-none shadow-sm btn-premium"
                                             >
                                                 -
                                             </button>
-                                            <span className="text-xl font-bold text-forest w-6 text-center">{servings}</span>
+                                            <span className="text-xl font-bold text-forest dark:text-forest-dark w-6 text-center">{servings}</span>
                                             <button 
                                                 type="button"
                                                 onClick={() => setServings(servings + 1)}
-                                                className="w-10 h-10 bg-white hover:bg-sage text-forest rounded-xl flex items-center justify-center font-bold text-xl border border-sand btn-editorial"
+                                                className="w-10 h-10 bg-white dark:bg-cardbg-dark text-forest dark:text-forest-dark rounded-xl flex items-center justify-center font-bold text-xl border-none shadow-sm btn-premium"
                                             >
                                                 +
                                             </button>
@@ -619,22 +677,22 @@
                                     <button 
                                         type="submit"
                                         disabled={loading}
-                                        className="w-full py-4 bg-forest hover:bg-opacity-95 text-white font-bold rounded-2xl transition-all flex items-center justify-center gap-2 btn-editorial shadow-md text-sm sm:text-base disabled:opacity-50"
+                                        className="w-full py-4 bg-forest dark:bg-forest-dark text-white dark:text-cream-dark font-bold rounded-2xl transition-all flex items-center justify-center gap-2 btn-premium shadow-lg shadow-forest/10 dark:shadow-none text-sm sm:text-base disabled:opacity-50"
                                     >
-                                        <SparklesIcon className="w-5 h-5 text-white" />
+                                        <SparklesIcon className="w-5 h-5 text-white dark:text-cream-dark" />
                                         <span>חשבי ערכים מזינים</span>
                                     </button>
                                 </form>
                             </div>
 
                             {/* Minimal Elegant Recipe Archive */}
-                            <div className="editorial-card p-5 rounded-3xl space-y-4">
-                                <h4 className="text-xs sm:text-sm font-bold text-moss flex items-center gap-2">
+                            <div className="organic-card p-5 space-y-4 bg-white dark:bg-cardbg-dark">
+                                <h4 className="text-xs sm:text-sm font-bold text-textsub-light dark:text-textsub-dark flex items-center gap-2">
                                     <HistoryIcon />
                                     מתכונים שמורים בארכיון
                                 </h4>
                                 {history.length === 0 ? (
-                                    <p className="text-[11px] text-moss/60 leading-relaxed">המתכונים שתנתחי יישמרו כאן אוטומטית לגישה נוחה.</p>
+                                    <p className="text-[11px] text-textsub-light/60 dark:text-textsub-dark/60 leading-relaxed">המתכונים שתנתחי יישמרו כאן אוטומטית לגישה נוחה.</p>
                                 ) : (
                                     <div className="flex gap-2.5 lg:grid lg:grid-cols-1 overflow-x-auto pb-1 lg:pb-0 lg:max-h-[260px] lg:overflow-y-auto no-scrollbar">
                                         {history.map((item) => {
@@ -643,23 +701,23 @@
                                                 <div 
                                                     key={item.id}
                                                     onClick={() => selectFromHistory(item)}
-                                                    className={`p-3.5 rounded-2xl border text-right cursor-pointer transition-all flex justify-between items-center gap-4 min-w-[240px] lg:min-w-0 group btn-editorial ${
+                                                    className={`p-3.5 rounded-2xl border-none text-right cursor-pointer transition-all flex justify-between items-center gap-4 min-w-[240px] lg:min-w-0 group btn-premium ${
                                                         isSelected 
-                                                        ? 'bg-sage border-forest text-forest shadow-sm'
-                                                        : 'bg-cream border-sand hover:border-moss/45 text-earth'
+                                                        ? 'bg-sage dark:bg-sage-dark text-forest dark:text-forest-dark shadow-inner'
+                                                        : 'bg-cream dark:bg-cream-dark text-textmain-light dark:text-textmain-dark'
                                                     }`}
                                                 >
                                                     <div className="truncate flex-grow">
-                                                        <span className="text-xs sm:text-sm font-bold block truncate text-forest font-serif italic">{item.recipeName}</span>
-                                                        <span className="text-[10px] text-moss">{item.totalCalories} קלוריות | חלבון: {item.totalProtein || 0}ג׳</span>
+                                                        <span className="text-xs sm:text-sm font-bold block truncate text-forest dark:text-forest-dark">{item.recipeName}</span>
+                                                        <span className="text-[10px] text-textsub-light dark:text-textsub-dark">{item.totalCalories} קלוריות | חלבון: {item.totalProtein || 0}ג׳</span>
                                                     </div>
                                                     <div className="flex items-center gap-2 flex-shrink-0">
-                                                        <span className="text-[10px] bg-white text-forest px-2 py-1.5 rounded-lg border border-sand font-bold">
+                                                        <span className="text-[10px] bg-white dark:bg-cardbg-dark text-forest dark:text-forest-dark px-2 py-1.5 rounded-lg font-bold shadow-sm">
                                                             {item.caloriesPerServing || Math.round(item.totalCalories / (item.servings || 1))} קל׳
                                                         </span>
                                                         <button
                                                             onClick={(e) => deleteFromHistory(item.id, e)}
-                                                            className="p-2 bg-white hover:bg-terracotta/10 text-terracotta rounded-xl transition-colors border border-sand"
+                                                            className="p-2 bg-white dark:bg-cardbg-dark hover:bg-terracotta/10 text-terracotta rounded-xl transition-colors shadow-sm"
                                                             title="הסר מההיסטוריה"
                                                         >
                                                             <TrashIcon />
@@ -673,31 +731,31 @@
                             </div>
                         </section>
 
-                        {/* CALCULATION RESULTS PANEL: Clean, Editorial Wellness Design */}
+                        {/* CALCULATION RESULTS PANEL: Clean, Frameless visual system */}
                         <section className={`lg:col-span-7 space-y-6 ${mobileSection === 'calculator' ? 'block' : 'hidden lg:block'}`}>
 
                             {error && (
-                                <div className="bg-terracotta/10 border border-terracotta/20 text-terracotta p-4 rounded-2xl flex items-center gap-3 text-xs sm:text-sm">
+                                <div className="bg-terracotta/10 border-none text-terracotta p-4 rounded-2xl flex items-center gap-3 text-xs sm:text-sm">
                                     <AlertTriangleIcon />
                                     <p className="font-bold">{error}</p>
                                 </div>
                             )}
 
                             {!analysisResult ? (
-                                <div className="editorial-card p-10 sm:p-14 rounded-3xl flex flex-col items-center justify-center text-center space-y-5">
-                                    <div className="w-14 h-14 bg-sage border border-sand text-moss rounded-2xl flex items-center justify-center shadow-inner">
-                                        <SparklesIcon className="w-6 h-6 text-forest" />
+                                <div className="organic-card p-10 sm:p-14 flex flex-col items-center justify-center text-center space-y-5 bg-white dark:bg-cardbg-dark">
+                                    <div className="w-14 h-14 bg-sage dark:bg-sage-dark text-textsub-light rounded-2xl flex items-center justify-center shadow-inner">
+                                        <SparklesIcon className="w-6 h-6 text-forest dark:text-forest-dark" />
                                     </div>
                                     <div className="space-y-2 max-w-sm">
-                                        <h3 className="text-base sm:text-lg font-bold text-forest font-serif italic">ממתין למתכון המבריא שלך</h3>
-                                        <p className="text-xs text-moss leading-relaxed">
+                                        <h3 className="text-base sm:text-lg font-bold text-forest dark:text-forest-dark">ממתין למתכון המבריא שלך</h3>
+                                        <p className="text-xs text-textsub-light dark:text-textsub-dark leading-relaxed">
                                             הזיני את רכיבי המתכון שלך מצד ימין, נתחי אותו בבינה מלאכותית ותקבלי פירוט מעוצב, נקי ומדויק של כל הערכים.
                                         </p>
                                     </div>
                                     <button
                                         type="button"
                                         onClick={loadDemoRecipe}
-                                        className="bg-forest/5 hover:bg-forest/10 text-forest px-5 py-2.5 rounded-2xl text-xs font-bold btn-editorial"
+                                        className="bg-forest/5 dark:bg-forest-dark/10 hover:bg-forest/10 text-forest dark:text-forest-dark px-5 py-2.5 rounded-2xl text-xs font-bold btn-premium"
                                     >
                                         בדקי אותנו עם מתכון לדוגמה 👈
                                     </button>
@@ -705,14 +763,14 @@
                             ) : (
                                 <div className="space-y-6">
 
-                                    {/* The Clean Editorial Wellness Sheet */}
-                                    <div className="editorial-card p-6 sm:p-8 rounded-3xl space-y-6">
+                                    {/* The Clean Frameless sheet */}
+                                    <div className="organic-card p-6 sm:p-8 space-y-6 bg-white dark:bg-cardbg-dark">
 
-                                        {/* Ticket header details */}
-                                        <div className="flex justify-between items-center pb-4 border-b border-sand">
+                                        {/* Header details */}
+                                        <div className="flex justify-between items-center pb-4 border-b border-sage dark:border-sage-dark">
                                             <div className="flex flex-wrap gap-1.5">
                                                 {analysisResult.dietaryNotes && analysisResult.dietaryNotes.map((note, idx) => (
-                                                    <span key={idx} className="text-[10px] bg-sage border border-sand text-forest px-3 py-1 rounded-full font-bold">
+                                                    <span key={idx} className="text-[10px] bg-sage dark:bg-sage-dark text-forest dark:text-forest-dark px-3 py-1 rounded-full font-bold">
                                                         {note}
                                                     </span>
                                                 ))}
@@ -720,7 +778,7 @@
 
                                             <button
                                                 onClick={copySummaryToClipboard}
-                                                className="bg-cream hover:bg-forest/10 border border-sand hover:border-forest/20 text-forest px-3.5 py-1.5 rounded-xl text-[11px] font-bold flex items-center gap-1.5 transition-all btn-editorial"
+                                                className="bg-cream dark:bg-cream-dark hover:bg-forest/10 border-none text-forest dark:text-forest-dark px-3.5 py-1.5 rounded-xl text-[11px] font-bold flex items-center gap-1.5 transition-all btn-premium shadow-sm"
                                             >
                                                 <CopyIcon />
                                                 <span>העתקת סיכום</span>
@@ -729,12 +787,12 @@
 
                                         <div className="space-y-4">
                                             <div className="space-y-1">
-                                                <span className="text-[10px] font-bold text-terracotta tracking-wider block uppercase">מתכון מנותח במלואו</span>
-                                                <h2 className="text-2xl sm:text-3xl font-bold text-forest font-serif italic">{analysisResult.recipeName}</h2>
+                                                <span className="text-[10px] font-bold text-terracotta dark:text-terracotta-dark tracking-wider block uppercase">מתכון מנותח במלואו</span>
+                                                <h2 className="text-2xl sm:text-3xl font-extrabold text-forest dark:text-forest-dark">{analysisResult.recipeName}</h2>
                                             </div>
 
-                                            {/* Beautiful Editorial Tabs */}
-                                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 p-1 bg-cream rounded-2xl border border-sand">
+                                            {/* Frameless Segmented tabs */}
+                                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 p-1.5 bg-cream dark:bg-cream-dark rounded-2xl">
                                                 {[
                                                     { key: "serving", label: "לפי מנה" },
                                                     { key: "tablespoon", label: "לפי כף" },
@@ -745,10 +803,10 @@
                                                         key={t.key}
                                                         type="button"
                                                         onClick={() => setActiveTab(t.key)}
-                                                        className={`py-2 px-1 rounded-xl text-xs font-bold transition-all btn-editorial ${
+                                                        className={`py-2 px-1 rounded-xl text-xs font-bold transition-all btn-premium ${
                                                             activeTab === t.key
-                                                            ? 'bg-forest text-white shadow-sm'
-                                                            : 'text-moss hover:text-forest hover:bg-sage/40'
+                                                            ? 'bg-forest dark:bg-forest-dark text-white dark:text-cream-dark shadow-sm'
+                                                            : 'text-textsub-light dark:text-textsub-dark hover:text-forest dark:hover:text-forest-dark hover:bg-sage/40'
                                                         }`}
                                                     >
                                                         {t.label}
@@ -757,43 +815,43 @@
                                             </div>
 
                                             {/* Primary Display Metric Area */}
-                                            <div className="bg-sage/30 p-6 sm:p-8 rounded-2xl border border-sand/80 text-center space-y-4">
+                                            <div className="bg-sage/30 dark:bg-sage-dark/10 p-6 sm:p-8 rounded-2xl text-center space-y-4">
                                                 <div className="space-y-1">
-                                                    <span className="text-terracotta text-[11px] font-bold tracking-wider block uppercase">{currentMetric.label}</span>
+                                                    <span className="text-terracotta dark:text-terracotta-dark text-[11px] font-bold tracking-wider block uppercase">{currentMetric.label}</span>
                                                     <div className="flex items-baseline justify-center gap-1">
-                                                        <span className="text-5xl sm:text-6xl font-extrabold text-forest font-serif">{currentMetric.val}</span>
-                                                        <span className="text-xs sm:text-sm font-bold text-moss uppercase">קלוריות</span>
+                                                        <span className="text-5xl sm:text-6xl font-black text-forest dark:text-forest-dark font-sans">{currentMetric.val}</span>
+                                                        <span className="text-xs sm:text-sm font-bold text-textsub-light dark:text-textsub-dark uppercase">קלוריות</span>
                                                     </div>
-                                                    <p className="text-[11px] text-moss font-medium leading-relaxed max-w-md mx-auto">{currentMetric.sub}</p>
+                                                    <p className="text-[11px] text-textsub-light dark:text-textsub-dark font-medium leading-relaxed max-w-md mx-auto">{currentMetric.sub}</p>
                                                 </div>
 
-                                                {/* Premium Macronutrient Indicators */}
-                                                <div className="grid grid-cols-3 gap-3 pt-6 border-t border-sand">
+                                                {/* Premium Macronutrient Indicators with progress slides */}
+                                                <div className="grid grid-cols-3 gap-3 pt-6 border-t border-sage dark:border-sage-dark">
 
                                                     {/* Protein */}
-                                                    <div className="p-3 bg-white rounded-xl border border-sand text-center">
-                                                        <span className="text-[10px] text-moss font-bold block mb-0.5">חלבון</span>
-                                                        <span className="text-sm sm:text-base font-extrabold text-forest">{currentMetric.protein || 0}ג׳</span>
-                                                        <div className="w-full bg-cream h-1.5 rounded-full overflow-hidden mt-2 border border-sand/50">
-                                                            <div className="bg-forest h-full rounded-full" style={{ width: `${Math.min(100, ((currentMetric.protein || 0) / ((currentMetric.protein || 1) + (currentMetric.carbs || 1) + (currentMetric.fats || 1))) * 100)}%` }}></div>
+                                                    <div className="p-3 bg-white dark:bg-cardbg-dark rounded-xl text-center shadow-sm">
+                                                        <span className="text-[10px] text-textsub-light dark:text-textsub-dark font-bold block mb-0.5">חלבון</span>
+                                                        <span className="text-sm sm:text-base font-extrabold text-forest dark:text-forest-dark">{currentMetric.protein || 0}ג׳</span>
+                                                        <div className="w-full bg-cream dark:bg-cream-dark h-1.5 rounded-full overflow-hidden mt-2">
+                                                            <div className="bg-forest dark:bg-forest-dark h-full rounded-full" style={{ width: `${Math.min(100, ((currentMetric.protein || 0) / ((currentMetric.protein || 1) + (currentMetric.carbs || 1) + (currentMetric.fats || 1))) * 100)}%` }}></div>
                                                         </div>
                                                     </div>
 
                                                     {/* Carbs */}
-                                                    <div className="p-3 bg-white rounded-xl border border-sand text-center">
-                                                        <span className="text-[10px] text-moss font-bold block mb-0.5">פחמימות</span>
-                                                        <span className="text-sm sm:text-base font-extrabold text-forest">{currentMetric.carbs || 0}ג׳</span>
-                                                        <div className="w-full bg-cream h-1.5 rounded-full overflow-hidden mt-2 border border-sand/50">
-                                                            <div className="bg-terracotta h-full rounded-full" style={{ width: `${Math.min(100, ((currentMetric.carbs || 0) / ((currentMetric.protein || 1) + (currentMetric.carbs || 1) + (currentMetric.fats || 1))) * 100)}%` }}></div>
+                                                    <div className="p-3 bg-white dark:bg-cardbg-dark rounded-xl text-center shadow-sm">
+                                                        <span className="text-[10px] text-textsub-light dark:text-textsub-dark font-bold block mb-0.5">פחמימות</span>
+                                                        <span className="text-sm sm:text-base font-extrabold text-forest dark:text-forest-dark">{currentMetric.carbs || 0}ג׳</span>
+                                                        <div className="w-full bg-cream dark:bg-cream-dark h-1.5 rounded-full overflow-hidden mt-2">
+                                                            <div className="bg-terracotta dark:bg-terracotta-dark h-full rounded-full" style={{ width: `${Math.min(100, ((currentMetric.carbs || 0) / ((currentMetric.protein || 1) + (currentMetric.carbs || 1) + (currentMetric.fats || 1))) * 100)}%` }}></div>
                                                         </div>
                                                     </div>
 
                                                     {/* Fats */}
-                                                    <div className="p-3 bg-white rounded-xl border border-sand text-center">
-                                                        <span className="text-[10px] text-moss font-bold block mb-0.5">שומנים</span>
-                                                        <span className="text-sm sm:text-base font-extrabold text-forest">{currentMetric.fats || 0}ג׳</span>
-                                                        <div className="w-full bg-cream h-1.5 rounded-full overflow-hidden mt-2 border border-sand/50">
-                                                            <div className="bg-moss h-full rounded-full" style={{ width: `${Math.min(100, ((currentMetric.fats || 0) / ((currentMetric.protein || 1) + (currentMetric.carbs || 1) + (currentMetric.fats || 1))) * 100)}%` }}></div>
+                                                    <div className="p-3 bg-white dark:bg-cardbg-dark rounded-xl text-center shadow-sm">
+                                                        <span className="text-[10px] text-textsub-light dark:text-textsub-dark font-bold block mb-0.5">שומנים</span>
+                                                        <span className="text-sm sm:text-base font-extrabold text-forest dark:text-forest-dark">{currentMetric.fats || 0}ג׳</span>
+                                                        <div className="w-full bg-cream dark:bg-cream-dark h-1.5 rounded-full overflow-hidden mt-2">
+                                                            <div className="bg-textsub-light dark:bg-textsub-dark h-full rounded-full" style={{ width: `${Math.min(100, ((currentMetric.fats || 0) / ((currentMetric.protein || 1) + (currentMetric.carbs || 1) + (currentMetric.fats || 1))) * 100)}%` }}></div>
                                                         </div>
                                                     </div>
 
@@ -801,34 +859,34 @@
                                             </div>
 
                                             {/* Calibration Section */}
-                                            <div className="bg-cream border border-sand p-5 rounded-2xl space-y-4">
+                                            <div className="bg-cream dark:bg-cream-dark p-5 rounded-3xl space-y-4">
                                                 <div className="flex items-center justify-between">
-                                                    <span className="text-xs font-bold text-forest flex items-center gap-1.5">
+                                                    <span className="text-xs font-bold text-forest dark:text-forest-dark flex items-center gap-1.5">
                                                         <InfoIcon />
                                                         כיול ודיוק המתכון (לפי משקל מבושל בפועל)
                                                     </span>
-                                                    <span className="text-[9px] bg-sage border border-sand text-forest px-2.5 py-0.5 rounded font-bold tracking-wider uppercase">מחשבון מדויק</span>
+                                                    <span className="text-[9px] bg-sage dark:bg-sage-dark text-forest dark:text-forest-dark px-2.5 py-0.5 rounded font-bold tracking-wider uppercase">מחשבון מדויק</span>
                                                 </div>
 
                                                 <div className="space-y-4">
                                                     {/* Cooked weight adjustment */}
-                                                    <div className="bg-white p-4 rounded-xl border border-sand space-y-3">
+                                                    <div className="bg-white dark:bg-cardbg-dark p-4 rounded-2xl shadow-sm space-y-3">
                                                         <div className="flex justify-between items-center">
-                                                            <span className="text-xs text-moss font-bold">המשקל הסופי המבושל או האפוי (בגרמים):</span>
-                                                            <span className="text-xs text-forest font-bold bg-sage px-2.5 py-1 rounded-lg border border-sand">{cookedWeight} גרם</span>
+                                                            <span className="text-xs text-textsub-light dark:text-textsub-dark font-bold">המשקל הסופי המבושל או האפוי (בגרמים):</span>
+                                                            <span className="text-xs text-forest dark:text-forest-dark font-bold bg-sage dark:bg-sage-dark px-2.5 py-1 rounded-lg">{cookedWeight} גרם</span>
                                                         </div>
                                                         <div className="flex items-center gap-2">
                                                             <button
                                                                 type="button"
                                                                 onClick={() => adjustCookedWeight(-50)}
-                                                                className="flex-1 py-1.5 bg-cream hover:bg-sage text-[11px] text-forest font-bold rounded-lg border border-sand btn-editorial"
+                                                                className="flex-1 py-2 bg-cream dark:bg-cream-dark text-textmain-light dark:text-textmain-dark text-[11px] font-bold rounded-xl btn-premium shadow-sm"
                                                             >
                                                                 -50
                                                             </button>
                                                             <button
                                                                 type="button"
                                                                 onClick={() => adjustCookedWeight(-10)}
-                                                                className="flex-1 py-1.5 bg-cream hover:bg-sage text-[11px] text-forest font-bold rounded-lg border border-sand btn-editorial"
+                                                                className="flex-1 py-2 bg-cream dark:bg-cream-dark text-textmain-light dark:text-textmain-dark text-[11px] font-bold rounded-xl btn-premium shadow-sm"
                                                             >
                                                                 -10
                                                             </button>
@@ -845,37 +903,37 @@
                                                                 onBlur={() => {
                                                                     if (cookedWeight === 0) setCookedWeight(analysisResult.totalWeightGrams || 100);
                                                                 }}
-                                                                className="w-16 bg-cream border border-sand text-center text-sm font-bold text-forest rounded-lg py-1 focus:outline-none focus:border-forest"
+                                                                className="w-16 bg-cream dark:bg-cream-dark text-center text-sm font-bold text-forest dark:text-forest-dark rounded-xl py-1.5 focus:outline-none focus:ring-2 focus:ring-forest dark:focus:ring-forest-dark"
                                                             />
 
                                                             <button
                                                                 type="button"
                                                                 onClick={() => adjustCookedWeight(10)}
-                                                                className="flex-1 py-1.5 bg-cream hover:bg-sage text-[11px] text-forest font-bold rounded-lg border border-sand btn-editorial"
+                                                                className="flex-1 py-2 bg-cream dark:bg-cream-dark text-textmain-light dark:text-textmain-dark text-[11px] font-bold rounded-xl btn-premium shadow-sm"
                                                             >
                                                                 +10
                                                             </button>
                                                             <button
                                                                 type="button"
                                                                 onClick={() => adjustCookedWeight(50)}
-                                                                className="flex-1 py-1.5 bg-cream hover:bg-sage text-[11px] text-forest font-bold rounded-lg border border-sand btn-editorial"
+                                                                className="flex-1 py-2 bg-cream dark:bg-cream-dark text-textmain-light dark:text-textmain-dark text-[11px] font-bold rounded-xl btn-premium shadow-sm"
                                                             >
                                                                 +50
                                                             </button>
                                                         </div>
                                                         <div className="flex flex-wrap items-center gap-1.5 pt-1">
-                                                            <span className="text-[10px] text-moss font-bold">קיצורי משקל:</span>
+                                                            <span className="text-[10px] text-textsub-light dark:text-textsub-dark font-bold">קיצורי משקל:</span>
                                                             <button
                                                                 type="button"
                                                                 onClick={() => setCookedWeight(analysisResult.totalWeightGrams)}
-                                                                className="text-[9px] bg-cream hover:bg-sage text-moss px-2.5 py-1 rounded-lg border border-sand btn-editorial font-semibold"
+                                                                className="text-[9px] bg-cream dark:bg-cream-dark text-textsub-light dark:text-textsub-dark px-2.5 py-1 rounded-lg btn-premium font-semibold shadow-sm"
                                                             >
                                                                 משקל מקורי ({analysisResult.totalWeightGrams}ג')
                                                             </button>
                                                             <button
                                                                 type="button"
                                                                 onClick={() => setCookedWeight(Math.round(analysisResult.totalWeightGrams * 0.7))}
-                                                                className="text-[9px] bg-cream hover:bg-sage text-moss px-2.5 py-1 rounded-lg border border-sand btn-editorial font-semibold"
+                                                                className="text-[9px] bg-cream dark:bg-cream-dark text-textsub-light dark:text-textsub-dark px-2.5 py-1 rounded-lg btn-premium font-semibold shadow-sm"
                                                             >
                                                                 צמצום באפייה (-30%)
                                                             </button>
@@ -883,22 +941,22 @@
                                                     </div>
 
                                                     {/* Tablespoon Weight block */}
-                                                    <div className="bg-white p-4 rounded-xl border border-sand space-y-3">
+                                                    <div className="bg-white dark:bg-cardbg-dark p-4 rounded-2xl shadow-sm space-y-3">
                                                         <div className="flex justify-between items-center">
-                                                            <span className="text-xs text-moss font-bold">משקל כף הגשה אחת:</span>
+                                                            <span className="text-xs text-textsub-light dark:text-textsub-dark font-bold">משקל כף הגשה אחת:</span>
                                                             <div className="flex items-center gap-2">
                                                                 <button
                                                                     type="button"
                                                                     onClick={() => setTableSpoonWeight(Math.max(1, tableSpoonWeight - 1))}
-                                                                    className="w-8 h-8 bg-cream text-forest font-bold rounded-lg flex items-center justify-center border border-sand btn-editorial"
+                                                                    className="w-8 h-8 bg-cream dark:bg-cream-dark text-forest dark:text-forest-dark font-bold rounded-lg flex items-center justify-center btn-premium shadow-sm"
                                                                 >
                                                                     -
                                                                 </button>
-                                                                <span className="text-xs text-forest font-bold w-8 text-center">{tableSpoonWeight}ג׳</span>
+                                                                <span className="text-xs text-forest dark:text-forest-dark font-bold w-8 text-center">{tableSpoonWeight}ג׳</span>
                                                                 <button
                                                                     type="button"
                                                                     onClick={() => setTableSpoonWeight(tableSpoonWeight + 1)}
-                                                                    className="w-8 h-8 bg-cream text-forest font-bold rounded-lg flex items-center justify-center border border-sand btn-editorial"
+                                                                    className="w-8 h-8 bg-cream dark:bg-cream-dark text-forest dark:text-forest-dark font-bold rounded-lg flex items-center justify-center btn-premium shadow-sm"
                                                                 >
                                                                     +
                                                                 </button>
@@ -906,18 +964,18 @@
                                                         </div>
                                                         <div className="grid grid-cols-3 gap-1.5">
                                                             {[
-                                                                { w: 6, label: "קלה ~6ג׳ (קורנפלקס)" },
-                                                                { w: 15, label: "בינונית ~15ג׳ (נוזל/מרק)" },
-                                                                { w: 24, label: "כבדה ~24ג׳ (ממרח/פירה)" }
+                                                                { w: 6, label: "קלה ~6ג׳ (פלקס)" },
+                                                                { w: 15, label: "בינונית ~15ג׳ (נוזל)" },
+                                                                { w: 24, label: "כבדה ~24ג׳ (ממרח)" }
                                                             ].map((opt) => (
                                                                 <button
                                                                     key={opt.w}
                                                                     type="button"
                                                                     onClick={() => setTableSpoonWeight(opt.w)}
-                                                                    className={`text-[10px] py-2 px-1 rounded-lg text-center border transition-all btn-editorial font-bold ${
+                                                                    className={`text-[10px] py-2 px-1 rounded-xl text-center transition-all btn-premium font-bold ${
                                                                         tableSpoonWeight === opt.w
-                                                                        ? 'bg-forest text-white border-forest'
-                                                                        : 'bg-cream border-sand text-moss'
+                                                                        ? 'bg-forest dark:bg-forest-dark text-white dark:text-cream-dark'
+                                                                        : 'bg-cream dark:bg-cream-dark text-textsub-light dark:text-textsub-dark'
                                                                     }`}
                                                                 >
                                                                     {opt.label}
@@ -931,20 +989,20 @@
 
                                             {/* Custom Gram box */}
                                             {activeTab === "custom" && (
-                                                <div className="p-4 bg-cream rounded-2xl border border-sand space-y-3.5">
-                                                    <h4 className="text-xs font-bold text-forest">הגדירי כמות צריכה בגרמים בצלחת:</h4>
+                                                <div className="p-4 bg-cream dark:bg-cream-dark rounded-2xl space-y-3.5">
+                                                    <h4 className="text-xs font-bold text-forest dark:text-forest-dark">הגדירי כמות צריכה בגרמים בצלחת:</h4>
                                                     <div className="flex items-center gap-2">
                                                         <button
                                                             type="button"
                                                             onClick={() => adjustCustomGrams(-50)}
-                                                            className="px-2.5 py-1.5 bg-white hover:bg-sage text-[10px] font-bold rounded-lg border border-sand btn-editorial"
+                                                            className="px-2.5 py-1.5 bg-white dark:bg-cardbg-dark text-[10px] font-bold rounded-lg btn-premium shadow-sm text-textmain-light dark:text-textmain-dark"
                                                         >
                                                             -50ג׳
                                                         </button>
                                                         <button
                                                             type="button"
                                                             onClick={() => adjustCustomGrams(-10)}
-                                                            className="px-2.5 py-1.5 bg-white hover:bg-sage text-[10px] font-bold rounded-lg border border-sand btn-editorial"
+                                                            className="px-2.5 py-1.5 bg-white dark:bg-cardbg-dark text-[10px] font-bold rounded-lg btn-premium shadow-sm text-textmain-light dark:text-textmain-dark"
                                                         >
                                                             -10ג׳
                                                         </button>
@@ -961,20 +1019,20 @@
                                                             onBlur={() => {
                                                                 if (customGrams === 0) setCustomGrams(100);
                                                             }}
-                                                            className="flex-grow bg-white border border-sand rounded-xl py-2 text-center text-sm font-bold text-forest focus:outline-none focus:border-forest"
+                                                            className="flex-grow bg-white dark:bg-cardbg-dark rounded-xl py-2 text-center text-sm font-bold text-forest dark:text-forest-dark focus:outline-none focus:ring-2 focus:ring-forest dark:focus:ring-forest-dark"
                                                         />
 
                                                         <button
                                                             type="button"
                                                             onClick={() => adjustCustomGrams(10)}
-                                                            className="px-2.5 py-1.5 bg-white hover:bg-sage text-[10px] font-bold rounded-lg border border-sand btn-editorial"
+                                                            className="px-2.5 py-1.5 bg-white dark:bg-cardbg-dark text-[10px] font-bold rounded-lg btn-premium shadow-sm text-textmain-light dark:text-textmain-dark"
                                                         >
                                                             +10ג׳
                                                         </button>
                                                         <button
                                                             type="button"
                                                             onClick={() => adjustCustomGrams(50)}
-                                                            className="px-2.5 py-1.5 bg-white hover:bg-sage text-[10px] font-bold rounded-lg border border-sand btn-editorial"
+                                                            className="px-2.5 py-1.5 bg-white dark:bg-cardbg-dark text-[10px] font-bold rounded-lg btn-premium shadow-sm text-textmain-light dark:text-textmain-dark"
                                                         >
                                                             +50ג׳
                                                         </button>
@@ -986,10 +1044,10 @@
                                                                 key={v}
                                                                 type="button"
                                                                 onClick={() => setCustomGrams(v)}
-                                                                className={`py-1.5 text-[10px] font-bold rounded-lg border text-center transition-colors btn-editorial ${
+                                                                className={`py-1.5 text-[10px] font-bold rounded-lg transition-colors btn-premium ${
                                                                     customGrams === v
-                                                                    ? 'bg-forest border-forest text-white'
-                                                                    : 'bg-white border-sand text-moss'
+                                                                    ? 'bg-forest dark:bg-forest-dark text-white dark:text-cream-dark'
+                                                                    : 'bg-white dark:bg-cardbg-dark text-textsub-light dark:text-textsub-dark shadow-sm'
                                                                 }`}
                                                             >
                                                                 {v}ג׳
@@ -997,9 +1055,9 @@
                                                         ))}
                                                     </div>
 
-                                                    <div className="pt-3 border-t border-sand flex justify-between items-center text-[11px] font-bold text-moss">
+                                                    <div className="pt-3 border-t border-sage dark:border-sage-dark flex justify-between items-center text-[11px] font-bold text-textsub-light dark:text-textsub-dark">
                                                         <span>חלוקת כפות הגשה משוערכת:</span>
-                                                        <span className="text-forest font-bold bg-sage px-2.5 py-1 rounded-lg border border-sand">
+                                                        <span className="text-forest dark:text-forest-dark font-bold bg-sage dark:bg-sage-dark px-2.5 py-1 rounded-lg">
                                                             {Math.round((customGrams / (tableSpoonWeight || 15)) * 10) / 10} כפות
                                                         </span>
                                                     </div>
@@ -1007,18 +1065,18 @@
                                             )}
 
                                             {/* Overview Stats */}
-                                            <div className="grid grid-cols-3 gap-2 pt-3 border-t border-sand text-center">
-                                                <div className="bg-cream p-2.5 rounded-xl border border-sand">
-                                                    <span className="text-[10px] text-moss font-bold block">סה"כ במתכון</span>
-                                                    <span className="text-xs sm:text-sm font-bold text-forest">{analysisResult.totalCalories} קל׳</span>
+                                            <div className="grid grid-cols-3 gap-2 pt-3 border-t border-sage dark:border-sage-dark text-center">
+                                                <div className="bg-cream dark:bg-cream-dark p-2.5 rounded-xl">
+                                                    <span className="text-[10px] text-textsub-light dark:text-textsub-dark font-bold block">סה"כ במתכון</span>
+                                                    <span className="text-xs sm:text-sm font-bold text-forest dark:text-forest-dark">{analysisResult.totalCalories} קל׳</span>
                                                 </div>
-                                                <div className="bg-cream p-2.5 rounded-xl border border-sand">
-                                                    <span className="text-[10px] text-moss font-bold block">משקל מבושל</span>
-                                                    <span className="text-xs sm:text-sm font-bold text-forest">{cookedWeight} גרם</span>
+                                                <div className="bg-cream dark:bg-cream-dark p-2.5 rounded-xl">
+                                                    <span className="text-[10px] text-textsub-light dark:text-textsub-dark font-bold block">משקל מבושל</span>
+                                                    <span className="text-xs sm:text-sm font-bold text-forest dark:text-forest-dark">{cookedWeight} גרם</span>
                                                 </div>
-                                                <div className="bg-cream p-2.5 rounded-xl border border-sand">
-                                                    <span className="text-[10px] text-moss font-bold block">כף הגשה</span>
-                                                    <span className="text-xs sm:text-sm font-bold text-forest">~{tableSpoonWeight} גרם</span>
+                                                <div className="bg-cream dark:bg-cream-dark p-2.5 rounded-xl">
+                                                    <span className="text-[10px] text-textsub-light dark:text-textsub-dark font-bold block">כף הגשה</span>
+                                                    <span className="text-xs sm:text-sm font-bold text-forest dark:text-forest-dark">~{tableSpoonWeight} גרם</span>
                                                 </div>
                                             </div>
 
@@ -1026,32 +1084,32 @@
                                     </div>
 
                                     {/* Ingredient Breakdown */}
-                                    <div className="editorial-card p-6 rounded-3xl space-y-4">
-                                        <h3 className="text-xs sm:text-sm font-bold text-forest flex items-center justify-between">
+                                    <div className="organic-card p-6 bg-white dark:bg-cardbg-dark space-y-4">
+                                        <h3 className="text-xs sm:text-sm font-bold text-forest dark:text-forest-dark flex items-center justify-between">
                                             <span className="flex items-center gap-2">
-                                                <span className="w-1.5 h-1.5 bg-forest rounded-full"></span>
+                                                <span className="w-1.5 h-1.5 bg-forest dark:bg-forest-dark rounded-full"></span>
                                                 פירוט רכיבים תזונתיים
                                             </span>
-                                            <span className="text-[10px] text-moss uppercase font-semibold">פירוט AI</span>
+                                            <span className="text-[10px] text-textsub-light dark:text-textsub-dark uppercase font-semibold">פירוט AI</span>
                                         </h3>
 
-                                        <div className="divide-y divide-sand">
+                                        <div className="divide-y divide-sage dark:divide-sage-dark">
                                             {analysisResult.ingredients && analysisResult.ingredients.map((ing, index) => (
                                                 <div key={index} className="py-3.5 flex justify-between items-start text-xs sm:text-sm gap-3 first:pt-0 last:pb-0">
                                                     <div className="space-y-1.5 flex-grow">
-                                                        <span className="font-bold text-forest block leading-tight">{ing.cleanName}</span>
-                                                        <span className="text-[11px] text-moss block leading-relaxed">{ing.originalText}</span>
+                                                        <span className="font-bold text-forest dark:text-forest-dark block leading-tight">{ing.cleanName}</span>
+                                                        <span className="text-[11px] text-textsub-light dark:text-textsub-dark block leading-relaxed">{ing.originalText}</span>
 
                                                         {/* Nutrient chips */}
                                                         <div className="flex flex-wrap gap-1.5 items-center pt-0.5">
-                                                            <span className="text-[9px] bg-sage text-forest px-2 py-0.5 rounded font-bold">חלבון: {ing.protein || 0}ג׳</span>
-                                                            <span className="text-[9px] bg-cream border border-sand text-terracotta px-2 py-0.5 rounded font-bold">פחמימות: {ing.carbs || 0}ג׳</span>
-                                                            <span className="text-[9px] bg-cream border border-sand text-moss px-2 py-0.5 rounded font-bold">שומן: {ing.fats || 0}ג׳</span>
+                                                            <span className="text-[9px] bg-sage dark:bg-sage-dark text-forest dark:text-forest-dark px-2.5 py-0.5 rounded font-bold">חלבון: {ing.protein || 0}ג׳</span>
+                                                            <span className="text-[9px] bg-cream dark:bg-cream-dark text-terracotta dark:text-terracotta-dark px-2.5 py-0.5 rounded font-bold">פחמימות: {ing.carbs || 0}ג׳</span>
+                                                            <span className="text-[9px] bg-cream dark:bg-cream-dark text-textsub-light dark:text-textsub-dark px-2.5 py-0.5 rounded font-bold">שומן: {ing.fats || 0}ג׳</span>
                                                         </div>
                                                     </div>
                                                     <div className="text-left flex-shrink-0">
-                                                        <span className="font-bold text-forest block text-sm sm:text-base">{ing.calories} קל׳</span>
-                                                        <span className="text-[10px] text-moss block font-bold">~ {ing.weightGrams} גרם</span>
+                                                        <span className="font-bold text-forest dark:text-forest-dark block text-sm sm:text-base">{ing.calories} קל׳</span>
+                                                        <span className="text-[10px] text-textsub-light dark:text-textsub-dark block font-bold">~ {ing.weightGrams} גרם</span>
                                                     </div>
                                                 </div>
                                             ))}
@@ -1065,21 +1123,21 @@
                     </main>
 
                     {/* Exquisite Minimal Footer */}
-                    <footer className="pt-8 pb-4 border-t border-sand text-center text-[11px] text-moss space-y-1">
-                        <p className="font-bold text-forest">© 2026 FitBite AI • עוצב מחדש בעיצוב פרימיום נקי לטלפונים</p>
-                        <p className="max-w-md mx-auto text-[10px] leading-relaxed px-4 text-moss/70">
+                    <footer className="pt-8 pb-4 border-t border-sage dark:border-sage-dark text-center text-[11px] text-textsub-light dark:text-textsub-dark space-y-1">
+                        <p className="font-bold text-forest dark:text-forest-dark">© 2026 FitBite AI • עוצב מחדש באופן אנושי, חלק ונטול מסגרות נוקשות</p>
+                        <p className="max-w-md mx-auto text-[10px] leading-relaxed px-4 text-textsub-light/70 dark:text-textsub-dark/70">
                             מחשבון תזונה זה משתמש בטכנולוגיית בינה מלאכותית מתקדמת לזיהוי רכיבים וכמויות. מומלץ תמיד לוודא מוצרי אריזה מסוימים באופן ידני.
                         </p>
                     </footer>
 
                     {/* Sticky, ergonomic bottom navigation on Mobile */}
-                    <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-xl border-t border-sand px-6 py-3 flex justify-around items-center shadow-lg pb-safe">
+                    <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 dark:bg-cardbg-dark/95 backdrop-blur-xl border-t border-sage dark:border-sage-dark px-6 py-3 flex justify-around items-center shadow-lg pb-safe">
 
                         <button
                             onClick={() => setMobileSection("input")}
-                            className={`flex flex-col items-center gap-1 transition-all ${mobileSection === 'input' ? 'text-forest' : 'text-moss/65'}`}
+                            className={`flex flex-col items-center gap-1 transition-all ${mobileSection === 'input' ? 'text-forest dark:text-forest-dark' : 'text-textsub-light dark:text-textsub-dark'}`}
                         >
-                            <div className={`p-2 rounded-xl transition-colors ${mobileSection === 'input' ? 'bg-sage' : 'bg-transparent'}`}>
+                            <div className={`p-2 rounded-xl transition-colors ${mobileSection === 'input' ? 'bg-sage dark:bg-sage-dark' : 'bg-transparent'}`}>
                                 <svg className="w-5.5 h-5.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                 </svg>
@@ -1089,16 +1147,16 @@
 
                         <button
                             onClick={() => setMobileSection("calculator")}
-                            className={`flex flex-col items-center gap-1 transition-all relative ${mobileSection === 'calculator' ? 'text-forest' : 'text-moss/65'}`}
+                            className={`flex flex-col items-center gap-1 transition-all relative ${mobileSection === 'calculator' ? 'text-forest dark:text-forest-dark' : 'text-textsub-light dark:text-textsub-dark'}`}
                         >
-                            <div className={`p-2 rounded-xl transition-colors ${mobileSection === 'calculator' ? 'bg-sage' : 'bg-transparent'}`}>
+                            <div className={`p-2 rounded-xl transition-colors ${mobileSection === 'calculator' ? 'bg-sage dark:bg-sage-dark' : 'bg-transparent'}`}>
                                 <svg className="w-5.5 h-5.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                                 </svg>
                             </div>
                             <span className="text-[11px] font-bold">מחשבון קלוריות</span>
                             {analysisResult && (
-                                <span className="absolute top-2.5 right-6.5 w-2 h-2 bg-forest rounded-full animate-ping"></span>
+                                <span className="absolute top-2.5 right-6.5 w-2 h-2 bg-forest dark:bg-forest-dark rounded-full animate-ping"></span>
                             )}
                         </button>
 
