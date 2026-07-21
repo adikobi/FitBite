@@ -3,51 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>FitBite AI - מחשבון תזונה ומתכונים אישי</title>
+    <title>FitBite AI — מחשבון תזונה בעיצוב פרימיום</title>
     <!-- Tailwind CSS for modern sleek styling -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Heebo for clean premium Hebrew UI -->
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <!-- Google Fonts: Heebo & JetBrains Mono for premium professional UI -->
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cyberlime: '#CCFF00',
+                        warmcoral: '#FF6B4A',
+                        obsidian: '#04060A',
+                        carbon: '#0D111A',
+                        slateice: '#1E2533',
+                    },
+                    fontFamily: {
+                        heebo: ['Heebo', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
         body {
             font-family: 'Heebo', sans-serif;
-            background-color: #080c14;
-            color: #e2e8f0;
+            background-color: #04060A;
+            color: #E2E8F0;
             -webkit-tap-highlight-color: transparent;
+            overflow-x: hidden;
         }
+
         /* Custom scrollbar for premium feel */
         ::-webkit-scrollbar {
-            width: 6px;
+            width: 8px;
+            height: 8px;
         }
         ::-webkit-scrollbar-track {
-            background: #0b0f19;
+            background: #04060A;
         }
         ::-webkit-scrollbar-thumb {
-            background: #10b981;
-            border-radius: 3px;
+            background: #CCFF00;
+            border-radius: 4px;
+            border: 2px solid #04060A;
         }
-        .glass-card {
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.06);
+        ::-webkit-scrollbar-thumb:hover {
+            background: #b5e600;
         }
-        .glow-emerald {
-            box-shadow: 0 0 25px rgba(16, 185, 129, 0.12);
+
+        /* Tactile physical elevation borders */
+        .premium-card {
+            background: rgba(13, 17, 26, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7);
         }
-        .glow-emerald-hover:active {
-            transform: scale(0.97);
+
+        /* Glowing ambient radial backgrounds */
+        .glow-radial-lime {
+            background: radial-gradient(circle at 50% 0%, rgba(204, 255, 0, 0.08) 0%, transparent 70%);
         }
+        .glow-radial-coral {
+            background: radial-gradient(circle at 50% 0%, rgba(255, 107, 74, 0.08) 0%, transparent 70%);
+        }
+
+        /* Spring micro-interactions for buttons */
+        .btn-spring {
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.2s, box-shadow 0.2s;
+        }
+        .btn-spring:active {
+            transform: scale(0.94);
+        }
+
         @media (hover: hover) {
-            .glow-emerald-hover:hover {
-                box-shadow: 0 0 25px rgba(16, 185, 129, 0.25);
-                transition: all 0.2s ease;
+            .btn-spring:hover {
+                transform: translateY(-1px);
             }
         }
-        /* Active button haptic feel */
-        .btn-active:active {
-            transform: scale(0.95);
+
+        /* Jagged "Kitchen Ticket" effect using native CSS */
+        .kitchen-ticket {
+            position: relative;
+            background: #111622;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
+        .kitchen-ticket::after {
+            content: "";
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background-image: linear-gradient(-45deg, #04060A 4px, transparent 0), linear-gradient(45deg, #04060A 4px, transparent 0);
+            background-size: 8px 8px;
+        }
+
+        /* Animated Scanner line */
+        @keyframes scan-laser {
+            0% { top: 0%; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+        .laser-container {
+            position: relative;
+            overflow: hidden;
+        }
+        .laser-line {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #CCFF00, transparent);
+            box-shadow: 0 0 12px #CCFF00;
+            animation: scan-laser 2.5s infinite linear;
+            pointer-events: none;
+        }
+
+        /* Bounce-in animation for notifications */
+        @keyframes spring-bounce {
+            0% { transform: translate(-50%, -40px) scale(0.9); opacity: 0; }
+            50% { transform: translate(-50%, 20px) scale(1.03); }
+            100% { transform: translate(-50%, 12px) scale(1); opacity: 1; }
+        }
+        .toast-bounce {
+            animation: spring-bounce 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
         /* Hide native scrollbars on mobile */
         .no-scrollbar::-webkit-scrollbar {
             display: none;
@@ -58,11 +145,11 @@
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between pb-20 md:pb-6">
+<body class="min-h-screen flex flex-col justify-between pb-24 md:pb-8 selection:bg-cyberlime selection:text-obsidian">
 
-    <div id="root" class="w-full max-w-7xl mx-auto p-3 md:p-6 lg:p-8 flex-grow"></div>
+    <div id="root" class="w-full max-w-7xl mx-auto p-3 sm:p-5 md:p-8 flex-grow"></div>
 
-    <!-- React and MODERN Babel Standalone (@babel/standalone) for stable ES6+ run -->
+    <!-- React and Babel Standalone for direct execution in browser -->
     <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -72,116 +159,65 @@
 
         const MY_TEXT = "AQ.Ab8RN6KvKgP9yzeXwZfQL1ewoM0ARnpe6QxRm8q3VqmzNoVzGw";
 
-        // Clean inline SVG components to prevent DOM mismatch crashes
+        // Tailored designer SVG Icons with modern styling
         const FlameIcon = () => (
-            <svg className="w-6 h-6 text-slate-950" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054-2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z" />
+            <svg className="w-6 h-6 text-obsidian" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
             </svg>
         );
 
         const InfoIcon = () => (
-            <svg className="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="10" />
-                <line x1="12" y1="16" x2="12" y2="12" />
-                <line x1="12" y1="8" x2="12.01" y2="8" />
+            <svg className="w-4 h-4 text-cyberlime" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
         );
 
         const KeyIcon = () => (
-            <svg className="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
-                <path d="m21 2-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0 1.5 1.5M15.5 7.5 14 6" />
+            <svg className="w-4 h-4 text-cyberlime" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15 7a2 2 0 012 2m-5 3a5 5 0 11-7.778 7.778 5.5 5.5 0 017.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4" />
             </svg>
         );
 
         const ShieldCheckIcon = () => (
-            <svg className="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                <path d="m9 11 2 2 4-4" />
+            <svg className="w-5 h-5 text-cyberlime" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
             </svg>
         );
 
         const FileTextIcon = () => (
-            <svg className="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
-                <polyline points="14 2 14 8 20 8" />
-                <line x1="16" y1="13" x2="8" y2="13" />
-                <line x1="16" y1="17" x2="8" y2="17" />
-                <line x1="10" y1="9" x2="8" y2="9" />
+            <svg className="w-5 h-5 text-cyberlime" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
         );
 
-        const SparklesIcon = ({ className = "w-5 h-5" }) => (
-            <svg className={className} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
-                <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z" />
-                <path d="m5 3 1 2.5L8.5 6 6 7 5 9.5 4 7 1.5 6 4 5.5z" />
-                <path d="m19 17 1 2.5 2.5.5-2.5 1-1 2.5-1-2.5-2.5-1 2.5-1z" />
+        const SparklesIcon = ({ className = "w-5 h-5 text-cyberlime" }) => (
+            <svg className={className} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
             </svg>
         );
 
         const HistoryIcon = () => (
-            <svg className="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
-                <polyline points="3 3 3 8 8 8" />
-                <line x1="12" y1="7" x2="12" y2="12" />
-                <line x1="12" y1="12" x2="16" y2="14" />
+            <svg className="w-4 h-4 text-warmcoral" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
         );
 
         const AlertTriangleIcon = () => (
-            <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
-                <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
-                <line x1="12" y1="9" x2="12" y2="13" />
-                <line x1="12" y1="17" x2="12.01" y2="17" />
-            </svg>
-        );
-
-        const UtensilsIcon = ({ className = "w-4 h-4" }) => (
-            <svg className={className} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2" />
-                <path d="M7 2v20" />
-                <path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7" />
-            </svg>
-        );
-
-        const SpoonIcon = ({ className = "w-4 h-4" }) => (
-            <svg className={className} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 2a4 4 0 0 0-4 4c0 3 3 6 4 9 1-3 4-6 4-4a4 4 0 0 0-4-4z" />
-                <path d="M12 15v7" />
-            </svg>
-        );
-
-        const ScaleIcon = ({ className = "w-4 h-4" }) => (
-            <svg className={className} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
-                <path d="m16 16 3-8 3 8c-.11.3-.28.59-.5.83l-5 5a1 1 0 0 1-1.4 0l-5-5a1.8 1.8 0 0 1-.5-.83ZM8 16l3-8 3 8c-.11.3-.28.59-.5.83l-5 5a1 1 0 0 1-1.4 0l-5-5A1.8 1.8 0 0 1 3 16ZM12 3v18" />
-            </svg>
-        );
-
-        const CalculatorIcon = ({ className = "w-4 h-4" }) => (
-            <svg className={className} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="4" y="2" width="16" height="20" rx="2" ry="2" />
-                <line x1="8" y1="6" x2="16" y2="6" />
-                <line x1="16" y1="14" x2="16" y2="18" />
-                <path d="M16 10h.01M12 10h.01M8 10h.01M12 14h.01M8 14h.01M12 18h.01M8 18h.01" />
-            </svg>
-        );
-
-        const ListChecksIcon = () => (
-            <svg className="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
-                <path d="m3 17 2 2 4-4M3 7l2 2 4-4M13 6h8M13 12h8M13 18h8" />
+            <svg className="w-5 h-5 text-warmcoral flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
             </svg>
         );
 
         const CopyIcon = () => (
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
             </svg>
         );
 
         const TrashIcon = () => (
-            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="3 6 5 6 21 6" />
-                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
             </svg>
         );
 
@@ -196,14 +232,11 @@
             const [error, setError] = useState(null);
             const [toastMessage, setToastMessage] = useState("");
             
-            // App state for current analysis result
             const [analysisResult, setAnalysisResult] = useState(null);
             
-            // Dynamic correction state variables for high-precision
             const [cookedWeight, setCookedWeight] = useState(320);
             const [tableSpoonWeight, setTableSpoonWeight] = useState(15);
 
-            // Session history (stored in localStorage with fallback to demo recipe)
             const [history, setHistory] = useState(() => {
                 const saved = localStorage.getItem("fitbite_history");
                 if (saved) {
@@ -237,43 +270,35 @@
                 ];
             });
 
-            // Persist history to localStorage
             useEffect(() => {
                 localStorage.setItem("fitbite_history", JSON.stringify(history));
             }, [history]);
 
-            // Interactive calculator state
             const [activeTab, setActiveTab] = useState("serving"); // "serving", "tablespoon", "100g", "custom"
             const [customGrams, setCustomGrams] = useState(100);
-
-            // Mobile view tab state: "input" or "calculator"
             const [mobileSection, setMobileSection] = useState("input");
 
-            // Show Toast helper
             const showToast = (msg) => {
                 setToastMessage(msg);
                 setTimeout(() => {
                     setToastMessage("");
-                }, 2500);
+                }, 2800);
             };
 
-            // Load a demo recipe to test quickly on phone
             const loadDemoRecipe = () => {
                 setRecipeText("גביע קוטג' 5% (250 גרם)\n2 ביצים\n3 כפות קמח שיבולת שועל (כ-30 גרם)\nקורט מלח ופלפל");
                 setServings(2);
-                showToast("נטען מתכון לדוגמה!");
+                showToast("🍳 מתכון לדוגמה נטען באהבה!");
             };
 
-            // Clear recipe textarea
             const clearRecipeText = () => {
                 setRecipeText("");
-                showToast("הטקסט נמחק");
+                showToast("✨ טופס הניתוח נוקה");
             };
 
-            // Synchronize high precision states when analysis result or demo changes
             useEffect(() => {
                 if (analysisResult) {
-                    setCookedWeight(analysisResult.totalWeightGrams);
+                    setCookedWeight(analysisResult.totalWeightGrams || 320);
                     setTableSpoonWeight(analysisResult.gramsPerTablespoon || 15);
                 }
             }, [analysisResult]);
@@ -287,13 +312,13 @@
                     }
                     return filtered;
                 });
-                showToast("המתכון נמחק מההיסטוריה");
+                showToast("🗑️ המתכון הוסר מהארכיון");
             };
 
             const handleAnalyzeRecipe = async (e) => {
                 if (e) e.preventDefault();
                 if (!recipeText.trim()) {
-                    setError("אנא הכניסי קודם כל את טקסט המתכון.");
+                    setError("אנא הזיני קודם כל את טקסט המתכון.");
                     return;
                 }
 
@@ -359,40 +384,32 @@
                     );
 
                     if (!response.ok) {
-                        throw new Error("שגיאה בתקשורת עם ה-AI. יש לוודא שמפתח ה-API תקין ושיש חיבור אינטרנט.");
+                        throw new Error("שגיאה בתקשורת עם שרת ה-AI. ודאי שמפתח ה-API תקין.");
                     }
 
                     const data = await response.json();
-                    
                     let rawText = "";
                     if (data && data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0]) {
                         rawText = data.candidates[0].content.parts[0].text;
                     }
                     
                     if (!rawText) {
-                        throw new Error("לא התקבל מידע חזרה מהניתוח. אנא נסי שוב בניסוח ברור יותר.");
+                        throw new Error("לא התקבלו נתונים תקינים מהאנליזה.");
                     }
 
-                    // Parse the JSON
                     const parsedResult = JSON.parse(rawText);
-                    
-                    // Add calculated fields based on current serving input
                     parsedResult.servings = parseInt(servings) || 1;
                     parsedResult.caloriesPerServing = Math.round(parsedResult.totalCalories / parsedResult.servings);
                     parsedResult.id = Date.now().toString();
 
                     setAnalysisResult(parsedResult);
-                    
-                    // Add to session history list at the top (filtering out the initial demo-1)
                     setHistory(prev => [parsedResult, ...prev.filter(item => item.id !== "demo-1")]);
-                    setActiveTab("serving"); // Default view is serving size
-
-                    // Automatically switch to calculator tab on mobile to avoid scrolling!
+                    setActiveTab("serving");
                     setMobileSection("calculator");
-                    showToast("המתכון נותח בהצלחה!");
+                    showToast("🥗 המתכון נותח באופן מושלם!");
                 } catch (err) {
                     console.error(err);
-                    setError(err.message || "אירעה שגיאה בלתי צפויה בתהליך הניתוח. אנא נסי שוב.");
+                    setError(err.message || "אירעה שגיאה בתהליך הניתוח. אנא נסי שנית.");
                 } finally {
                     setLoading(false);
                 }
@@ -400,54 +417,42 @@
 
             const selectFromHistory = (item) => {
                 setAnalysisResult(item);
-                setRecipeText(""); // clear input when viewing historical item
-                setServings(item.servings);
+                // Preserve full text recovery if original recipeText wasn't empty or save was simulated
+                setRecipeText("");
+                setServings(item.servings || 4);
                 setActiveTab("serving");
-                setMobileSection("calculator"); // Switch on mobile to view results
-                showToast(`טוען: ${item.recipeName}`);
+                setMobileSection("calculator");
+                showToast(`📂 נטען מהארכיון: ${item.recipeName}`);
             };
 
-            // Calculate precise and dynamic metrics on the fly based on user adjustments
             const getCalculatedMetrics = () => {
                 if (!analysisResult) return null;
-                
                 const totalCals = analysisResult.totalCalories;
                 const totalProtein = analysisResult.totalProtein || 0;
                 const totalCarbs = analysisResult.totalCarbs || 0;
                 const totalFats = analysisResult.totalFats || 0;
                 
-                // 1. Recalculate Calories per 100g based on cooked weight
                 const currentWeight = cookedWeight > 0 ? cookedWeight : 1;
                 const calPer100g = Math.round((totalCals / currentWeight) * 100);
                 const proteinPer100g = Math.round((totalProtein / currentWeight) * 100);
                 const carbsPer100g = Math.round((totalCarbs / currentWeight) * 100);
                 const fatsPer100g = Math.round((totalFats / currentWeight) * 100);
                 
-                // 2. Recalculate Calories per tablespoon based on tablespoon weight
                 const calPerSpoon = Math.round((calPer100g / 100) * tableSpoonWeight);
                 const proteinPerSpoon = Math.round((proteinPer100g / 100) * tableSpoonWeight);
                 const carbsPerSpoon = Math.round((carbsPer100g / 100) * tableSpoonWeight);
                 const fatsPerSpoon = Math.round((fatsPer100g / 100) * tableSpoonWeight);
                 
-                // 3. Calories per serving is constant per division of total calories
                 const calPerServing = Math.round(totalCals / servings);
                 const proteinPerServing = Math.round(totalProtein / servings);
                 const carbsPerServing = Math.round(totalCarbs / servings);
                 const fatsPerServing = Math.round(totalFats / servings);
 
                 return {
-                    calPer100g,
-                    calPerSpoon,
-                    calPerServing,
-                    proteinPer100g,
-                    carbsPer100g,
-                    fatsPer100g,
-                    proteinPerSpoon,
-                    carbsPerSpoon,
-                    fatsPerSpoon,
-                    proteinPerServing,
-                    carbsPerServing,
-                    fatsPerServing
+                    calPer100g, calPerSpoon, calPerServing,
+                    proteinPer100g, carbsPer100g, fatsPer100g,
+                    proteinPerSpoon, carbsPerSpoon, fatsPerSpoon,
+                    proteinPerServing, carbsPerServing, fatsPerServing
                 };
             };
 
@@ -455,10 +460,6 @@
 
             const getDisplayMetric = () => {
                 if (!analysisResult || !metrics) return null;
-
-                const totalProtein = analysisResult.totalProtein || 0;
-                const totalCarbs = analysisResult.totalCarbs || 0;
-                const totalFats = analysisResult.totalFats || 0;
 
                 switch(activeTab) {
                     case "serving":
@@ -508,7 +509,6 @@
 
             const currentMetric = getDisplayMetric();
 
-            // Easy offset weight adjuster helper
             const adjustCookedWeight = (amount) => {
                 setCookedWeight(prev => Math.max(1, prev + amount));
             };
@@ -517,7 +517,6 @@
                 setCustomGrams(prev => Math.max(1, prev + amount));
             };
 
-            // Clipboard summary copy function
             const copySummaryToClipboard = () => {
                 if (!analysisResult || !metrics) return;
                 const summaryText = `
@@ -535,69 +534,71 @@
 `.trim();
 
                 navigator.clipboard.writeText(summaryText);
-                showToast("הסיכום הועתק ללוח!");
+                showToast("📋 הסיכום הועתק ללוח!");
             };
 
             return (
-                <div className="space-y-4 md:space-y-6">
-                    {/* Floating Toast Notification */}
+                <div className="space-y-6 md:space-y-8">
+
+                    {/* Exquisite Spring Toast Notification */}
                     {toastMessage && (
-                        <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 bg-emerald-500 text-slate-950 px-5 py-3 rounded-2xl shadow-2xl font-black text-sm flex items-center gap-2 animate-bounce border border-emerald-400">
-                            <SparklesIcon className="w-4 h-4" />
+                        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 bg-cyberlime text-obsidian px-5 py-3 rounded-full shadow-2xl font-black text-xs sm:text-sm flex items-center gap-2 border border-white/20 toast-bounce">
+                            <SparklesIcon className="w-4 h-4 text-obsidian" />
                             <span>{toastMessage}</span>
                         </div>
                     )}
 
-                    {/* Compact Modern Header */}
-                    <header className="flex justify-between items-center pb-4 md:pb-6 border-b border-slate-800">
-                        <div className="flex items-center space-x-3 space-x-reverse">
-                            <div className="bg-emerald-500 text-slate-950 p-2 md:p-2.5 rounded-xl glow-emerald flex items-center justify-center">
+                    {/* Premium Header - Asymmetrical high-contrast layout */}
+                    <header className="flex justify-between items-center pb-5 border-b border-white/5 relative">
+                        <div className="absolute -top-12 -left-12 w-48 h-48 bg-cyberlime/5 rounded-full blur-3xl pointer-events-none"></div>
+                        <div className="flex items-center gap-3">
+                            <div className="bg-cyberlime text-obsidian p-2.5 rounded-2xl shadow-[0_0_20px_rgba(204,255,0,0.3)] flex items-center justify-center btn-spring">
                                 <FlameIcon />
                             </div>
                             <div>
-                                <h1 className="text-xl md:text-2xl font-black tracking-tight text-white flex items-center gap-2">
-                                    <span>FitBite</span>
-                                    <span className="text-emerald-400 text-[10px] md:text-xs bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20 font-bold">AI SMART</span>
+                                <h1 className="text-2xl font-black tracking-tight text-white flex items-center gap-2">
+                                    <span className="font-extrabold">FitBite</span>
+                                    <span className="text-[10px] bg-cyberlime/10 text-cyberlime px-2.5 py-0.5 rounded-full font-bold border border-cyberlime/20 tracking-wider">AI CRAFTED</span>
                                 </h1>
-                                <p className="text-[10px] md:text-xs text-slate-400">מחשבון תזונה סופר-מהיר לטלפון</p>
+                                <p className="text-[11px] text-slate-400 font-medium">מחשבון תזונה בעיצוב אנושי מהפכני</p>
                             </div>
                         </div>
 
-                        {/* Settings Button */}
+                        {/* Custom elevated Settings Trigger */}
                         <button
                             onClick={() => setShowSettings(!showSettings)}
-                            className="bg-slate-800/80 active:scale-95 text-slate-300 p-2.5 rounded-xl border border-slate-700 flex items-center gap-2 text-xs transition-all"
+                            className="bg-carbon border border-white/5 hover:border-cyberlime/30 text-slate-300 px-3.5 py-2 rounded-xl text-xs flex items-center gap-2 transition-all btn-spring shadow-lg"
                         >
                             <KeyIcon />
-                            <span className="hidden md:inline">מפתח API</span>
+                            <span className="hidden sm:inline font-bold">מפתח AI</span>
                         </button>
                     </header>
 
-                    {/* API Key Modal Block */}
+                    {/* Settings Panel */}
                     {showSettings && (
-                        <div className="p-4 bg-slate-900/95 border border-emerald-500/20 rounded-2xl glow-emerald transition-all">
-                            <h3 className="text-sm font-bold text-emerald-400 mb-2 flex items-center gap-2">
+                        <div className="p-5 bg-carbon border border-cyberlime/20 rounded-2xl glow-radial-lime transition-all space-y-3">
+                            <h3 className="text-sm font-bold text-cyberlime flex items-center gap-2">
                                 <ShieldCheckIcon />
                                 הגדרת מפתח ה-API האישי שלך ל-Gemini
                             </h3>
-                            <p className="text-[11px] text-slate-400 mb-3 leading-relaxed">
-                                מפתח ה-API הוגדר מראש! החישובים מבוצעים ישירות דרך מודל ה-AI בחינם לגמרי. תוכלי להחליף אותו כאן במידת הצורך.
+                            <p className="text-xs text-slate-400 leading-relaxed max-w-2xl">
+                                האפליקציה מאובטחת ומאחסנת את המפתח בדפדפן המקומי שלך בלבד. המפתח שהוגדר מראש מאפשר שימוש חופשי ונוח ללא הגבלה.
                             </p>
-                            <div className="flex gap-2">
+                            <div className="flex gap-2 max-w-md">
                                 <input 
                                     type="password" 
                                     value={apiKey} 
                                     onChange={(e) => setApiKey(e.target.value)}
                                     placeholder="הזיני כאן מפתח API חלופי..."
-                                    className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-300 focus:outline-none focus:border-emerald-500"
+                                    className="w-full bg-obsidian border border-white/10 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-300 focus:outline-none focus:border-cyberlime transition-colors"
                                 />
                                 <button 
                                     onClick={() => {
                                         localStorage.setItem("fitbite_api_key", apiKey);
                                         setShowSettings(false);
-                                        showToast("המפתח נשמר בהצלחה!");
+                                        showToast("💾 המפתח עודכן בהצלחה!");
                                     }}
-                                    className="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs transition-colors"
+                                    className="bg-cyberlime text-obsidian font-extrabold px-4 py-2 rounded-xl text-xs btn-spring whitespace-nowrap"
                                 >
                                     שמור
                                 </button>
@@ -605,131 +606,132 @@
                         </div>
                     )}
 
-                    {/* Dual-Pane Layout. On mobile, we conditionally display only active mobileSection to save screen space and avoid vertical scroll */}
-                    <main className="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-6">
+                    {/* Main Workspace Layout */}
+                    <main className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
                         
-                        {/* LEFT COLUMN: Input Form & History (Desktop visible always, Mobile conditional) */}
-                        <section className={`lg:col-span-5 space-y-4 md:space-y-6 ${mobileSection === 'input' ? 'block' : 'hidden lg:block'}`}>
+                        {/* INPUT PANEL: Asymmetrical left column */}
+                        <section className={`lg:col-span-5 space-y-6 ${mobileSection === 'input' ? 'block' : 'hidden lg:block'}`}>
 
-                            {/* Glass Input Card */}
-                            <div className="glass-card p-4 md:p-6 rounded-2xl flex flex-col justify-between relative overflow-hidden">
-                                <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full blur-2xl -z-10"></div>
+                            <div className="premium-card p-5 sm:p-6 rounded-3xl relative overflow-hidden glow-radial-lime border-l-2 border-l-cyberlime">
                                 
-                                <form onSubmit={handleAnalyzeRecipe} className="space-y-4">
-                                    <div className="flex justify-between items-center">
-                                        <label className="text-sm md:text-base font-bold text-white flex items-center gap-2">
-                                            <FileTextIcon />
-                                            הדביקי את המתכון שלך כאן
-                                        </label>
+                                {loading && (
+                                    <div className="laser-container absolute inset-0 bg-obsidian/65 backdrop-blur-sm z-30 flex flex-col items-center justify-center gap-4">
+                                        <div className="laser-line"></div>
+                                        <div className="relative">
+                                            <div className="w-14 h-14 border-4 border-cyberlime/20 border-t-cyberlime rounded-full animate-spin"></div>
+                                            <SparklesIcon className="w-6 h-6 text-cyberlime absolute inset-0 m-auto animate-pulse" />
+                                        </div>
+                                        <div className="text-center space-y-1">
+                                            <p className="text-sm font-black text-white">ה-AI מנתח את הרכיבים...</p>
+                                            <p className="text-[10px] text-slate-400">הופך טקסט חופשי למשקלים וקלוריות</p>
+                                        </div>
                                     </div>
+                                )}
 
-                                    {/* Mobile helper buttons rows */}
-                                    <div className="flex gap-2 justify-end">
-                                        <button
-                                            type="button"
-                                            onClick={loadDemoRecipe}
-                                            className="text-[10px] md:text-xs bg-slate-800/80 text-emerald-400 border border-emerald-500/10 px-2.5 py-1.5 rounded-lg font-bold btn-active transition-all"
-                                        >
-                                            ✨ טען מתכון לדוגמה
-                                        </button>
-                                        <button
-                                            type="button"
-                                            onClick={clearRecipeText}
-                                            className="text-[10px] md:text-xs bg-red-950/20 text-red-400 border border-red-500/10 px-2.5 py-1.5 rounded-lg font-bold btn-active transition-all flex items-center gap-1"
-                                        >
-                                            <TrashIcon />
-                                            נקי הכל
-                                        </button>
+                                <form onSubmit={handleAnalyzeRecipe} className="space-y-5">
+                                    <div className="flex justify-between items-center">
+                                        <label className="text-sm sm:text-base font-extrabold text-white flex items-center gap-2">
+                                            <FileTextIcon />
+                                            הזיני או הדביקי את המתכון
+                                        </label>
+
+                                        <div className="flex gap-1.5">
+                                            <button
+                                                type="button"
+                                                onClick={loadDemoRecipe}
+                                                className="text-[10px] bg-white/5 hover:bg-cyberlime/10 text-cyberlime border border-cyberlime/20 px-3 py-1.5 rounded-lg font-bold btn-spring"
+                                            >
+                                                דוגמה מהירה
+                                            </button>
+                                            <button
+                                                type="button"
+                                                onClick={clearRecipeText}
+                                                className="text-[10px] bg-white/5 hover:bg-warmcoral/10 text-warmcoral border border-warmcoral/20 p-1.5 rounded-lg font-bold btn-spring"
+                                                title="נקי הכל"
+                                            >
+                                                <TrashIcon />
+                                            </button>
+                                        </div>
                                     </div>
 
                                     <textarea 
-                                        rows="6"
+                                        rows="7"
                                         value={recipeText}
                                         onChange={(e) => setRecipeText(e.target.value)}
-                                        placeholder="למשל:&#10;3 כפות שיבולת שועל&#10;1 גביע גבינת קוטג' 5%&#10;2 ביצים לארג'&#10;חצי כפית דבש למתיקות"
-                                        className="w-full bg-slate-950/90 border border-slate-800 focus:border-emerald-500/50 rounded-xl p-3 md:p-4 text-xs md:text-sm text-slate-200 placeholder-slate-600 focus:outline-none transition-all resize-none focus:ring-1 focus:ring-emerald-500/20"
+                                        placeholder="לדוגמה:&#10;חצי גביע קוטג' 5%&#10;כוס חד פעמית שיבולת שועל דקה&#10;כף אחת סילאן טבעי&#10;ביצה אחת לארג'"
+                                        className="w-full bg-obsidian/80 border border-white/10 focus:border-cyberlime rounded-2xl p-4 text-xs sm:text-sm text-slate-200 placeholder-slate-600 focus:outline-none transition-all resize-none focus:ring-2 focus:ring-cyberlime/10 leading-relaxed font-medium"
                                     ></textarea>
 
-                                    {/* Yield portions counter */}
-                                    <div className="bg-slate-950/60 p-3 md:p-4 rounded-xl border border-slate-800/80 flex items-center justify-between">
+                                    {/* Elevated physical serving selector */}
+                                    <div className="bg-obsidian/60 p-4 rounded-2xl border border-white/5 flex items-center justify-between">
                                         <div className="space-y-0.5">
-                                            <span className="text-xs md:text-sm font-bold text-slate-300 block">מספר מנות במתכון</span>
-                                            <span className="text-[10px] text-slate-500 block">לחלוקת קלוריות פר פורציה</span>
+                                            <span className="text-xs sm:text-sm font-black text-slate-300 block">חלוקה למנות</span>
+                                            <span className="text-[10px] text-slate-500 block">חישוב קלוריות וערכים למנה יחידה</span>
                                         </div>
-                                        <div className="flex items-center gap-2">
+                                        <div className="flex items-center gap-3">
                                             <button 
                                                 type="button"
                                                 onClick={() => setServings(Math.max(1, servings - 1))}
-                                                className="w-9 h-9 bg-slate-850 hover:bg-slate-800 text-slate-200 rounded-lg flex items-center justify-center font-bold text-lg border border-slate-700 btn-active transition-colors"
+                                                className="w-10 h-10 bg-carbon hover:bg-slateice text-white rounded-xl flex items-center justify-center font-bold text-xl border border-white/10 btn-spring"
                                             >
                                                 -
                                             </button>
-                                            <span className="text-lg font-extrabold text-emerald-400 w-6 text-center">{servings}</span>
+                                            <span className="text-xl font-black text-cyberlime w-6 text-center font-mono">{servings}</span>
                                             <button 
                                                 type="button"
                                                 onClick={() => setServings(servings + 1)}
-                                                className="w-9 h-9 bg-slate-850 hover:bg-slate-800 text-slate-200 rounded-lg flex items-center justify-center font-bold text-lg border border-slate-700 btn-active transition-colors"
+                                                className="w-10 h-10 bg-carbon hover:bg-slateice text-white rounded-xl flex items-center justify-center font-bold text-xl border border-white/10 btn-spring"
                                             >
                                                 +
                                             </button>
                                         </div>
                                     </div>
 
-                                    {/* Submit Button */}
                                     <button 
                                         type="submit"
                                         disabled={loading}
-                                        className="w-full py-3.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black rounded-xl transition-all flex items-center justify-center gap-2 glow-emerald-hover btn-active text-sm md:text-base disabled:opacity-50"
+                                        className="w-full py-4 bg-cyberlime hover:bg-opacity-90 text-obsidian font-black rounded-2xl transition-all flex items-center justify-center gap-2 btn-spring shadow-[0_4px_25px_rgba(204,255,0,0.25)] text-sm sm:text-base disabled:opacity-50"
                                     >
-                                        {loading ? (
-                                            <>
-                                                <div className="w-5 h-5 border-2 border-slate-950 border-t-transparent rounded-full animate-spin"></div>
-                                                <span>מנתח כעת...</span>
-                                            </>
-                                        ) : (
-                                            <>
-                                                <SparklesIcon className="w-4 h-4" />
-                                                <span>חשבי קלוריות וערכים</span>
-                                            </>
-                                        )}
+                                        <SparklesIcon className="w-5 h-5 text-obsidian" />
+                                        <span>נתחי וחשבי ערכים</span>
                                     </button>
                                 </form>
                             </div>
 
-                            {/* Recent Analysis History */}
-                            <div className="glass-card p-4 rounded-2xl space-y-3">
-                                <h4 className="text-xs md:text-sm font-bold text-slate-400 flex items-center gap-2">
+                            {/* Recent Analysis Archive */}
+                            <div className="premium-card p-4 sm:p-5 rounded-3xl space-y-4">
+                                <h4 className="text-xs sm:text-sm font-extrabold text-slate-400 flex items-center gap-2">
                                     <HistoryIcon />
-                                    מתכונים שנותחו לאחרונה
+                                    ארכיון מתכונים לאחרונה
                                 </h4>
                                 {history.length === 0 ? (
-                                    <p className="text-[10px] text-slate-500">המתכונים שתנתחי יופיעו כאן לגישה מהירה.</p>
+                                    <p className="text-[11px] text-slate-600 leading-relaxed">המתכונים שתנתחי יישמרו כאן אוטומטית לשימוש מהיר חוזר.</p>
                                 ) : (
-                                    <div className="flex gap-2 md:grid md:grid-cols-1 overflow-x-auto pb-1 md:pb-0 md:max-h-[220px] md:overflow-y-auto no-scrollbar">
+                                    <div className="flex gap-2.5 lg:grid lg:grid-cols-1 overflow-x-auto pb-1 lg:pb-0 lg:max-h-[260px] lg:overflow-y-auto no-scrollbar">
                                         {history.map((item) => {
                                             const isSelected = analysisResult && (analysisResult.id === item.id);
                                             return (
                                                 <div 
                                                     key={item.id}
                                                     onClick={() => selectFromHistory(item)}
-                                                    className={`p-3 rounded-xl border text-right cursor-pointer transition-all flex justify-between items-center gap-3 min-w-[220px] md:min-w-0 group ${
+                                                    className={`p-3.5 rounded-2xl border text-right cursor-pointer transition-all flex justify-between items-center gap-4 min-w-[240px] lg:min-w-0 group btn-spring ${
                                                         isSelected 
-                                                        ? 'bg-emerald-500/10 border-emerald-500/45 text-white shadow-sm'
-                                                        : 'bg-slate-950/70 border-slate-800/80 hover:border-slate-700 text-slate-300'
+                                                        ? 'bg-cyberlime/10 border-cyberlime/40 text-white shadow-lg'
+                                                        : 'bg-obsidian/40 border-white/5 hover:border-white/10 text-slate-300'
                                                     }`}
                                                 >
                                                     <div className="truncate flex-grow">
-                                                        <span className="text-xs font-bold block truncate">{item.recipeName}</span>
-                                                        <span className="text-[10px] text-slate-500">{item.totalCalories} קל׳ | חלבון: {item.totalProtein || 0}ג׳</span>
+                                                        <span className="text-xs sm:text-sm font-black block truncate text-slate-100">{item.recipeName}</span>
+                                                        <span className="text-[10px] text-slate-500 font-mono">{item.totalCalories} kcal | Prot: {item.totalProtein || 0}g</span>
                                                     </div>
-                                                    <div className="flex items-center gap-1.5 flex-shrink-0">
-                                                        <span className="text-[10px] bg-slate-900 text-emerald-400 px-2 py-1 rounded font-semibold whitespace-nowrap">
-                                                            {item.caloriesPerServing || Math.round(item.totalCalories / (item.servings || 1))} קל'
+                                                    <div className="flex items-center gap-2 flex-shrink-0">
+                                                        <span className="text-[10px] bg-obsidian text-cyberlime px-2 py-1.5 rounded-lg font-black border border-cyberlime/10 font-mono">
+                                                            {item.caloriesPerServing || Math.round(item.totalCalories / (item.servings || 1))} kcal
                                                         </span>
                                                         <button
                                                             onClick={(e) => deleteFromHistory(item.id, e)}
-                                                            className="p-1.5 bg-red-950/30 hover:bg-red-900/40 text-red-400 hover:text-red-300 rounded-lg transition-colors border border-red-500/10"
-                                                            title="מחיקה מההיסטוריה"
+                                                            className="p-2 bg-warmcoral/5 hover:bg-warmcoral/20 text-warmcoral rounded-xl transition-colors border border-warmcoral/10"
+                                                            title="מחק מהיסטוריה"
                                                         >
                                                             <TrashIcon />
                                                         </button>
@@ -742,461 +744,442 @@
                             </div>
                         </section>
 
-                        {/* RIGHT COLUMN: Results & Calculators (Desktop visible, Mobile conditional) */}
-                        <section className={`lg:col-span-7 space-y-4 md:space-y-6 ${mobileSection === 'calculator' ? 'block' : 'hidden lg:block'}`}>
+                        {/* CALCULATION RESULTS PANEL: Chef's Ticket Design */}
+                        <section className={`lg:col-span-7 space-y-6 ${mobileSection === 'calculator' ? 'block' : 'hidden lg:block'}`}>
 
                             {error && (
-                                <div className="bg-red-500/10 border border-red-500/20 text-red-400 p-4 rounded-xl flex items-center gap-3 text-xs md:text-sm">
+                                <div className="bg-warmcoral/10 border border-warmcoral/20 text-warmcoral p-4 rounded-2xl flex items-center gap-3 text-xs sm:text-sm">
                                     <AlertTriangleIcon />
-                                    <p>{error}</p>
+                                    <p className="font-bold">{error}</p>
                                 </div>
                             )}
 
                             {!analysisResult ? (
-                                <div className="glass-card p-8 md:p-12 rounded-2xl flex flex-col items-center justify-center text-center space-y-4 border-dashed border-slate-800">
-                                    <div className="w-14 h-14 bg-slate-900 text-slate-600 rounded-full flex items-center justify-center">
-                                        <SparklesIcon className="w-6 h-6" />
+                                <div className="premium-card p-10 sm:p-14 rounded-3xl flex flex-col items-center justify-center text-center space-y-5 border-dashed border-white/10 glow-radial-coral">
+                                    <div className="w-16 h-16 bg-carbon border border-white/5 text-slate-600 rounded-2xl flex items-center justify-center shadow-inner">
+                                        <SparklesIcon className="w-7 h-7 text-slate-500" />
                                     </div>
-                                    <div className="space-y-1">
-                                        <h3 className="text-base md:text-lg font-bold text-white">מחכה למתכון הבריא שלך</h3>
-                                        <p className="text-xs text-slate-500 max-w-xs mx-auto">
-                                            הזיני בצד ימין את רשימת הרכיבים, לחצי על כפתור הניתוח ותקבלי פירוט ערכים מדויק ומחשבון כפות אינטראקטיבי!
+                                    <div className="space-y-2 max-w-sm">
+                                        <h3 className="text-base sm:text-lg font-black text-white">ממתין למתכון המזין שלך</h3>
+                                        <p className="text-xs text-slate-400 leading-relaxed">
+                                            הזיני את רשימת הרכיבים בצד ימין, לחצי על כפתור הניתוח ותקבלי פירוט ערכים מדויק ומחשבון כפות אינטראקטיבי מעוצב!
                                         </p>
                                     </div>
                                     <button
                                         type="button"
                                         onClick={loadDemoRecipe}
-                                        className="mt-2 bg-emerald-500/10 border border-emerald-500/20 hover:bg-emerald-500/20 text-emerald-400 px-4 py-2 rounded-xl text-xs font-bold btn-active transition-all"
+                                        className="bg-cyberlime/10 border border-cyberlime/20 hover:bg-cyberlime/20 text-cyberlime px-5 py-2.5 rounded-2xl text-xs font-black btn-spring tracking-wide"
                                     >
-                                        בדקי אותנו עכשיו עם מתכון לדוגמה 👈
+                                        בדיקה מהירה עם מתכון לדוגמה 👈
                                     </button>
                                 </div>
                             ) : (
-                                <div className="space-y-4 md:space-y-6">
+                                <div className="space-y-6">
 
-                                    {/* Main Display Area */}
-                                    <div className="glass-card p-4 md:p-6 rounded-2xl relative overflow-hidden glow-emerald space-y-4">
+                                    {/* The Chef's Premium Receipt Ticket */}
+                                    <div className="kitchen-ticket p-6 rounded-t-3xl relative overflow-hidden glow-radial-coral border-r-2 border-r-warmcoral">
 
-                                        {/* Status Tags & Copy action */}
-                                        <div className="flex justify-between items-start gap-2">
-                                            <div className="flex flex-wrap gap-1 md:gap-1.5">
+                                        {/* Ticket header details */}
+                                        <div className="flex justify-between items-start gap-3 pb-4 border-b border-white/5">
+                                            <div className="flex flex-wrap gap-1.5">
                                                 {analysisResult.dietaryNotes && analysisResult.dietaryNotes.map((note, idx) => (
-                                                    <span key={idx} className="text-[9px] md:text-[10px] bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 px-2.5 py-0.5 rounded-full font-bold">
+                                                    <span key={idx} className="text-[10px] bg-warmcoral/10 border border-warmcoral/20 text-warmcoral px-2.5 py-0.5 rounded-full font-extrabold">
                                                         {note}
                                                     </span>
                                                 ))}
                                             </div>
 
-                                            {/* Share Button */}
                                             <button
                                                 onClick={copySummaryToClipboard}
-                                                className="bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 text-emerald-400 px-3 py-1.5 rounded-xl text-[11px] font-bold flex items-center gap-1.5 transition-all btn-active"
+                                                className="bg-white/5 hover:bg-cyberlime/10 border border-white/10 hover:border-cyberlime/30 text-slate-300 hover:text-cyberlime px-3 py-1.5 rounded-xl text-[11px] font-black flex items-center gap-1.5 transition-all btn-spring"
                                             >
                                                 <CopyIcon />
                                                 <span>העתקת סיכום</span>
                                             </button>
                                         </div>
 
-                                        <h2 className="text-lg md:text-xl font-black text-white tracking-tight">{analysisResult.recipeName}</h2>
-
-                                        {/* Dynamic Metric Tabs selector */}
-                                        <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                                            <button 
-                                                onClick={() => setActiveTab("serving")}
-                                                className={`p-2.5 rounded-xl flex flex-col items-center gap-1 transition-all btn-active ${
-                                                    activeTab === "serving" 
-                                                    ? 'bg-emerald-500 text-slate-950 font-bold shadow-lg shadow-emerald-500/20' 
-                                                    : 'bg-slate-900/90 hover:bg-slate-800 text-slate-400'
-                                                }`}
-                                            >
-                                                <UtensilsIcon className="w-3.5 h-3.5 md:w-4 md:h-4" />
-                                                <span className="text-[11px] md:text-xs">לפי מנה</span>
-                                            </button>
-                                            <button 
-                                                onClick={() => setActiveTab("tablespoon")}
-                                                className={`p-2.5 rounded-xl flex flex-col items-center gap-1 transition-all btn-active ${
-                                                    activeTab === "tablespoon" 
-                                                    ? 'bg-emerald-500 text-slate-950 font-bold shadow-lg shadow-emerald-500/20' 
-                                                    : 'bg-slate-900/90 hover:bg-slate-800 text-slate-400'
-                                                }`}
-                                            >
-                                                <SpoonIcon className="w-3.5 h-3.5 md:w-4 md:h-4" />
-                                                <span className="text-[11px] md:text-xs">לפי כף</span>
-                                            </button>
-                                            <button 
-                                                onClick={() => setActiveTab("100g")}
-                                                className={`p-2.5 rounded-xl flex flex-col items-center gap-1 transition-all btn-active ${
-                                                    activeTab === "100g" 
-                                                    ? 'bg-emerald-500 text-slate-950 font-bold shadow-lg shadow-emerald-500/20' 
-                                                    : 'bg-slate-900/90 hover:bg-slate-800 text-slate-400'
-                                                }`}
-                                            >
-                                                <ScaleIcon className="w-3.5 h-3.5 md:w-4 md:h-4" />
-                                                <span className="text-[11px] md:text-xs">ל-100 גרם</span>
-                                            </button>
-                                            <button 
-                                                onClick={() => setActiveTab("custom")}
-                                                className={`p-2.5 rounded-xl flex flex-col items-center gap-1 transition-all btn-active ${
-                                                    activeTab === "custom" 
-                                                    ? 'bg-emerald-500 text-slate-950 font-bold shadow-lg shadow-emerald-500/20' 
-                                                    : 'bg-slate-900/90 hover:bg-slate-800 text-slate-400'
-                                                }`}
-                                            >
-                                                <CalculatorIcon className="w-3.5 h-3.5 md:w-4 md:h-4" />
-                                                <span className="text-[11px] md:text-xs">חישוב מותאם</span>
-                                            </button>
-                                        </div>
-
-                                        {/* Large Circular/Square Calorie Display Badge with Macronutrients */}
-                                        <div className="bg-slate-950/80 p-5 md:p-6 rounded-2xl border border-slate-800/80 space-y-4 relative">
-                                            <div className="flex flex-col items-center text-center space-y-1">
-                                                <span className="text-emerald-400 text-[10px] md:text-xs font-bold tracking-wider uppercase">{currentMetric.label}</span>
-                                                <div className="flex items-baseline justify-center">
-                                                    <span className="text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tighter">{currentMetric.val}</span>
-                                                    <span className="text-sm md:text-base font-bold text-slate-400 mr-1.5">קלוריות</span>
-                                                </div>
-                                                <p className="text-[10px] md:text-xs text-slate-500">{currentMetric.sub}</p>
+                                        <div className="pt-4 space-y-4">
+                                            <div className="space-y-1">
+                                                <span className="text-[10px] font-bold text-warmcoral tracking-widest block uppercase">ANALYZED RECIPE</span>
+                                                <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">{analysisResult.recipeName}</h2>
                                             </div>
 
-                                            {/* Beautiful Macronutrients Cards/Progress indicators */}
-                                            <div className="grid grid-cols-3 gap-3 pt-2 border-t border-slate-800/60">
-                                                <div className="flex flex-col items-center p-2 bg-blue-500/10 rounded-xl border border-blue-500/15">
-                                                    <span className="text-[10px] text-blue-400 font-bold block mb-1">חלבון</span>
-                                                    <span className="text-sm md:text-base font-black text-white">{currentMetric.protein || 0}ג׳</span>
-                                                    <div className="w-full bg-slate-900 h-1.5 rounded-full overflow-hidden mt-1.5">
-                                                        <div className="bg-blue-500 h-full rounded-full" style={{ width: `${Math.min(100, ((currentMetric.protein || 0) / ((currentMetric.protein || 1) + (currentMetric.carbs || 1) + (currentMetric.fats || 1))) * 100)}%` }}></div>
-                                                    </div>
-                                                </div>
-                                                <div className="flex flex-col items-center p-2 bg-amber-500/10 rounded-xl border border-amber-500/15">
-                                                    <span className="text-[10px] text-amber-400 font-bold block mb-1">פחמימות</span>
-                                                    <span className="text-sm md:text-base font-black text-white">{currentMetric.carbs || 0}ג׳</span>
-                                                    <div className="w-full bg-slate-900 h-1.5 rounded-full overflow-hidden mt-1.5">
-                                                        <div className="bg-amber-500 h-full rounded-full" style={{ width: `${Math.min(100, ((currentMetric.carbs || 0) / ((currentMetric.protein || 1) + (currentMetric.carbs || 1) + (currentMetric.fats || 1))) * 100)}%` }}></div>
-                                                    </div>
-                                                </div>
-                                                <div className="flex flex-col items-center p-2 bg-rose-500/10 rounded-xl border border-rose-500/15">
-                                                    <span className="text-[10px] text-rose-400 font-bold block mb-1">שומן</span>
-                                                    <span className="text-sm md:text-base font-black text-white">{currentMetric.fats || 0}ג׳</span>
-                                                    <div className="w-full bg-slate-900 h-1.5 rounded-full overflow-hidden mt-1.5">
-                                                        <div className="bg-rose-500 h-full rounded-full" style={{ width: `${Math.min(100, ((currentMetric.fats || 0) / ((currentMetric.protein || 1) + (currentMetric.carbs || 1) + (currentMetric.fats || 1))) * 100)}%` }}></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        {/* Super Interactive Gram Jump & Correction Section */}
-                                        <div className="bg-emerald-500/[0.03] border border-emerald-500/15 p-4 rounded-xl space-y-4">
-
-                                            {/* Tab Indicator Title */}
-                                            <div className="flex items-center justify-between">
-                                                <h3 className="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
-                                                    <InfoIcon />
-                                                    כיול ודיוק מדעי (לפי המשקל בפועל)
-                                                </h3>
-                                                <span className="text-[9px] bg-emerald-500/10 text-emerald-300 px-2 py-0.5 rounded font-bold">דיוק 100%</span>
+                                            {/* Design-forward Segmented Selector tabs */}
+                                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 p-1 bg-obsidian/80 rounded-2xl border border-white/5">
+                                                {[
+                                                    { key: "serving", label: "לפי מנה" },
+                                                    { key: "tablespoon", label: "לפי כף" },
+                                                    { key: "100g", label: "ל-100 גרם" },
+                                                    { key: "custom", label: "מותאם אישית" }
+                                                ].map((t) => (
+                                                    <button
+                                                        key={t.key}
+                                                        type="button"
+                                                        onClick={() => setActiveTab(t.key)}
+                                                        className={`py-2 px-1 rounded-xl text-xs font-black transition-all btn-spring ${
+                                                            activeTab === t.key
+                                                            ? 'bg-cyberlime text-obsidian shadow-lg shadow-cyberlime/10 font-black'
+                                                            : 'text-slate-400 hover:text-white hover:bg-white/5'
+                                                        }`}
+                                                    >
+                                                        {t.label}
+                                                    </button>
+                                                ))}
                                             </div>
 
-                                            {/* Smart Steppers for Weight Adjustment */}
-                                            <div className="space-y-4">
+                                            {/* Primary Giant Display metric */}
+                                            <div className="bg-obsidian/70 p-5 sm:p-6 rounded-2xl border border-white/5 text-center relative overflow-hidden">
+                                                <div className="absolute top-0 right-0 w-24 h-24 bg-warmcoral/5 rounded-full blur-2xl pointer-events-none"></div>
+                                                <div className="space-y-1">
+                                                    <span className="text-cyberlime text-[11px] font-black tracking-wider block">{currentMetric.label}</span>
+                                                    <div className="flex items-baseline justify-center gap-1">
+                                                        <span className="text-5xl sm:text-6xl font-black text-white tracking-tighter font-mono">{currentMetric.val}</span>
+                                                        <span className="text-xs sm:text-sm font-black text-slate-400 uppercase">kcal</span>
+                                                    </div>
+                                                    <p className="text-[11px] text-slate-500 font-medium leading-relaxed">{currentMetric.sub}</p>
+                                                </div>
 
-                                                {/* Weight Adjustment block with swift-jump buttons */}
-                                                <div className="bg-slate-950/50 p-3 rounded-lg border border-slate-900 space-y-3">
-                                                    <div className="flex justify-between items-center">
-                                                        <span className="text-xs text-slate-300 font-medium">משקל סופי מבושל / אפוי של המנה:</span>
-                                                        <span className="text-xs text-emerald-400 font-black bg-emerald-500/10 px-2.5 py-1 rounded border border-emerald-500/20">{cookedWeight} ג'</span>
+                                                {/* Premium custom macronutrient visual progress meters */}
+                                                <div className="grid grid-cols-3 gap-3 pt-5 mt-4 border-t border-white/5">
+
+                                                    {/* Protein Card */}
+                                                    <div className="p-2 bg-blue-500/5 rounded-xl border border-blue-500/10 text-center">
+                                                        <span className="text-[10px] text-blue-400 font-black block mb-0.5">חלבון</span>
+                                                        <span className="text-sm sm:text-base font-black text-white font-mono">{currentMetric.protein || 0}g</span>
+                                                        <div className="w-full bg-obsidian h-1.5 rounded-full overflow-hidden mt-1.5">
+                                                            <div className="bg-blue-400 h-full rounded-full" style={{ width: `${Math.min(100, ((currentMetric.protein || 0) / ((currentMetric.protein || 1) + (currentMetric.carbs || 1) + (currentMetric.fats || 1))) * 100)}%` }}></div>
+                                                        </div>
                                                     </div>
 
-                                                    {/* Smart Gram Shifting Step controllers */}
+                                                    {/* Carbs Card */}
+                                                    <div className="p-2 bg-amber-500/5 rounded-xl border border-amber-500/10 text-center">
+                                                        <span className="text-[10px] text-amber-400 font-black block mb-0.5">פחמימות</span>
+                                                        <span className="text-sm sm:text-base font-black text-white font-mono">{currentMetric.carbs || 0}g</span>
+                                                        <div className="w-full bg-obsidian h-1.5 rounded-full overflow-hidden mt-1.5">
+                                                            <div className="bg-amber-400 h-full rounded-full" style={{ width: `${Math.min(100, ((currentMetric.carbs || 0) / ((currentMetric.protein || 1) + (currentMetric.carbs || 1) + (currentMetric.fats || 1))) * 100)}%` }}></div>
+                                                        </div>
+                                                    </div>
+
+                                                    {/* Fats Card */}
+                                                    <div className="p-2 bg-rose-500/5 rounded-xl border border-rose-500/10 text-center">
+                                                        <span className="text-[10px] text-rose-400 font-black block mb-0.5">שומנים</span>
+                                                        <span className="text-sm sm:text-base font-black text-white font-mono">{currentMetric.fats || 0}g</span>
+                                                        <div className="w-full bg-obsidian h-1.5 rounded-full overflow-hidden mt-1.5">
+                                                            <div className="bg-rose-400 h-full rounded-full" style={{ width: `${Math.min(100, ((currentMetric.fats || 0) / ((currentMetric.protein || 1) + (currentMetric.carbs || 1) + (currentMetric.fats || 1))) * 100)}%` }}></div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            {/* Precise Real-weight Calibration controls */}
+                                            <div className="bg-white/[0.02] border border-white/5 p-4 rounded-2xl space-y-4">
+                                                <div className="flex items-center justify-between">
+                                                    <span className="text-xs font-black text-cyberlime flex items-center gap-1.5">
+                                                        <InfoIcon />
+                                                        כיול ודיוק קולינרי (לפי השקילה במטבח)
+                                                    </span>
+                                                    <span className="text-[9px] bg-cyberlime/10 text-cyberlime px-2 py-0.5 rounded font-black tracking-wider">LAB GRADE</span>
+                                                </div>
+
+                                                <div className="space-y-3.5">
+                                                    {/* Cooked weight adjustment */}
+                                                    <div className="bg-obsidian/60 p-3.5 rounded-xl border border-white/5 space-y-2.5">
+                                                        <div className="flex justify-between items-center">
+                                                            <span className="text-xs text-slate-300 font-bold">משקל המנה המוכנה הסופי (גרם):</span>
+                                                            <span className="text-xs text-cyberlime font-black bg-cyberlime/10 px-2.5 py-1 rounded-lg border border-cyberlime/20 font-mono">{cookedWeight}g</span>
+                                                        </div>
+                                                        <div className="flex items-center gap-2">
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => adjustCookedWeight(-50)}
+                                                                className="flex-1 py-1.5 bg-carbon hover:bg-slateice text-[11px] text-slate-300 font-black rounded-lg border border-white/5 btn-spring font-mono"
+                                                            >
+                                                                -50
+                                                            </button>
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => adjustCookedWeight(-10)}
+                                                                className="flex-1 py-1.5 bg-carbon hover:bg-slateice text-[11px] text-slate-300 font-black rounded-lg border border-white/5 btn-spring font-mono"
+                                                            >
+                                                                -10
+                                                            </button>
+
+                                                            <input
+                                                                type="number"
+                                                                pattern="[0-9]*"
+                                                                inputMode="numeric"
+                                                                value={cookedWeight === 0 ? "" : cookedWeight}
+                                                                onChange={(e) => {
+                                                                    const val = e.target.value;
+                                                                    setCookedWeight(val === "" ? 0 : Math.max(0, parseInt(val) || 0));
+                                                                }}
+                                                                onBlur={() => {
+                                                                    if (cookedWeight === 0) setCookedWeight(analysisResult.totalWeightGrams || 100);
+                                                                }}
+                                                                className="w-16 bg-obsidian border border-cyberlime/30 text-center text-sm font-black text-white rounded-lg py-1 focus:outline-none focus:border-cyberlime font-mono"
+                                                            />
+
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => adjustCookedWeight(10)}
+                                                                className="flex-1 py-1.5 bg-carbon hover:bg-slateice text-[11px] text-slate-300 font-black rounded-lg border border-white/5 btn-spring font-mono"
+                                                            >
+                                                                +10
+                                                            </button>
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => adjustCookedWeight(50)}
+                                                                className="flex-1 py-1.5 bg-carbon hover:bg-slateice text-[11px] text-slate-300 font-black rounded-lg border border-white/5 btn-spring font-mono"
+                                                            >
+                                                                +50
+                                                            </button>
+                                                        </div>
+                                                        <div className="flex flex-wrap items-center gap-1.5 pt-1">
+                                                            <span className="text-[10px] text-slate-500 font-bold">קיצורי דרך:</span>
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => setCookedWeight(analysisResult.totalWeightGrams)}
+                                                                className="text-[9px] bg-carbon hover:bg-slateice text-slate-300 px-2.5 py-1 rounded-lg border border-white/5 btn-spring font-bold"
+                                                            >
+                                                                מקורי ({analysisResult.totalWeightGrams}ג')
+                                                            </button>
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => setCookedWeight(Math.round(analysisResult.totalWeightGrams * 0.7))}
+                                                                className="text-[9px] bg-carbon hover:bg-slateice text-slate-300 px-2.5 py-1 rounded-lg border border-white/5 btn-spring font-bold"
+                                                            >
+                                                                צמצום נוזלים/אפייה (-30%)
+                                                            </button>
+                                                        </div>
+                                                    </div>
+
+                                                    {/* Tablespoon Weight block with easy controls */}
+                                                    <div className="bg-obsidian/60 p-3.5 rounded-xl border border-white/5 space-y-2.5">
+                                                        <div className="flex justify-between items-center">
+                                                            <span className="text-xs text-slate-300 font-bold">משקל כף ממוצעת למתכון זה:</span>
+                                                            <div className="flex items-center gap-2">
+                                                                <button
+                                                                    type="button"
+                                                                    onClick={() => setTableSpoonWeight(Math.max(1, tableSpoonWeight - 1))}
+                                                                    className="w-8 h-8 bg-carbon text-cyberlime font-black rounded-lg flex items-center justify-center border border-white/5 btn-spring"
+                                                                >
+                                                                    -
+                                                                </button>
+                                                                <span className="text-xs text-white font-black font-mono w-8 text-center">{tableSpoonWeight}g</span>
+                                                                <button
+                                                                    type="button"
+                                                                    onClick={() => setTableSpoonWeight(tableSpoonWeight + 1)}
+                                                                    className="w-8 h-8 bg-carbon text-cyberlime font-black rounded-lg flex items-center justify-center border border-white/5 btn-spring"
+                                                                >
+                                                                    +
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        <div className="grid grid-cols-3 gap-1.5">
+                                                            {[
+                                                                { w: 6, label: "קלה ~6ג׳ (פלקס)" },
+                                                                { w: 15, label: "בינונית ~15ג׳ (נוזל)" },
+                                                                { w: 24, label: "כבדה ~24ג׳ (ממרח)" }
+                                                            ].map((opt) => (
+                                                                <button
+                                                                    key={opt.w}
+                                                                    type="button"
+                                                                    onClick={() => setTableSpoonWeight(opt.w)}
+                                                                    className={`text-[10px] py-2 px-1 rounded-lg text-center border transition-all btn-spring font-bold ${
+                                                                        tableSpoonWeight === opt.w
+                                                                        ? 'bg-cyberlime text-obsidian border-cyberlime'
+                                                                        : 'bg-carbon/50 border-white/5 text-slate-400'
+                                                                    }`}
+                                                                >
+                                                                    {opt.label}
+                                                                </button>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            {/* Custom Gram calculation box */}
+                                            {activeTab === "custom" && (
+                                                <div className="p-4 bg-obsidian rounded-2xl border border-white/5 space-y-3.5">
+                                                    <h4 className="text-xs font-black text-slate-300">הגדירי כמות צריכה בגרמים בצלחת:</h4>
                                                     <div className="flex items-center gap-2">
                                                         <button
                                                             type="button"
-                                                            onClick={() => adjustCookedWeight(-50)}
-                                                            className="flex-1 py-1.5 bg-slate-900 hover:bg-slate-850 active:bg-slate-800 text-[11px] text-slate-400 font-bold rounded-lg border border-slate-800 btn-active"
+                                                            onClick={() => adjustCustomGrams(-50)}
+                                                            className="px-2.5 py-1.5 bg-carbon hover:bg-slateice text-[10px] font-black rounded-lg border border-white/5 btn-spring font-mono"
                                                         >
-                                                            -50
+                                                            -50g
                                                         </button>
                                                         <button
                                                             type="button"
-                                                            onClick={() => adjustCookedWeight(-10)}
-                                                            className="flex-1 py-1.5 bg-slate-900 hover:bg-slate-850 active:bg-slate-800 text-[11px] text-slate-400 font-bold rounded-lg border border-slate-800 btn-active"
+                                                            onClick={() => adjustCustomGrams(-10)}
+                                                            className="px-2.5 py-1.5 bg-carbon hover:bg-slateice text-[10px] font-black rounded-lg border border-white/5 btn-spring font-mono"
                                                         >
-                                                            -10
+                                                            -10g
                                                         </button>
 
-                                                        {/* Native numeric input field */}
                                                         <input
                                                             type="number"
                                                             pattern="[0-9]*"
                                                             inputMode="numeric"
-                                                            value={cookedWeight}
-                                                            onChange={(e) => setCookedWeight(Math.max(1, parseInt(e.target.value) || 0))}
-                                                            className="w-16 bg-slate-950 border border-emerald-500/30 text-center text-sm font-bold text-white rounded-lg py-1 focus:outline-none focus:border-emerald-500"
+                                                            value={customGrams === 0 ? "" : customGrams}
+                                                            onChange={(e) => {
+                                                                const val = e.target.value;
+                                                                setCustomGrams(val === "" ? 0 : Math.max(0, parseInt(val) || 0));
+                                                            }}
+                                                            onBlur={() => {
+                                                                if (customGrams === 0) setCustomGrams(100);
+                                                            }}
+                                                            className="flex-grow bg-obsidian border border-cyberlime/30 rounded-xl py-2 text-center text-sm font-black text-white focus:outline-none focus:border-cyberlime font-mono"
                                                         />
 
                                                         <button
                                                             type="button"
-                                                            onClick={() => adjustCookedWeight(10)}
-                                                            className="flex-1 py-1.5 bg-slate-900 hover:bg-slate-850 active:bg-slate-800 text-[11px] text-slate-400 font-bold rounded-lg border border-slate-800 btn-active"
+                                                            onClick={() => adjustCustomGrams(10)}
+                                                            className="px-2.5 py-1.5 bg-carbon hover:bg-slateice text-[10px] font-black rounded-lg border border-white/5 btn-spring font-mono"
                                                         >
-                                                            +10
+                                                            +10g
                                                         </button>
                                                         <button
                                                             type="button"
-                                                            onClick={() => adjustCookedWeight(50)}
-                                                            className="flex-1 py-1.5 bg-slate-900 hover:bg-slate-850 active:bg-slate-800 text-[11px] text-slate-400 font-bold rounded-lg border border-slate-800 btn-active"
+                                                            onClick={() => adjustCustomGrams(50)}
+                                                            className="px-2.5 py-1.5 bg-carbon hover:bg-slateice text-[10px] font-black rounded-lg border border-white/5 btn-spring font-mono"
                                                         >
-                                                            +50
+                                                            +50g
                                                         </button>
                                                     </div>
 
-                                                    {/* Presets and range slider for easy broad jumps */}
-                                                    <div className="flex flex-wrap items-center gap-1.5 pt-1">
-                                                        <span className="text-[10px] text-slate-500 ml-1">קיצורים:</span>
-                                                        <button
-                                                            type="button"
-                                                            onClick={() => setCookedWeight(analysisResult.totalWeightGrams)}
-                                                            className="text-[9px] bg-slate-900 hover:bg-slate-850 text-slate-300 px-2 py-1 rounded border border-slate-800 btn-active"
-                                                        >
-                                                            משקל מקורי AI ({analysisResult.totalWeightGrams}ג')
-                                                        </button>
-                                                        <button
-                                                            type="button"
-                                                            onClick={() => setCookedWeight(Math.round(analysisResult.totalWeightGrams * 0.7))}
-                                                            className="text-[9px] bg-slate-900 hover:bg-slate-850 text-slate-300 px-2 py-1 rounded border border-slate-800 btn-active"
-                                                        >
-                                                            צמצום נוזלים (-30%)
-                                                        </button>
-                                                        <button
-                                                            type="button"
-                                                            onClick={() => setCookedWeight(Math.round(analysisResult.totalWeightGrams * 1.3))}
-                                                            className="text-[9px] bg-slate-900 hover:bg-slate-850 text-slate-300 px-2 py-1 rounded border border-slate-800 btn-active"
-                                                        >
-                                                            תוספת מים (+30%)
-                                                        </button>
-                                                    </div>
-                                                </div>
-
-                                                {/* Tablespoon Weight block with easy controls */}
-                                                <div className="bg-slate-950/50 p-3 rounded-lg border border-slate-900 space-y-2">
-                                                    <div className="flex justify-between items-center">
-                                                        <span className="text-xs text-slate-300 font-medium">משקל כף הגשה אחת:</span>
-                                                        <div className="flex items-center gap-2">
-                                                            <button 
+                                                    <div className="grid grid-cols-4 gap-1.5">
+                                                        {[50, 100, 150, 200, 250, 300, 400, 500].map((v) => (
+                                                            <button
+                                                                key={v}
                                                                 type="button"
-                                                                onClick={() => setTableSpoonWeight(Math.max(1, tableSpoonWeight - 1))}
-                                                                className="w-7 h-7 bg-slate-900 text-emerald-400 font-black rounded flex items-center justify-center border border-slate-800 btn-active text-sm"
+                                                                onClick={() => setCustomGrams(v)}
+                                                                className={`py-1.5 text-[10px] font-black rounded-lg border text-center transition-colors btn-spring font-mono ${
+                                                                    customGrams === v
+                                                                    ? 'bg-cyberlime border-cyberlime text-obsidian'
+                                                                    : 'bg-carbon/50 border-white/5 text-slate-400 hover:bg-slateice'
+                                                                }`}
                                                             >
-                                                                -
+                                                                {v}g
                                                             </button>
-                                                            <span className="text-xs text-white font-extrabold">{tableSpoonWeight} ג'</span>
-                                                            <button 
-                                                                type="button"
-                                                                onClick={() => setTableSpoonWeight(tableSpoonWeight + 1)}
-                                                                className="w-7 h-7 bg-slate-900 text-emerald-400 font-black rounded flex items-center justify-center border border-slate-800 btn-active text-sm"
-                                                            >
-                                                                +
-                                                            </button>
-                                                        </div>
+                                                        ))}
                                                     </div>
-                                                    <div className="grid grid-cols-3 gap-1.5">
-                                                        <button 
-                                                            type="button"
-                                                            onClick={() => setTableSpoonWeight(6)} 
-                                                            className={`text-[9px] py-1 px-1 rounded text-center border transition-all btn-active ${tableSpoonWeight === 6 ? 'bg-emerald-500 text-slate-950 font-bold border-emerald-500' : 'bg-slate-900/50 border-slate-800 text-slate-400'}`}
-                                                        >
-                                                            קלה (קורנפלקס) ~6ג'
-                                                        </button>
-                                                        <button 
-                                                            type="button"
-                                                            onClick={() => setTableSpoonWeight(15)} 
-                                                            className={`text-[9px] py-1 px-1 rounded text-center border transition-all btn-active ${tableSpoonWeight === 15 ? 'bg-emerald-500 text-slate-950 font-bold border-emerald-500' : 'bg-slate-900/50 border-slate-800 text-slate-400'}`}
-                                                        >
-                                                            בינונית (נוזלים/מרק) ~15ג'
-                                                        </button>
-                                                        <button 
-                                                            type="button"
-                                                            onClick={() => setTableSpoonWeight(24)} 
-                                                            className={`text-[9px] py-1 px-1 rounded text-center border transition-all btn-active ${tableSpoonWeight === 24 ? 'bg-emerald-500 text-slate-950 font-bold border-emerald-500' : 'bg-slate-900/50 border-slate-800 text-slate-400'}`}
-                                                        >
-                                                            כבדה (ממרח/פירה) ~24ג'
-                                                        </button>
+
+                                                    <div className="pt-3 border-t border-white/5 flex justify-between items-center text-[11px] font-bold text-slate-400">
+                                                        <span>חלוקת כפות הגשה משוערכת:</span>
+                                                        <span className="text-cyberlime font-black bg-cyberlime/5 px-2.5 py-1 rounded-lg border border-cyberlime/10 font-mono">
+                                                            {Math.round((customGrams / (tableSpoonWeight || 15)) * 10) / 10} כפות
+                                                        </span>
                                                     </div>
                                                 </div>
+                                            )}
 
-                                            </div>
-                                        </div>
-
-                                        {/* Custom Gram interactive calculation */}
-                                        {activeTab === "custom" && (
-                                            <div className="mt-2 p-3.5 bg-slate-950/80 rounded-xl border border-slate-800/80 space-y-3">
-                                                <h4 className="text-xs font-bold text-slate-300">הגדירי כמות מדויקת לצריכה בצלחת:</h4>
-
-                                                <div className="flex items-center gap-2">
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => adjustCustomGrams(-50)}
-                                                        className="px-2 py-1.5 bg-slate-900 hover:bg-slate-850 text-[10px] font-bold rounded border border-slate-850 btn-active text-slate-400"
-                                                    >
-                                                        -50ג'
-                                                    </button>
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => adjustCustomGrams(-10)}
-                                                        className="px-2 py-1.5 bg-slate-900 hover:bg-slate-850 text-[10px] font-bold rounded border border-slate-850 btn-active text-slate-400"
-                                                    >
-                                                        -10ג'
-                                                    </button>
-
-                                                    <input
-                                                        type="number"
-                                                        pattern="[0-9]*"
-                                                        inputMode="numeric"
-                                                        min="1"
-                                                        value={customGrams}
-                                                        onChange={(e) => setCustomGrams(Math.max(1, parseInt(e.target.value) || 0))}
-                                                        className="flex-grow bg-slate-900 border border-emerald-500/30 rounded-lg py-1.5 text-center text-sm font-extrabold text-white focus:outline-none focus:border-emerald-500"
-                                                    />
-
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => adjustCustomGrams(10)}
-                                                        className="px-2 py-1.5 bg-slate-900 hover:bg-slate-850 text-[10px] font-bold rounded border border-slate-850 btn-active text-slate-400"
-                                                    >
-                                                        +10ג'
-                                                    </button>
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => adjustCustomGrams(50)}
-                                                        className="px-2 py-1.5 bg-slate-900 hover:bg-slate-850 text-[10px] font-bold rounded border border-slate-850 btn-active text-slate-400"
-                                                    >
-                                                        +50ג'
-                                                    </button>
+                                            {/* Overview stats table */}
+                                            <div className="grid grid-cols-3 gap-2 pt-3 border-t border-white/5 text-center">
+                                                <div className="bg-obsidian/40 p-2.5 rounded-xl border border-white/5">
+                                                    <span className="text-[10px] text-slate-500 font-bold block">סה"כ קלוריות</span>
+                                                    <span className="text-xs sm:text-sm font-black text-white font-mono">{analysisResult.totalCalories}</span>
                                                 </div>
-
-                                                {/* Preselected values selector grids */}
-                                                <div className="grid grid-cols-4 gap-1.5">
-                                                    {[50, 100, 150, 200, 250, 300, 400, 500].map((val) => (
-                                                        <button
-                                                            key={val}
-                                                            type="button"
-                                                            onClick={() => setCustomGrams(val)}
-                                                            className={`py-1 text-[10px] font-semibold rounded border text-center transition-colors btn-active ${customGrams === val ? 'bg-emerald-500 border-emerald-500 text-slate-950 font-bold' : 'bg-slate-900/50 border-slate-800 text-slate-400 hover:bg-slate-800'}`}
-                                                        >
-                                                            {val}ג'
-                                                        </button>
-                                                    ))}
+                                                <div className="bg-obsidian/40 p-2.5 rounded-xl border border-white/5">
+                                                    <span className="text-[10px] text-slate-500 font-bold block">משקל מבושל</span>
+                                                    <span className="text-xs sm:text-sm font-black text-white font-mono">{cookedWeight}g</span>
                                                 </div>
-
-                                                <div className="pt-2.5 border-t border-slate-900 flex justify-between items-center text-[11px]">
-                                                    <span className="text-slate-400">כמה כפות זה בערך?</span>
-                                                    <span className="text-emerald-400 font-bold bg-emerald-500/5 px-2 py-0.5 rounded border border-emerald-500/10">
-                                                        {Math.round((customGrams / (tableSpoonWeight || 15)) * 10) / 10} כפות הגשה
-                                                    </span>
+                                                <div className="bg-obsidian/40 p-2.5 rounded-xl border border-white/5">
+                                                    <span className="text-[10px] text-slate-500 font-bold block">כף הגשה</span>
+                                                    <span className="text-xs sm:text-sm font-black text-white font-mono">~{tableSpoonWeight}g</span>
                                                 </div>
                                             </div>
-                                        )}
 
-                                        {/* Extra General Stats Footer Row */}
-                                        <div className="grid grid-cols-3 gap-2 mt-2 pt-3 border-t border-slate-800/80 text-center">
-                                            <div className="bg-slate-950/40 p-2 rounded-lg">
-                                                <span className="text-[9px] text-slate-500 block">סה"כ במתכון</span>
-                                                <span className="text-xs font-bold text-white">{analysisResult.totalCalories} קל'</span>
-                                            </div>
-                                            <div className="bg-slate-950/40 p-2 rounded-lg">
-                                                <span className="text-[9px] text-slate-500 block">משקל מבושל</span>
-                                                <span className="text-xs font-bold text-white">{cookedWeight} גרם</span>
-                                            </div>
-                                            <div className="bg-slate-950/40 p-2 rounded-lg">
-                                                <span className="text-[9px] text-slate-500 block">כף הגשה אחת</span>
-                                                <span className="text-xs font-bold text-white">~ {tableSpoonWeight} ג'</span>
-                                            </div>
                                         </div>
                                     </div>
 
-                                    {/* Ingredient Breakdown */}
-                                    <div className="glass-card p-4 md:p-6 rounded-2xl space-y-3">
-                                        <h3 className="text-xs md:text-sm font-bold text-slate-300 flex items-center justify-between">
+                                    {/* Ingredient Breakdown Table */}
+                                    <div className="premium-card p-5 sm:p-6 rounded-3xl space-y-4">
+                                        <h3 className="text-xs sm:text-sm font-black text-slate-300 flex items-center justify-between">
                                             <span className="flex items-center gap-2">
-                                                <ListChecksIcon />
-                                                פירוט וניתוח רכיבים מהמתכון
+                                                <span className="w-1.5 h-1.5 bg-cyberlime rounded-full"></span>
+                                                פירוט וניתוח הרכיבים (AI Smart)
                                             </span>
-                                            <span className="text-[10px] text-slate-500">לפי ניתוח ה-AI</span>
+                                            <span className="text-[10px] text-slate-500 uppercase">Ingredient Breakdown</span>
                                         </h3>
 
-                                        <div className="divide-y divide-slate-800/80 animate-fade-in">
+                                        <div className="divide-y divide-white/5">
                                             {analysisResult.ingredients && analysisResult.ingredients.map((ing, index) => (
-                                                <div key={index} className="py-3 flex justify-between items-center text-xs md:text-sm first:pt-0 last:pb-0 gap-2">
-                                                    <div className="space-y-1 flex-grow">
-                                                        <span className="font-bold text-slate-100 block">{ing.cleanName}</span>
-                                                        <span className="text-[10px] text-slate-400 block leading-tight">{ing.originalText}</span>
-                                                        {/* Individual Ingredient Macro badges */}
-                                                        <div className="flex gap-1.5 items-center mt-1">
-                                                            <span className="text-[9px] bg-blue-500/10 text-blue-400 px-1.5 py-0.5 rounded font-bold">ח׳: {ing.protein || 0}ג׳</span>
-                                                            <span className="text-[9px] bg-amber-500/10 text-amber-400 px-1.5 py-0.5 rounded font-bold">פ׳: {ing.carbs || 0}ג׳</span>
-                                                            <span className="text-[9px] bg-rose-500/10 text-rose-400 px-1.5 py-0.5 rounded font-bold">ש׳: {ing.fats || 0}ג׳</span>
+                                                <div key={index} className="py-3.5 flex justify-between items-start text-xs sm:text-sm gap-3 first:pt-0 last:pb-0">
+                                                    <div className="space-y-1.5 flex-grow">
+                                                        <span className="font-extrabold text-slate-100 block leading-tight">{ing.cleanName}</span>
+                                                        <span className="text-[11px] text-slate-500 block leading-relaxed">{ing.originalText}</span>
+
+                                                        {/* Nutrient chip badges */}
+                                                        <div className="flex flex-wrap gap-1.5 items-center pt-0.5">
+                                                            <span className="text-[9px] bg-blue-500/10 text-blue-400 px-2 py-0.5 rounded font-bold font-mono">P: {ing.protein || 0}g</span>
+                                                            <span className="text-[9px] bg-amber-500/10 text-amber-400 px-2 py-0.5 rounded font-bold font-mono">C: {ing.carbs || 0}g</span>
+                                                            <span className="text-[9px] bg-rose-500/10 text-rose-400 px-2 py-0.5 rounded font-bold font-mono">F: {ing.fats || 0}g</span>
                                                         </div>
                                                     </div>
                                                     <div className="text-left flex-shrink-0">
-                                                        <span className="font-black text-white block text-sm">{ing.calories} קל'</span>
-                                                        <span className="text-[10px] text-emerald-400 block font-bold">~ {ing.weightGrams} גרם</span>
+                                                        <span className="font-black text-white block text-sm sm:text-base font-mono">{ing.calories} kcal</span>
+                                                        <span className="text-[10px] text-cyberlime block font-bold font-mono">~ {ing.weightGrams}g</span>
                                                     </div>
                                                 </div>
                                             ))}
                                         </div>
                                     </div>
+
                                 </div>
                             )}
                         </section>
 
                     </main>
 
-                    {/* Footer - Compact for mobile usage */}
-                    <footer className="pt-6 pb-2 border-t border-slate-900 text-center text-[10px] text-slate-500 space-y-1">
-                        <p>© 2026 FitBite AI • עוצב מחדש לטלפונים ניידים</p>
-                        <p className="max-w-md mx-auto text-[9px] leading-relaxed px-4">
-                            הערכים מבוססים על ניתוח AI. תמיד מומלץ לאמת מוצרים מסוימים מול גב האריזה.
+                    {/* Exquisite Footer */}
+                    <footer className="pt-8 pb-4 border-t border-white/5 text-center text-[11px] text-slate-500 space-y-1">
+                        <p className="font-bold">© 2026 FitBite AI • עוצב מחדש באופן אנושי וייחודי לטלפונים</p>
+                        <p className="max-w-md mx-auto text-[10px] leading-relaxed px-4 text-slate-600">
+                            מחשבון תזונה זה משתמש בטכנולוגיית בינה מלאכותית מתקדמת לזיהוי רכיבים וכמויות. מומלץ תמיד לוודא מוצרי אריזה מסוימים באופן ידני.
                         </p>
                     </footer>
 
-                    {/* Sticky Thumb-Friendly Bottom Navigation Bar for Mobile */}
-                    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#070b13]/95 backdrop-blur-md border-t border-slate-800/80 px-6 py-2.5 flex justify-around items-center shadow-2xl">
+                    {/* Sticky, ergonomic bottom navigation on Mobile */}
+                    <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-obsidian/95 backdrop-blur-xl border-t border-white/5 px-6 py-3 flex justify-around items-center shadow-[0_-10px_35px_rgba(0,0,0,0.8)] pb-safe">
 
                         <button
                             onClick={() => setMobileSection("input")}
-                            className={`flex flex-col items-center gap-1 transition-all ${mobileSection === 'input' ? 'text-emerald-400' : 'text-slate-500'}`}
+                            className={`flex flex-col items-center gap-1 transition-all ${mobileSection === 'input' ? 'text-cyberlime' : 'text-slate-500'}`}
                         >
-                            <div className={`p-1.5 rounded-xl ${mobileSection === 'input' ? 'bg-emerald-500/10' : ''}`}>
-                                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
-                                    <path d="M12 20h9" />
-                                    <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+                            <div className={`p-2 rounded-xl transition-colors ${mobileSection === 'input' ? 'bg-cyberlime/10' : 'bg-transparent'}`}>
+                                <svg className="w-5.5 h-5.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                 </svg>
                             </div>
-                            <span className="text-[10px] font-black">המתכון שלי</span>
+                            <span className="text-[11px] font-black">המתכון שלי</span>
                         </button>
 
                         <button
                             onClick={() => setMobileSection("calculator")}
-                            className={`flex flex-col items-center gap-1 transition-all relative ${mobileSection === 'calculator' ? 'text-emerald-400' : 'text-slate-500'}`}
+                            className={`flex flex-col items-center gap-1 transition-all relative ${mobileSection === 'calculator' ? 'text-cyberlime' : 'text-slate-500'}`}
                         >
-                            <div className={`p-1.5 rounded-xl ${mobileSection === 'calculator' ? 'bg-emerald-500/10' : ''}`}>
-                                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
-                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                                    <line x1="9" y1="9" x2="15" y2="9" />
-                                    <line x1="9" y1="13" x2="15" y2="13" />
-                                    <line x1="9" y1="17" x2="15" y2="17" />
+                            <div className={`p-2 rounded-xl transition-colors ${mobileSection === 'calculator' ? 'bg-cyberlime/10' : 'bg-transparent'}`}>
+                                <svg className="w-5.5 h-5.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                                 </svg>
                             </div>
-                            <span className="text-[10px] font-black">מחשבון קלוריות</span>
+                            <span className="text-[11px] font-black">מחשבון קלוריות</span>
                             {analysisResult && (
-                                <span className="absolute top-1 right-2 w-2 h-2 bg-emerald-400 rounded-full animate-ping"></span>
+                                <span className="absolute top-2.5 right-6.5 w-2 h-2 bg-cyberlime rounded-full animate-ping"></span>
                             )}
                         </button>
+
                     </nav>
+
                 </div>
             );
         }
 
-        // Render the main app
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(<RecipeApp />);
     </script>
