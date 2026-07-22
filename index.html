@@ -194,11 +194,9 @@
         );
 
         function RecipeApp() {
-            // Theme State initialized from localStorage or prefers-color-scheme
+            // Theme State initialized to Light Mode by default
             const [theme, setTheme] = useState(() => {
-                const saved = localStorage.getItem("fitbite_theme");
-                if (saved) return saved;
-                return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+                return localStorage.getItem("fitbite_theme") || "light";
             });
 
             useEffect(() => {
