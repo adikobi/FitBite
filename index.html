@@ -17,31 +17,31 @@
                     colors: {
                         cream: {
                             DEFAULT: '#FAF6F0',   /* Warm rich satin ivory background */
-                            dark: '#080A0F'
+                            dark: '#110E0C'       /* Obsidian Espresso Black - warm organic black */
                         },
                         cardbg: {
                             light: '#FFFFFF',
-                            dark: '#0E131F'
+                            dark: '#181412'       /* Warm Roasted Truffle */
                         },
                         textmain: {
                             light: '#182C25',     /* Highly readable deep forest-charcoal */
-                            dark: '#F3F5F7'
+                            dark: '#F5EFEB'       /* Soft Pearl Linen - high legibility & elegant */
                         },
                         textsub: {
                             light: '#657B73',
-                            dark: '#94A3B8'
+                            dark: '#A99F95'       /* Cashmere Sand / Taupe */
                         },
                         forest: {
                             DEFAULT: '#0F3C2B',   /* Luxurious Imperial Forest Green */
-                            dark: '#22E394'       /* Electric wellness neon green */
+                            dark: '#8CB09B'       /* Elegant Eucalyptus / Mint Sage - luxurious organic wellness green */
                         },
                         terracotta: {
                             DEFAULT: '#D37556',   /* Rich warm amber clay terracotta */
-                            dark: '#F68F6B'
+                            dark: '#D29C8B'       /* Spiced Warm Clay / Rose Gold */
                         },
                         sage: {
                             DEFAULT: '#E9EFE8',   /* Clean warm organic sage background */
-                            dark: '#161F2E'
+                            dark: '#231D1A'       /* Warm Truffle Oak container */
                         }
                     },
                     fontFamily: {
@@ -90,9 +90,9 @@
             --glow-color: rgba(15, 60, 43, 0.03);
         }
         .dark {
-            --card-bg: #0E131F;
-            --shadow-color: rgba(0, 0, 0, 0.5);
-            --glow-color: rgba(34, 227, 148, 0.04);
+            --card-bg: #181412;
+            --shadow-color: rgba(0, 0, 0, 0.6);
+            --glow-color: rgba(140, 176, 155, 0.05);
         }
 
         /* Hide native scrollbars on mobile */
@@ -786,7 +786,7 @@
                                         <div className="space-y-4">
                                             <div className="space-y-1">
                                                 <span className="text-[10px] font-bold text-terracotta dark:text-terracotta-dark tracking-wider block uppercase">מתכון מנותח במלואו</span>
-                                                <h2 className="text-2xl sm:text-3xl font-extrabold text-forest dark:text-forest-dark">{analysisResult.recipeName}</h2>
+                                                <h2 className="text-2xl sm:text-3xl font-extrabold text-forest dark:text-textmain-dark">{analysisResult.recipeName}</h2>
                                             </div>
 
                                             {/* Frameless Segmented tabs */}
@@ -817,7 +817,7 @@
                                                 <div className="space-y-1">
                                                     <span className="text-terracotta dark:text-terracotta-dark text-[11px] font-bold tracking-wider block uppercase">{currentMetric.label}</span>
                                                     <div className="flex items-baseline justify-center gap-1">
-                                                        <span className="text-5xl sm:text-6xl font-black text-forest dark:text-forest-dark font-sans">{currentMetric.val}</span>
+                                                        <span className="text-5xl sm:text-6xl font-black text-forest dark:text-textmain-dark font-sans">{currentMetric.val}</span>
                                                         <span className="text-xs sm:text-sm font-bold text-textsub-light dark:text-textsub-dark uppercase">קלוריות</span>
                                                     </div>
                                                     <p className="text-[11px] text-textsub-light dark:text-textsub-dark font-medium leading-relaxed max-w-md mx-auto">{currentMetric.sub}</p>
@@ -826,20 +826,20 @@
                                                 {/* Servings Tuner directly in Results Tab when per-serving is selected */}
                                                 {activeTab === "serving" && (
                                                     <div className="bg-white/80 dark:bg-cardbg-dark/80 p-3.5 rounded-2xl max-w-xs mx-auto flex items-center justify-between shadow-sm border border-sage dark:border-sage-dark/30 animate-fade-in">
-                                                        <span className="text-xs font-bold text-forest dark:text-forest-dark">כווני מנות:</span>
+                                                        <span className="text-xs font-bold text-forest dark:text-textmain-dark">כווני מנות:</span>
                                                         <div className="flex items-center gap-2">
                                                             <button
                                                                 type="button"
                                                                 onClick={() => setServings(Math.max(1, servings - 1))}
-                                                                className="w-7 h-7 bg-cream dark:bg-cream-dark text-forest dark:text-forest-dark rounded-lg flex items-center justify-center font-bold text-sm shadow-sm btn-premium"
+                                                                className="w-7 h-7 bg-cream dark:bg-cream-dark text-forest dark:text-textmain-dark rounded-lg flex items-center justify-center font-bold text-sm shadow-sm btn-premium"
                                                             >
                                                                 -
                                                             </button>
-                                                            <span className="text-sm font-extrabold text-forest dark:text-forest-dark w-5 font-mono">{servings}</span>
+                                                            <span className="text-sm font-extrabold text-forest dark:text-textmain-dark w-5 font-mono">{servings}</span>
                                                             <button
                                                                 type="button"
                                                                 onClick={() => setServings(servings + 1)}
-                                                                className="w-7 h-7 bg-cream dark:bg-cream-dark text-forest dark:text-forest-dark rounded-lg flex items-center justify-center font-bold text-sm shadow-sm btn-premium"
+                                                                className="w-7 h-7 bg-cream dark:bg-cream-dark text-forest dark:text-textmain-dark rounded-lg flex items-center justify-center font-bold text-sm shadow-sm btn-premium"
                                                             >
                                                                 +
                                                             </button>
@@ -1119,7 +1119,7 @@
                                             {analysisResult.ingredients && analysisResult.ingredients.map((ing, index) => (
                                                 <div key={index} className="py-3.5 flex justify-between items-start text-xs sm:text-sm gap-3 first:pt-0 last:pb-0">
                                                     <div className="space-y-1.5 flex-grow">
-                                                        <span className="font-bold text-forest dark:text-forest-dark block leading-tight">{ing.cleanName}</span>
+                                                        <span className="font-bold text-forest dark:text-textmain-dark block leading-tight">{ing.cleanName}</span>
                                                         <span className="text-[11px] text-textsub-light dark:text-textsub-dark block leading-relaxed">{ing.originalText}</span>
 
                                                         {/* Nutrient chips */}
@@ -1130,7 +1130,7 @@
                                                         </div>
                                                     </div>
                                                     <div className="text-left flex-shrink-0">
-                                                        <span className="font-bold text-forest dark:text-forest-dark block text-sm sm:text-base">{ing.calories} קל׳</span>
+                                                        <span className="font-bold text-forest dark:text-textmain-dark block text-sm sm:text-base">{ing.calories} קל׳</span>
                                                         <span className="text-[10px] text-textsub-light dark:text-textsub-dark block font-bold">~ {ing.weightGrams} גרם</span>
                                                     </div>
                                                 </div>
