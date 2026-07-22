@@ -850,30 +850,30 @@
                                                 {/* Premium Macronutrient Indicators with progress slides */}
                                                 <div className="grid grid-cols-3 gap-3 pt-6 border-t border-sage dark:border-sage-dark">
 
-                                                    {/* Protein */}
-                                                    <div className="p-3 bg-white dark:bg-cardbg-dark rounded-xl text-center shadow-sm">
-                                                        <span className="text-[10px] text-textsub-light dark:text-textsub-dark font-bold block mb-0.5">חלבון</span>
-                                                        <span className="text-sm sm:text-base font-extrabold text-forest dark:text-forest-dark">{currentMetric.protein || 0}ג׳</span>
+                                                    {/* Protein - Premium Indigo-Emerald (Muscle & Recovery) */}
+                                                    <div className="p-3 bg-[#EBF5F1] dark:bg-[#11241C] rounded-2xl text-center shadow-sm border border-[#22E394]/15">
+                                                        <span className="text-[10px] text-forest dark:text-[#22E394] font-extrabold block mb-0.5">חלבון</span>
+                                                        <span className="text-base sm:text-lg font-black text-forest dark:text-[#22E394]">{currentMetric.protein || 0}ג׳</span>
                                                         <div className="w-full bg-cream dark:bg-cream-dark h-1.5 rounded-full overflow-hidden mt-2">
-                                                            <div className="bg-forest dark:bg-forest-dark h-full rounded-full" style={{ width: `${Math.min(100, ((currentMetric.protein || 0) / ((currentMetric.protein || 1) + (currentMetric.carbs || 1) + (currentMetric.fats || 1))) * 100)}%` }}></div>
+                                                            <div className="bg-[#0F3C2B] dark:bg-[#22E394] h-full rounded-full" style={{ width: `${Math.min(100, ((currentMetric.protein || 0) / ((currentMetric.protein || 1) + (currentMetric.carbs || 1) + (currentMetric.fats || 1))) * 100)}%` }}></div>
                                                         </div>
                                                     </div>
 
-                                                    {/* Carbs */}
-                                                    <div className="p-3 bg-white dark:bg-cardbg-dark rounded-xl text-center shadow-sm">
-                                                        <span className="text-[10px] text-textsub-light dark:text-textsub-dark font-bold block mb-0.5">פחמימות</span>
-                                                        <span className="text-sm sm:text-base font-extrabold text-forest dark:text-forest-dark">{currentMetric.carbs || 0}ג׳</span>
+                                                    {/* Carbs - Warm Oat Gold (Steady Daily Energy) */}
+                                                    <div className="p-3 bg-[#FAF2E8] dark:bg-[#261E15] rounded-2xl text-center shadow-sm border border-[#EBB46B]/15">
+                                                        <span className="text-[10px] text-[#CF9448] dark:text-[#EBB46B] font-extrabold block mb-0.5">פחמימות</span>
+                                                        <span className="text-base sm:text-lg font-black text-[#CF9448] dark:text-[#EBB46B]">{currentMetric.carbs || 0}ג׳</span>
                                                         <div className="w-full bg-cream dark:bg-cream-dark h-1.5 rounded-full overflow-hidden mt-2">
-                                                            <div className="bg-terracotta dark:bg-terracotta-dark h-full rounded-full" style={{ width: `${Math.min(100, ((currentMetric.carbs || 0) / ((currentMetric.protein || 1) + (currentMetric.carbs || 1) + (currentMetric.fats || 1))) * 100)}%` }}></div>
+                                                            <div className="bg-[#CF9448] dark:bg-[#EBB46B] h-full rounded-full" style={{ width: `${Math.min(100, ((currentMetric.carbs || 0) / ((currentMetric.protein || 1) + (currentMetric.carbs || 1) + (currentMetric.fats || 1))) * 100)}%` }}></div>
                                                         </div>
                                                     </div>
 
-                                                    {/* Fats */}
-                                                    <div className="p-3 bg-white dark:bg-cardbg-dark rounded-xl text-center shadow-sm">
-                                                        <span className="text-[10px] text-textsub-light dark:text-textsub-dark font-bold block mb-0.5">שומנים</span>
-                                                        <span className="text-sm sm:text-base font-extrabold text-forest dark:text-forest-dark">{currentMetric.fats || 0}ג׳</span>
+                                                    {/* Fats - Rich Hazelnut Rose (Essential Oils & Absorption) */}
+                                                    <div className="p-3 bg-[#FDF0EE] dark:bg-[#2C1917] rounded-2xl text-center shadow-sm border border-[#E08575]/15">
+                                                        <span className="text-[10px] text-[#B55F4D] dark:text-[#E08575] font-extrabold block mb-0.5">שומנים</span>
+                                                        <span className="text-base sm:text-lg font-black text-[#B55F4D] dark:text-[#E08575]">{currentMetric.fats || 0}ג׳</span>
                                                         <div className="w-full bg-cream dark:bg-cream-dark h-1.5 rounded-full overflow-hidden mt-2">
-                                                            <div className="bg-textsub-light dark:bg-textsub-dark h-full rounded-full" style={{ width: `${Math.min(100, ((currentMetric.fats || 0) / ((currentMetric.protein || 1) + (currentMetric.carbs || 1) + (currentMetric.fats || 1))) * 100)}%` }}></div>
+                                                            <div className="bg-[#B55F4D] dark:bg-[#E08575] h-full rounded-full" style={{ width: `${Math.min(100, ((currentMetric.fats || 0) / ((currentMetric.protein || 1) + (currentMetric.carbs || 1) + (currentMetric.fats || 1))) * 100)}%` }}></div>
                                                         </div>
                                                     </div>
 
@@ -1124,9 +1124,9 @@
 
                                                         {/* Nutrient chips */}
                                                         <div className="flex flex-wrap gap-1.5 items-center pt-0.5">
-                                                            <span className="text-[9px] bg-sage dark:bg-sage-dark text-forest dark:text-forest-dark px-2.5 py-0.5 rounded font-bold">חלבון: {ing.protein || 0}ג׳</span>
-                                                            <span className="text-[9px] bg-cream dark:bg-cream-dark text-terracotta dark:text-terracotta-dark px-2.5 py-0.5 rounded font-bold">פחמימות: {ing.carbs || 0}ג׳</span>
-                                                            <span className="text-[9px] bg-cream dark:bg-cream-dark text-textsub-light dark:text-textsub-dark px-2.5 py-0.5 rounded font-bold">שומן: {ing.fats || 0}ג׳</span>
+                                                            <span className="text-[9px] bg-[#EBF5F1] dark:bg-[#11241C] text-forest dark:text-[#22E394] px-2.5 py-0.5 rounded-lg font-bold">חלבון: {ing.protein || 0}ג׳</span>
+                                                            <span className="text-[9px] bg-[#FAF2E8] dark:bg-[#261E15] text-[#CF9448] dark:text-[#EBB46B] px-2.5 py-0.5 rounded-lg font-bold">פחמימות: {ing.carbs || 0}ג׳</span>
+                                                            <span className="text-[9px] bg-[#FDF0EE] dark:bg-[#2C1917] text-[#B55F4D] dark:text-[#E08575] px-2.5 py-0.5 rounded-lg font-bold">שומן: {ing.fats || 0}ג׳</span>
                                                         </div>
                                                     </div>
                                                     <div className="text-left flex-shrink-0">
