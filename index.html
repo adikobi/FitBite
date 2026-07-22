@@ -16,32 +16,32 @@
                 extend: {
                     colors: {
                         cream: {
-                            DEFAULT: '#FAF8F5',
-                            dark: '#0B0D12'
+                            DEFAULT: '#FAF6F0',   /* Warm rich satin ivory background */
+                            dark: '#080A0F'
                         },
                         cardbg: {
                             light: '#FFFFFF',
-                            dark: '#141822'
+                            dark: '#0E131F'
                         },
                         textmain: {
-                            light: '#1F2421',
-                            dark: '#F3F4F6'
+                            light: '#182C25',     /* Highly readable deep forest-charcoal */
+                            dark: '#F3F5F7'
                         },
                         textsub: {
-                            light: '#5E6662',
-                            dark: '#9CA3AF'
+                            light: '#657B73',
+                            dark: '#94A3B8'
                         },
                         forest: {
-                            DEFAULT: '#133B2C',
-                            dark: '#24D294'
+                            DEFAULT: '#0F3C2B',   /* Luxurious Imperial Forest Green */
+                            dark: '#22E394'       /* Electric wellness neon green */
                         },
                         terracotta: {
-                            DEFAULT: '#CE7E5E',
-                            dark: '#F08B65'
+                            DEFAULT: '#D37556',   /* Rich warm amber clay terracotta */
+                            dark: '#F68F6B'
                         },
                         sage: {
-                            DEFAULT: '#EDF1EB',
-                            dark: '#1B232F'
+                            DEFAULT: '#E9EFE8',   /* Clean warm organic sage background */
+                            dark: '#161F2E'
                         }
                     },
                     fontFamily: {
@@ -63,9 +63,9 @@
         /* Frameless fluid shadow & depth transitions - no nested borders */
         .organic-card {
             background-color: var(--card-bg);
-            box-shadow: 0 10px 40px -10px var(--shadow-color);
+            box-shadow: 0 16px 45px -12px var(--shadow-color);
             border: none;
-            border-radius: 24px;
+            border-radius: 32px;
             transition: background-color 0.4s ease, box-shadow 0.4s ease, transform 0.2s ease;
         }
 
@@ -83,16 +83,16 @@
             pointer-events: none;
         }
 
-        /* Light/Dark dynamic variables */
+        /* Light/Dark dynamic variables with deeper shadows */
         :root {
             --card-bg: #FFFFFF;
-            --shadow-color: rgba(31, 36, 33, 0.05);
-            --glow-color: rgba(19, 59, 44, 0.04);
+            --shadow-color: rgba(16, 40, 29, 0.07);
+            --glow-color: rgba(15, 60, 43, 0.03);
         }
         .dark {
-            --card-bg: #141822;
-            --shadow-color: rgba(0, 0, 0, 0.4);
-            --glow-color: rgba(36, 210, 148, 0.05);
+            --card-bg: #0E131F;
+            --shadow-color: rgba(0, 0, 0, 0.5);
+            --glow-color: rgba(34, 227, 148, 0.04);
         }
 
         /* Hide native scrollbars on mobile */
@@ -105,7 +105,7 @@
         }
     </style>
 </head>
-<body class="min-h-screen bg-cream text-textmain dark:bg-cream-dark dark:text-textmain-dark flex flex-col justify-between pb-24 md:pb-8 selection:bg-forest selection:text-white dark:selection:bg-forest-dark dark:selection:text-black">
+<body class="min-h-screen bg-cream text-textmain-light dark:bg-cream-dark dark:text-textmain-dark flex flex-col justify-between pb-24 md:pb-8 selection:bg-forest selection:text-white dark:selection:bg-forest-dark dark:selection:text-black">
 
     <div id="root" class="w-full max-w-7xl mx-auto p-4 sm:p-6 md:p-8 flex-grow"></div>
 
@@ -822,6 +822,30 @@
                                                     </div>
                                                     <p className="text-[11px] text-textsub-light dark:text-textsub-dark font-medium leading-relaxed max-w-md mx-auto">{currentMetric.sub}</p>
                                                 </div>
+
+                                                {/* Servings Tuner directly in Results Tab when per-serving is selected */}
+                                                {activeTab === "serving" && (
+                                                    <div className="bg-white/80 dark:bg-cardbg-dark/80 p-3.5 rounded-2xl max-w-xs mx-auto flex items-center justify-between shadow-sm border border-sage dark:border-sage-dark/30 animate-fade-in">
+                                                        <span className="text-xs font-bold text-forest dark:text-forest-dark">כווני מנות:</span>
+                                                        <div className="flex items-center gap-2">
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => setServings(Math.max(1, servings - 1))}
+                                                                className="w-7 h-7 bg-cream dark:bg-cream-dark text-forest dark:text-forest-dark rounded-lg flex items-center justify-center font-bold text-sm shadow-sm btn-premium"
+                                                            >
+                                                                -
+                                                            </button>
+                                                            <span className="text-sm font-extrabold text-forest dark:text-forest-dark w-5 font-mono">{servings}</span>
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => setServings(servings + 1)}
+                                                                className="w-7 h-7 bg-cream dark:bg-cream-dark text-forest dark:text-forest-dark rounded-lg flex items-center justify-center font-bold text-sm shadow-sm btn-premium"
+                                                            >
+                                                                +
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                )}
 
                                                 {/* Premium Macronutrient Indicators with progress slides */}
                                                 <div className="grid grid-cols-3 gap-3 pt-6 border-t border-sage dark:border-sage-dark">
