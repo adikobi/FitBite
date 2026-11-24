@@ -230,17 +230,37 @@
 
             const [history, setHistory] = useState(() => {
                 const saved = localStorage.getItem("fitbite_history");
+                let parsed = null;
                 if (saved) {
                     try {
-                        return JSON.parse(saved);
+                        parsed = JSON.parse(saved);
                     } catch (e) {
                         console.error("Error parsing history from localStorage", e);
                     }
                 }
+
+                // Auto-pruning logic: If a recipe hasn't been touched in the last 14 days, delete it automatically to save space.
+                // Except the demo-1 recipe.
+                if (parsed && Array.isArray(parsed)) {
+                    const twoWeeksAgo = Date.now() - 14 * 24 * 60 * 60 * 1000;
+                    const originalLength = parsed.length;
+                    const pruned = parsed.filter(item => {
+                        if (item.id === "demo-1") return true;
+                        // Default to current time if lastTouched is missing, so we don't accidentally prune immediately.
+                        const lastTouched = item.lastTouched || Date.now();
+                        return lastTouched > twoWeeksAgo;
+                    });
+                    if (pruned.length < originalLength) {
+                        console.log(`Auto-pruned ${originalLength - pruned.length} recipes that haven't been touched in over 2 weeks.`);
+                    }
+                    return pruned;
+                }
+
                 return [
                     {
                         id: "demo-1",
                         recipeName: "פנקייק חלבון שיבולת שועל",
+                        recipeText: "כוס שיבולת שועל\nסקופ אבקת חלבון וניל\nחצי כוס חלב שקדים\nביצה אחת",
                         servings: 2,
                         totalCalories: 480,
                         totalWeightGrams: 320,
@@ -256,7 +276,9 @@
                             { cleanName: "חלב שקדים", originalText: "חצי כוס חלב שקדים", weightGrams: 120, calories: 30, protein: 1, carbs: 1, fats: 2.5 },
                             { cleanName: "ביצה לארג'", originalText: "ביצה אחת", weightGrams: 50, calories: 70, protein: 6, carbs: 0, fats: 5 }
                         ],
-                        dietaryNotes: ["עשיר בחלבון", "מתאים לחיטוב", "דל סוכר"]
+                        dietaryNotes: ["עשיר בחלבון", "מתאים לחיטוב", "דל סוכר"],
+                        recommendationTip: "להגברת הסיבים והתחושה השובעת, מומלץ להוסיף כף זרעי צ'יה או חצי בננה חתוכה מלמעלה. מומלץ לבצע הליכה קלה של 10-15 דקות לאחר האכילה כדי לסייע בוויסות רמות הסוכר בדם ושיפור העיכול.",
+                        lastTouched: Date.now()
                     }
                 ];
             });
@@ -341,7 +363,8 @@
                           "fats": estimated fats (integer)
                         }
                       ],
-                      "dietaryNotes": ["up to 3 tags in Hebrew"]
+                      "dietaryNotes": ["up to 3 tags in Hebrew"],
+                      "recommendationTip": "A professional, warm, and highly personalized recommendation/tip in Hebrew (up to 2-3 sentences). Focus on nutritional, culinary, or behavioral advice based on this specific recipe's macro/calorie profile. For example, suggest healthy additions, ingredient swaps, or specific post-meal activities like a short walk for blood sugar control."
                     }
                 `;
 
@@ -381,6 +404,8 @@
                     parsedResult.servings = parseInt(servings) || 1;
                     parsedResult.caloriesPerServing = Math.round(parsedResult.totalCalories / parsedResult.servings);
                     parsedResult.id = Date.now().toString();
+                    parsedResult.recipeText = recipeText;
+                    parsedResult.lastTouched = Date.now();
 
                     setAnalysisResult(parsedResult);
                     setHistory(prev => [parsedResult, ...prev.filter(item => item.id !== "demo-1")]);
@@ -396,11 +421,29 @@
             };
 
             const selectFromHistory = (item) => {
-                setAnalysisResult(item);
-                setRecipeText("");
+                const updatedItem = {
+                    ...item,
+                    lastTouched: Date.now()
+                };
+                setAnalysisResult(updatedItem);
+
+                // If there's original raw recipe text, restore it to the text area so they can re-edit.
+                if (item.recipeText) {
+                    setRecipeText(item.recipeText);
+                } else {
+                    setRecipeText("");
+                }
+
                 setServings(item.servings || 4);
                 setActiveTab("serving");
                 setMobileSection("calculator");
+
+                // Update the lastTouched in the history list to keep it fresh
+                setHistory(prev => {
+                    const filtered = prev.filter(h => h.id !== item.id);
+                    return [updatedItem, ...filtered];
+                });
+
                 showToast(`📂 נטען: ${item.recipeName}`);
             };
 
@@ -844,6 +887,19 @@
                                                                 +
                                                             </button>
                                                         </div>
+                                                    </div>
+                                                )}
+
+                                                {/* Recommendation Corner Tip */}
+                                                {analysisResult.recommendationTip && (
+                                                    <div className="bg-amber-50/55 dark:bg-[#1E1714] border border-amber-200/20 dark:border-amber-500/10 p-4 rounded-2xl text-right space-y-2 animate-fade-in">
+                                                        <div className="flex items-center gap-2 text-amber-700 dark:text-amber-400">
+                                                            <SparklesIcon className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+                                                            <span className="text-xs font-bold font-serif">פינת הטיפ וההמלצה של FitBite</span>
+                                                        </div>
+                                                        <p className="text-xs text-amber-900/90 dark:text-amber-100/90 leading-relaxed font-medium">
+                                                            {analysisResult.recommendationTip}
+                                                        </p>
                                                     </div>
                                                 )}
 
