@@ -131,7 +131,7 @@ input.txt{width:100%;height:46px;border-radius:12px;background:var(--sunk);borde
 
 <script>
 /* Newest stable Flash first; falls back if a model is unavailable (404). */
-const MODELS=['gemini-3.7-flash','gemini-3.5-flash','gemini-2.5-flash'];
+const MODELS=['gemini-4-hydrogen', 'gemini-3.8-flash', 'gemini-3.7-flash','gemini-3.5-flash','gemini-2.5-flash'];
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 /* Retries a busy model once, then moves to the next model. Key/request errors (400/401/403) stop at once. */
 async function callGemini(key,body){
