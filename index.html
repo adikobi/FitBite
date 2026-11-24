@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>FitBite — קלוריות ומאקרו לכל מתכון</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2312432F'><path d='M12 3c1 3 5 5 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-5 1-9z'/></svg>">
 <meta name="description" content="הדביקו מתכון וקבלו קלוריות, חלבון, פחמימות ושומן למנה, לכף ול-100 גרם.">
 <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -117,10 +116,7 @@ input.txt{width:100%;height:46px;border-radius:12px;background:var(--sunk);borde
     <form class="card" id="form">
       <div class="lab"><label for="txt">מצרכי המתכון</label>
         <span style="display:flex;gap:6px"><button type="button" class="chip" id="demo">מתכון לדוגמה</button><button type="button" class="chip" id="clear" aria-label="ניקוי הטופס">נקי</button></span></div>
-      <textarea id="txt" placeholder="חצי כוס שיבולת שועל (40 גרם)
-גביע קוטג' 5%
-2 ביצים לארג'
-חצי כפית דבש"></textarea>
+      <textarea id="txt" placeholder="חצי כוס שיבולת שועל (40 גרם)&#10;גביע קוטג' 5%&#10;2 ביצים לארג'&#10;חצי כפית דבש"></textarea>
       <div class="row"><div><b style="font-weight:600">כמה מנות?</b><div class="sub" style="margin:0">הכמות מתחלקת שווה בשווה</div></div>
         <div class="step"><button type="button" id="plus" aria-label="הוספת מנה">+</button><b id="sv">2</b><button type="button" id="minus" aria-label="הפחתת מנה">−</button></div></div>
       <button class="btn" id="go" type="submit"><span id="goT">חשב ערכים תזונתיים</span></button>
@@ -134,8 +130,10 @@ input.txt{width:100%;height:46px;border-radius:12px;background:var(--sunk);borde
 <div class="toast" id="toast" role="status" hidden></div>
 
 <script>
+/* Newest stable Flash first; falls back if a model is unavailable (404). */
+const MODELS=['gemini-3.7-flash','gemini-3.5-flash','gemini-2.5-flash'];
 const $=id=>document.getElementById(id);
-const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&','<':'<','>':'>','"':'"',"'":'''}[c]));
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:v}catch(e){return d}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
 const S={servings:2,tab:'serving',custom:100,cooked:320,spoon:15,res:null,busy:false,
   hist:(()=>{let h;try{h=JSON.parse(store.get('fitbite_history','null'))}catch(e){}
@@ -209,35 +207,6 @@ $('out').addEventListener('click',e=>{
 $('out').addEventListener('change',e=>{const k=e.target.dataset.set;if(!k)return;const v=Math.max(1,parseFloat(e.target.value)||1);S[k]=v;render()});
 
 function fail(m){const e=$('err');e.textContent=m;e.hidden=!m}
-
-async function askGemini(key,body){
-  const models=['gemini-4-hydrogen','gemini-3.8-flash','gemini-2.5-flash'];
-  let lastStatus=0;
-  for(const model of models){
-    const url=`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
-    const res=await fetch(url,{
-      method:'POST',
-      headers:{'Content-Type':'application/json','x-goog-api-key':key},
-      body:JSON.stringify(body)
-    });
-    if(res.ok)return res.json();
-    lastStatus=res.status;
-    if(res.status===400||res.status===403){
-      throw new Error('המפתח לא תקין או שאין לו הרשאה.');
-    }
-    if(res.status===503||res.status===429){
-      await new Promise(r=>setTimeout(r,800));
-      continue;
-    }
-    break;
-  }
-  throw new Error(
-    lastStatus===503||lastStatus===429
-      ?'שרתי ה-AI עמוסים כרגע. נסו שוב בעוד מספר שניות.'
-      :'שגיאה בתקשורת עם שרת ה-AI.'
-  );
-}
-
 $('form').onsubmit=async ev=>{
   ev.preventDefault();if(S.busy)return;
   const text=$('txt').value.trim();
@@ -247,12 +216,14 @@ $('form').onsubmit=async ev=>{
   fail('');S.busy=true;$('go').disabled=true;$('go').innerHTML='<span class="spin"></span><span>מנתח את המתכון…</span>';
   const sys=`You are a professional sports dietitian. Convert each ingredient to grams and estimate calories, protein, carbs, fats. Respond ONLY with valid JSON: {"recipeName":"Hebrew name","totalCalories":int,"totalWeightGrams":int,"gramsPerTablespoon":int,"totalProtein":int,"totalCarbs":int,"totalFats":int,"ingredients":[{"originalText":"","cleanName":"Hebrew","weightGrams":int,"calories":int,"protein":int,"carbs":int,"fats":int}],"dietaryNotes":["up to 3 Hebrew tags"],"recommendationTip":"2-3 warm Hebrew sentences with practical advice for this recipe"}`;
   try{
-    const d=await askGemini(key,{
-      contents:[{parts:[{text:`Recipe:\n${text}\nServings: ${S.servings}`}]}],
-      systemInstruction:{parts:[{text:sys}]},
-      generationConfig:{responseMimeType:'application/json'}
-    });
-    const raw=d?.candidates?.[0]?.content?.parts?.[0]?.text;
+    const body=JSON.stringify({contents:[{parts:[{text:`Recipe:\n${text}\nServings: ${S.servings}`}]}],systemInstruction:{parts:[{text:sys}]},generationConfig:{responseMimeType:'application/json'}});
+    let res;
+    for(const model of MODELS){
+      res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':key},body});
+      if(res.status!==404)break; /* model unavailable for this key: try the next one */
+    }
+    if(!res.ok)throw new Error(res.status===400||res.status===403?'המפתח לא תקין או שאין לו הרשאה.':'שגיאה בתקשורת עם שרת ה-AI.');
+    const d=await res.json(),raw=d?.candidates?.[0]?.content?.parts?.[0]?.text;
     if(!raw)throw new Error('לא התקבלה תשובה תקינה מהניתוח.');
     const r=JSON.parse(raw);
     if(!(r.totalCalories>0))throw new Error('הניתוח לא החזיר ערכים תקינים. נסו לפרט יותר את המצרכים.');
@@ -261,8 +232,7 @@ $('form').onsubmit=async ev=>{
     S.hist=[r,...S.hist.filter(i=>i.id!=='demo-1')];saveHist();render();toast('המתכון נותח');
     if(innerWidth<960)$('out').scrollIntoView({behavior:'smooth',block:'start'});
   }catch(e){fail(e instanceof SyntaxError?'התשובה מה-AI לא הייתה תקינה. נסו שוב.':e.message||'אירעה שגיאה בניתוח.')}
-  finally{S.busy=false;$('go').disabled=false;$('go').innerHTML='<span>חשב ערכים תזונתיים</span>'}
-};
+  finally{S.busy=false;$('go').disabled=false;$('go').innerHTML='<span>חשב ערכים תזונתיים</span>'}};
 
 S.res=S.hist[0]||null;if(S.res){S.cooked=S.res.totalWeightGrams||320;S.spoon=S.res.gramsPerTablespoon||15;S.servings=S.res.servings||2;sv()}
 render();
